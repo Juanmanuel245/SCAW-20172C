@@ -13,6 +13,8 @@ public class Usuario implements Serializable {
 	private String apellido;
 	private String nombre;
 	private List<Integer> idRol;
+	
+	
 
 	public Usuario() {
 	}
