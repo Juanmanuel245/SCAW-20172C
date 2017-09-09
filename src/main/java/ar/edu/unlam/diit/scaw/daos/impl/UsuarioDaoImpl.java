@@ -1,12 +1,13 @@
 package ar.edu.unlam.diit.scaw.daos.impl;
 
 import java.sql.Connection;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.sql.Statement;
+
 import ar.edu.unlam.diit.scaw.configs.HsqlDataSource;
 import ar.edu.unlam.diit.scaw.daos.UsuarioDao;
 import ar.edu.unlam.diit.scaw.entities.Usuario;
@@ -19,11 +20,17 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	@Override
 	public Usuario login(Usuario usuario){
 		Usuario logueado = null;
+		List<Integer> roles = new ArrayList<Integer>() ;
 		try{
 			conn = (dataSource.dataSource()).getConnection();
 			Statement query = conn.createStatement();
 			
-			String sql = "SELECT * FROM Usuarios WHERE eMail = '"+ usuario.getEmail() + "' AND contraseña = '"+ usuario.getContraseña() +"' AND idEstadoUsuario = 2";
+			String sql = "SELECT * FROM Usuarios U "
+					+ "INNER JOIN ROLESUSUARIOS RU " 
+					+ " ON  U.ID = RU.IDUSUARIO "
+					+ " WHERE eMail = '"+ usuario.getEmail() +
+					"' AND contraseña = '"+ usuario.getContraseña() +
+					"' AND idEstadoUsuario = 2";
 			ResultSet rs = query.executeQuery(sql);
 			while(rs.next()){
 				String eMail = rs.getString("eMail");
@@ -31,6 +38,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 				Integer id = rs.getInt("id");
 				String apellido = rs.getString("apellido");
 				String nombre = rs.getString("nombre");
+				Integer idRol = rs.getInt("idRol");
 				
 				logueado = new Usuario();
 				logueado.setEmail(eMail);
@@ -38,6 +46,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
 				logueado.setId(id);
 				logueado.setApellido(apellido);
 				logueado.setNombre(nombre);
+				roles.add(idRol);
+				logueado.setIdRol(roles);
+				
 			}
 			conn.close();
 		} catch (Exception e) {

@@ -61,6 +61,15 @@ public class UsuarioBean implements Serializable {
 		Usuario logueado = service.login(usuario);		
 		if(logueado!=null) 
 		{
+			if(logueado.getIdRol().size() > 1){
+			
+				return "multiRol";
+				
+			}else if(logueado.getIdRol().contains(1)){
+				return "admin";
+				
+			}
+			
 			return "welcome";			
 		}
 		else

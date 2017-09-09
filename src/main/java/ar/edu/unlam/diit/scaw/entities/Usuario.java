@@ -1,6 +1,7 @@
 package ar.edu.unlam.diit.scaw.entities;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Usuario implements Serializable {
 
@@ -11,6 +12,7 @@ public class Usuario implements Serializable {
 	private String contraseña;
 	private String apellido;
 	private String nombre;
+	private List<Integer> idRol;
 
 	public Usuario() {
 	}
@@ -55,4 +57,19 @@ public class Usuario implements Serializable {
 		this.contraseña = contraseña;
 	}
 
+	public List<Integer> getIdRol() {
+		return idRol;
+	}
+
+	public void setIdRol(List<Integer> idRol) {
+		this.idRol = idRol;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	
+
+	
 }
