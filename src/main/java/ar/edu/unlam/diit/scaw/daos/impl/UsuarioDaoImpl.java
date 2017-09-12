@@ -50,6 +50,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 				logueado.setIdRol(roles);
 				
 			}
+			logueado.setIdRol(roles);
 			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
