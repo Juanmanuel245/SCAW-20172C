@@ -1,72 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
-	>
-
-<h:head>
-	<title>UNLAM - Sistema de evaluaciÃ³n</title>
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 	
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-	<link rel="stylesheet" type="text/css" href="css/styles.css" />
-	<!-- <script type="text/javascript" src="js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="js/jquery.min.js"></script>
-	 	<script type="text/javascript" src="js/validation.js"></script> -->
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>UNLAM - Registro de usuario</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></link>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </h:head>
 
 <h:body>
 
-<div class = "container">
-	<h3>UNLAM - Sistema de evaluaciÃ³n</h3>
-		<div id="loginbox" class="login mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-			<div class="panel panel-info" >
-				 <div class="panel-heading">
-            		 <div class="panel-title">Iniciar Sesion</div>
-                		  <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Recordar ContraseÃ±a?</a></div>
-             	</div>
-             <div class="loggin-body panel-body" >
-             <h:form id="login">
-             	<div class=" login-input input-group">
-					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-					<h:inputText styleClass ="form-control" value="#{usuarioBean.email}" id="eMail" p:placeholder="Ingrese Email"></h:inputText>
-				</div>
-				
-				<div class=" login-input input-group">
-					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-					<h:inputText styleClass ="form-control" value="#{usuarioBean.email}" id="pass" p:placeholder="Ingrese contraseÃ±al"></h:inputText>
-				</div>
-				
-				<div class=" login-input input-group">
-					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-					<h:inputText styleClass ="form-control" value="#{usuarioBean.email}" id="nombre" p:placeholder="Ingrese Nombre"></h:inputText>
-				</div>
-				
-				<div class=" login-input input-group">
-					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-					<h:inputText styleClass ="form-control" value="#{usuarioBean.email}" id="apellido" p:placeholder="Ingrese Apellido"></h:inputText>
-				</div>
-				
-				  <p:selectOneMenu value="#{usuarioBean.idRol}">
-						<f:selectItem value ="#{usuarioBean.findAllRoles.entrySet()}" var ="roles" itemValue ="#{roles.key}" itemLabel = "#{roles.value}" />  	
-				  </p:selectOneMenu>
+	<div class="panel-body center-block">
+		<h:form class="form">
+			<h3>UNLAM - Registro de usuarios</h3>
+
+			<h:panelGrid columns="3">
 				<div class="form-group">
-                 	<div class="col-md-12 control">
-                    	 <div  class="login-registrar" >
-                               Todavia no tienes cuenta?
-                        	        <h:link value="registro" outcome="Registrate aqui!"/>
-                         </div>
-                     </div>
-                </div>    
-			</h:form>
-		</div>
+					<h:outputLabel for="nombre">Nombre:</h:outputLabel>
+					<h:inputText value="#{usuarioBean.nombre}" class="form-control" id="nombre"></h:inputText>
+				</div>
+				<div class="form-group">
+					<h:outputLabel for="apellido">Apellido:</h:outputLabel>
+					<h:inputText value="#{usuarioBean.apellido}" class="form-control" id="apellido"></h:inputText>
+				</div>
+				<div class="form-group">
+					<h:outputLabel for="eMail">E-Mail:</h:outputLabel>
+					<h:inputText value="#{usuarioBean.email}" class="form-control" id="eMail"></h:inputText>
+				</div>
+				<div class="form-group">
+					<h:outputLabel for="contraseña">Contraseña:</h:outputLabel>
+					<h:inputSecret value="#{usuarioBean.contraseña}" class="form-control" id="contraseña"></h:inputSecret>
+				</div>
+				<h:commandButton action="#{usuarioBean.save}" class="btn btn-success" value="Ingresar">
+				</h:commandButton>
+			</h:panelGrid>
+		</h:form>
 	</div>
-</div>
-</div>
-	
 </h:body>
+>>>>>>> branch 'master' of https://github.com/UNLaM-TecWeb/SCAW-20172C.git
 </html>

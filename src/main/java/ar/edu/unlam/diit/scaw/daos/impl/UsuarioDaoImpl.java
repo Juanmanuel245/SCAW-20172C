@@ -106,7 +106,15 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		
 			Statement query;
 			
-			query = conn.createStatement();		
+			query = conn.createStatement();
+			//OBTENGO EL ID DEL ULTIMO USUARIO
+			ResultSet rs = query.executeQuery("select id from usuarios order by id desc limit 1"); 
+			
+			while(rs.next()){
+				//AL OBTENER EL ID LE SUMO 1 YA QUE DEBE SER EL PROXIMO USUARIO
+				usuario.setId(rs.getInt("id") + 1);
+			}
+			//SE GUARDA EL USUARIO
 			query.executeUpdate("INSERT INTO Usuarios VALUES(" + usuario.getId() + ", '" + usuario.getEmail() + "', '" + usuario.getContraseña() + "', '" + usuario.getApellido()+ "', '" + usuario.getNombre() + "', 1);");
 						
 			conn.close();

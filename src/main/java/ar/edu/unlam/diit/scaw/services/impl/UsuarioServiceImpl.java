@@ -40,7 +40,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public void save(Usuario usuario) {
-		// TODO Auto-generated method stub
+
+		this.usuarioHsql.save(usuario);
 		
 	}
 	
