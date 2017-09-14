@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.sql.Statement;
 
 import ar.edu.unlam.diit.scaw.configs.HsqlDataSource;
@@ -106,6 +108,89 @@ public class UsuarioDaoImpl implements UsuarioDao {
 			
 			query = conn.createStatement();		
 			query.executeUpdate("INSERT INTO Usuarios VALUES(" + usuario.getId() + ", '" + usuario.getEmail() + "', '" + usuario.getContraseña() + "', '" + usuario.getApellido()+ "', '" + usuario.getNombre() + "', 1);");
+						
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	@Override
+	public Map<Integer,String> getRoles(){
+		
+		Map<Integer,String> roles = new HashMap<Integer, String>();;
+		
+		try{
+			conn =(dataSource.dataSource().getConnection());
+			
+			Statement query;
+			query= conn.createStatement();
+			ResultSet rs = query.executeQuery("SELECT * FROM Roles");
+			
+			while(rs.next()){
+				
+				roles.put(rs.getInt("id"),rs.getString("descripcion"));
+			}
+			conn.close();
+			
+		}catch(SQLException e){
+			e.getErrorCode();
+			e.getMessage();
+		}
+		
+		return roles;
+		
+	}
+	
+	@Override
+	public List<Usuario> findPend() {
+		List<Usuario> ll = new LinkedList<Usuario>();
+		
+		try {
+			conn = (dataSource.dataSource()).getConnection();
+		
+			Statement query;
+			
+			query = conn.createStatement();
+			
+			ResultSet rs = query.executeQuery("SELECT * FROM Usuarios WHERE idEstadoUsuario = 1");
+	
+			while (rs.next()) {
+			  
+				String eMail = rs.getString("eMail");
+				String contraseña = rs.getString("contraseña");
+				Integer id = rs.getInt("id");
+				String apellido = rs.getString("apellido");
+				String nombre = rs.getString("nombre");
+			  
+				Usuario usuario = new Usuario();
+				usuario.setEmail(eMail);
+				usuario.setContraseña(contraseña);
+				usuario.setId(id);
+				usuario.setApellido(apellido);
+				usuario.setNombre(nombre);
+	
+				ll.add(usuario);
+			}
+			
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ll;
+	}
+	
+	@Override
+	public void updateEstado(Integer id,Integer cdEstado) {
+
+		try {
+			conn = (dataSource.dataSource()).getConnection();
+		
+			Statement query;
+			
+			String sql = "UPDATE Usuarios SET idUsuarios = " + cdEstado + " WHERE ID = "+ id;
+			query = conn.createStatement();		
+			query.executeUpdate(sql);
 						
 			conn.close();
 		} catch (SQLException e) {

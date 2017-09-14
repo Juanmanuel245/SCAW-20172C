@@ -2,10 +2,13 @@ package ar.edu.unlam.diit.scaw.beans;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
+
 import ar.edu.unlam.diit.scaw.entities.Usuario;
+import ar.edu.unlam.diit.scaw.services.MateriaService;
 import ar.edu.unlam.diit.scaw.services.UsuarioService;
 import ar.edu.unlam.diit.scaw.services.impl.UsuarioServiceImpl;
 
@@ -20,8 +23,10 @@ public class UsuarioBean implements Serializable {
 	private Integer id = null;
 	private String apellido = null;
 	private String nombre = null;
+	private Integer idRol = null;
+	private Map<Integer,String> roles  = null;
 	
-	
+	MateriaService matService;
 	UsuarioService service;
 	
 	public UsuarioBean() {
@@ -52,6 +57,16 @@ public class UsuarioBean implements Serializable {
 		return list;
 	}
 	
+	public List<Usuario> getFindPend() {
+		List<Usuario> list = service.findPend();
+		return list;
+	}
+	
+	public Map<Integer,String>getFindAllRoles(){
+		
+		return service.findAllRoles();
+	}
+	
 	public String login(){
 		
 		Usuario usuario = new Usuario();
@@ -77,6 +92,17 @@ public class UsuarioBean implements Serializable {
 			return "index";
 		}		
 	}	
+	
+	public String registro(){
+		
+		String mensaje = "Hola";
+		return "registro";
+	}
+	
+	public String admin(){
+		
+		return "admin";
+	}
 
 	private Usuario buildUsuario() {
 		Usuario usuario = new Usuario();
@@ -142,5 +168,39 @@ public class UsuarioBean implements Serializable {
 		return serialVersionUID;
 	}
 
+	public String geteMail() {
+		return eMail;
+	}
+
+	public void seteMail(String eMail) {
+		this.eMail = eMail;
+	}
+
+	public MateriaService getMatService() {
+		return matService;
+	}
+
+	public void setMatService(MateriaService matService) {
+		this.matService = matService;
+	}
+
+	public Map<Integer, String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Map<Integer, String> roles) {
+		this.roles = roles;
+	}
+
+	public Integer getIdRol() {
+		return idRol;
+	}
+
+	public void setIdRol(Integer idRol) {
+		this.idRol = idRol;
+	}
+
+	
+	
 
 }

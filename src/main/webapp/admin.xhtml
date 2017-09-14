@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	>
+<h:head>
+        <title>Panel de Adminsitracion</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+</h:head>
+<body>
+        <div class="container">
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">Altas Pendientes</h3></div>
+                    <div class="panel-body">
+                    <table class="table table-hover text-center">
+						<h:dataTable value="#{usuarioBean.getFindPend()}" var="usuario"
+							class="table table-hover" headerClass="order-table-header"
+							rowClasses="order-table-odd-row,order-table-even-row">
+
+							<h:column>
+								<f:facet name="header">Nombre</f:facet>    				
+    	  							#{usuario.nombre}
+  		 					</h:column>
+							<h:column>
+								<f:facet name="header">Apellido</f:facet>
+	      							#{usuario.apellido}
+   							</h:column>
+
+							<h:column>
+								<f:facet name="header">Email</f:facet>
+    	  						#{usuario.email}
+	   						</h:column>
+	   						<h:column>
+								<f:facet name="header">Accion</f:facet>
+								<h:form>
+    	  							<h:commandLink action="#{usuarioBean.admin}">
+                        	       			<h:outputText value ="Aceptar"></h:outputText>
+                        	       	</h:commandLink>
+                        	       |
+    	  							<h:commandLink action="#{usuarioBean.admin}">
+                        	       			<h:outputText value ="Rechazar"></h:outputText>
+                        	     	</h:commandLink>
+								   |
+    	  							<h:commandLink action="#{usuarioBean.admin}">
+                        	       			<h:outputText value ="Eliminar"></h:outputText>
+                        	     	</h:commandLink>
+                       	     	</h:form>
+	   						</h:column>
+
+						</h:dataTable>
+					</table>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">Gestion de Materias</h3></div>
+                    <div class="panel-body">
+                        <table class="table table-hover text-center">
+                            <h:dataTable value="#{materiaBean.getAllMaterias()}" var="materia" class="table table-hover">
+                            	<h:column>
+									<f:facet name="header">Materia</f:facet>    				
+					      			#{materia.nombre}
+					  		 	</h:column>
+
+                            	<h:column>
+									<f:facet name="header" >Docente Asignado</f:facet>
+					    	  		#{materia.idDocenteTitular}
+						   		</h:column>
+						   		
+						   		<h:column>
+									<f:facet name="header">Accion</f:facet>
+					    	  		<button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button>
+                                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
+						   		</h:column>
+
+						                                                
+                        </h:dataTable>
+                         
+                        </table>
+                        <button type="button" class="btn btn-success btn-block">Agregar nueva Materia</button>
+                    </div>
+                </div>
+                
+                
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">Usuarios registrados Activos</h3></div>
+                    <div class="panel-body">
+                        <h:dataTable value="#{usuarioBean.findAll}" var="usuario" class="table table-hover">
+                            	<h:column>
+									<f:facet name="header">Nombre y Apellido</f:facet>    				
+					      			#{usuario.nombre} #{usuario.apellido}
+					  		 	</h:column>
+
+                            	<h:column>
+									<f:facet name="header" >Email</f:facet>
+					    	  		#{usuario.email}
+						   		</h:column>
+						   		
+						   		<h:column>
+									<f:facet name="header">Accion</f:facet>
+					    	  		<button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button>
+                                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
+						   		</h:column>
+							
+
+                                                
+                        </h:dataTable>
+                    </div>
+                </div>
+                
+                	
+            </div>
+        </div>
+       
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </body>
+</html>

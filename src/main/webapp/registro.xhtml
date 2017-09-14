@@ -31,41 +31,37 @@
              	</div>
              <div class="loggin-body panel-body" >
              <h:form id="login">
-				<div class=" login-input input-group">
+             	<div class=" login-input input-group">
 					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
 					<h:inputText styleClass ="form-control" value="#{usuarioBean.email}" id="eMail" p:placeholder="Ingrese Email"></h:inputText>
 				</div>
-				<div  class=" login-input input-group">
-					<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-					<h:inputSecret styleClass ="form-control" value="#{usuarioBean.contraseña}" id="contraseña" p:placeholder="Ingrese Contraseña"></h:inputSecret>
-				</div>
-				<div  class="login-btn form-group">
-					<div class="col-sm-12 controls">
-						<h:commandButton styleClass="btn btn-success" action="#{usuarioBean.login}" value="Ingresar">
-						</h:commandButton>
-					</div>
+				
+				<div class=" login-input input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+					<h:inputText styleClass ="form-control" value="#{usuarioBean.email}" id="pass" p:placeholder="Ingrese contraseñal"></h:inputText>
 				</div>
 				
+				<div class=" login-input input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+					<h:inputText styleClass ="form-control" value="#{usuarioBean.email}" id="nombre" p:placeholder="Ingrese Nombre"></h:inputText>
+				</div>
+				
+				<div class=" login-input input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+					<h:inputText styleClass ="form-control" value="#{usuarioBean.email}" id="apellido" p:placeholder="Ingrese Apellido"></h:inputText>
+				</div>
+				
+				  <p:selectOneMenu value="#{usuarioBean.idRol}">
+						<f:selectItem value ="#{usuarioBean.findAllRoles.entrySet()}" var ="roles" itemValue ="#{roles.key}" itemLabel = "#{roles.value}" />  	
+				  </p:selectOneMenu>
 				<div class="form-group">
                  	<div class="col-md-12 control">
                     	 <div  class="login-registrar" >
                                Todavia no tienes cuenta?
-                        	       <h:commandLink action="#{usuarioBean.registro}">
-                        	       		<h:outputText value ="Registrate aqui!"></h:outputText>
-                        	       </h:commandLink>
+                        	        <h:link value="registro" outcome="Registrate aqui!"/>
                          </div>
                      </div>
-                </div>
-                <div class="form-group">
-                 	<div class="col-md-12 control">
-                    	 <div  class="login-registrar" >
-                               ir a Admin
-                        	       <h:commandLink action="#{usuarioBean.admin}">
-                        	       		<h:outputText value ="Registrate aqui!"></h:outputText>
-                        	       </h:commandLink>
-                         </div>
-                     </div>
-                </div>        
+                </div>    
 			</h:form>
 		</div>
 	</div>

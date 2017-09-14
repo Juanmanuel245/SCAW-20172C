@@ -1,6 +1,8 @@
 package ar.edu.unlam.diit.scaw.services.impl;
 
 import java.util.List;
+import java.util.Map;
+
 import ar.edu.unlam.diit.scaw.daos.impl.UsuarioDaoImpl;
 import ar.edu.unlam.diit.scaw.entities.Usuario;
 import ar.edu.unlam.diit.scaw.services.UsuarioService;
@@ -22,6 +24,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public List<Usuario> findAll() {
 		return usuarioHsql.findAll();
 	}
+	
+	@Override
+	public List<Usuario> findPend() {
+		return usuarioHsql.findPend	();
+	}
 
 	public UsuarioDaoImpl getUsuarioHsql() {
 		return usuarioHsql;
@@ -34,6 +41,17 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public void save(Usuario usuario) {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public Map<Integer,String>findAllRoles(){
+		
+		return usuarioHsql.getRoles();
+	}
+	
+	@Override
+	public void actualizarEstado(Integer id, Integer cdEstado){
 		
 	}
 }
