@@ -12,6 +12,7 @@ public interface UsuarioDao {
 	public void save(Usuario usuario);
 	public Map<Integer,String>getRoles();
 	public List<Usuario> findPend();
+	public Usuario findById(Integer idUsuario);
 	public void updateEstado(Integer id,Integer cdEstado);
 	
 }

@@ -196,7 +196,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		
 			Statement query;
 			
-			String sql = "UPDATE Usuarios SET idUsuarios = " + cdEstado + " WHERE ID = "+ id;
+			String sql = "UPDATE Usuarios SET idEstadoUsuario = " + cdEstado + " WHERE id = "+ id;
 			query = conn.createStatement();		
 			query.executeUpdate(sql);
 						
@@ -205,4 +205,43 @@ public class UsuarioDaoImpl implements UsuarioDao {
 			e.printStackTrace();
 		}		
 	}
+	
+	public Usuario findById(Integer idUsuario){
+		Usuario usuario = null;
+		List<Integer> roles = new ArrayList<Integer>() ;
+		try{
+			conn = (dataSource.dataSource()).getConnection();
+			Statement query = conn.createStatement();
+			
+			String sql = "SELECT * FROM Usuarios U "
+					+ "INNER JOIN ROLESUSUARIOS RU " 
+					+ " ON  U.ID = RU.IDUSUARIO "
+					+ " WHERE id = "+ idUsuario;
+			ResultSet rs = query.executeQuery(sql);
+			while(rs.next()){
+				String eMail = rs.getString("eMail");
+				String contraseña = rs.getString("contraseña");
+				Integer id = rs.getInt("id");
+				String apellido = rs.getString("apellido");
+				String nombre = rs.getString("nombre");
+				Integer idRol = rs.getInt("idRol");
+				
+				usuario = new Usuario();
+				usuario.setEmail(eMail);
+				usuario.setContraseña(contraseña);
+				usuario.setId(id);
+				usuario.setApellido(apellido);
+				usuario.setNombre(nombre);
+				roles.add(idRol);
+				usuario.setIdRol(roles);
+				
+			}
+			usuario.setIdRol(roles);
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return usuario;
+	}
+	
 }

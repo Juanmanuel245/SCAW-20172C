@@ -53,6 +53,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 	
 	@Override
 	public void actualizarEstado(Integer id, Integer cdEstado){
+		usuarioHsql.updateEstado(id, cdEstado);
+	}
+	
+	@Override
+	public Usuario findById(Integer idUsuario){
 		
+		return usuarioHsql.findById(idUsuario);
 	}
 }
+

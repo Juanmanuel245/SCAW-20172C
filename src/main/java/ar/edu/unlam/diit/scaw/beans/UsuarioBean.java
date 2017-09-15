@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 
 import ar.edu.unlam.diit.scaw.entities.Usuario;
 import ar.edu.unlam.diit.scaw.services.MateriaService;
@@ -25,6 +26,12 @@ public class UsuarioBean implements Serializable {
 	private String nombre = null;
 	private Integer idRol = null;
 	private Map<Integer,String> roles  = null;
+	
+	@ManagedProperty("#{param.opc}")
+	private String opc = null;
+	
+	@ManagedProperty("#{param.idUsuario}")
+	private Integer idUsuario = null;
 	
 	MateriaService matService;
 	UsuarioService service;
@@ -60,6 +67,10 @@ public class UsuarioBean implements Serializable {
 	public List<Usuario> getFindPend() {
 		List<Usuario> list = service.findPend();
 		return list;
+	}
+	
+	public Usuario getFindById(){
+		return service.findById(idUsuario);
 	}
 	
 	public Map<Integer,String>getFindAllRoles(){
@@ -102,6 +113,22 @@ public class UsuarioBean implements Serializable {
 	public String admin(){
 		
 		return "admin";
+	}
+	
+	public String solicitudes(){
+		
+		service.actualizarEstado((idUsuario), Integer.parseInt(opc));
+		return "admin";
+	}
+	
+	public String consultarUsuario(){
+			
+		return "consultarUsuario";
+	}
+	
+	public String editarUsuario(){
+		
+		return "editarUsuario";
 	}
 
 	private Usuario buildUsuario() {
@@ -200,7 +227,22 @@ public class UsuarioBean implements Serializable {
 		this.idRol = idRol;
 	}
 
-	
+	public String getOpc() {
+		return opc;
+	}
+
+	public void setOpc(String opc) {
+		this.opc = opc;
+	}
+
+	public Integer getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+
 	
 
 }

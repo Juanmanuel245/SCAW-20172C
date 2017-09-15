@@ -31,25 +31,27 @@
 							<h:column>
 								<f:facet name="header">Apellido</f:facet>
 	      							#{usuario.apellido}
+	      							#{usuario.id}
    							</h:column>
 
 							<h:column>
 								<f:facet name="header">Email</f:facet>
     	  						#{usuario.email}
+    	  						
 	   						</h:column>
 	   						<h:column>
 								<f:facet name="header">Accion</f:facet>
 								<h:form>
-    	  							<h:commandLink action="#{usuarioBean.admin}">
+    	  							<h:commandLink action="#{usuarioBean.solicitudes}">
                         	       			<h:outputText value ="Aceptar"></h:outputText>
+                        	       			<f:param name="opc" value = "2"></f:param>
+                        	       			<f:param name ="idUsuario" value ="#{usuario.id}"></f:param>
                         	       	</h:commandLink>
                         	       |
-    	  							<h:commandLink action="#{usuarioBean.admin}">
+    	  							<h:commandLink action="#{usuarioBean.solicitudes}">
                         	       			<h:outputText value ="Rechazar"></h:outputText>
-                        	     	</h:commandLink>
-								   |
-    	  							<h:commandLink action="#{usuarioBean.admin}">
-                        	       			<h:outputText value ="Eliminar"></h:outputText>
+                        	       			<f:param name="opc" value = "3"></f:param>
+                        	       			<f:param name ="idUsuario" value ="#{usuario.id}"></f:param>
                         	     	</h:commandLink>
                        	     	</h:form>
 	   						</h:column>
@@ -105,7 +107,11 @@
 						   		<h:column>
 									<f:facet name="header">Accion</f:facet>
 					    	  		<button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button>
-                                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
+					    	  		<h:form>
+                                    	<h:commandButton styleClass="btn btn-warning" action="#{usuarioBean.consultarUsuario}" value="Ver Usuario">
+                                    			<f:param name ="idUsuario" value ="#{usuario.id}"></f:param>
+										</h:commandButton>
+									</h:form>
 						   		</h:column>
 							
 
