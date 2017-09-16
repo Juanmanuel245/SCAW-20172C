@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	>
+
+<h:head>
+	<title>UNLAM - Sistema de evaluación - Agregar Materia</title>
+	
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="css/styles.css" />
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/validation.js"></script>
+</h:head>
+<h:body>
+	<div class = "container">
+		<div class="row">
+			<div class="panel panel-default text-center">
+	  			<div class="panel-heading"><h3 class="panel-title">Agregar nueva materia</h3></div>
+	  			<div class="panel-body">
+					<h:form styleClass="form" id="guardarMateria" method="post">
+							<div class="form-group">
+								<h:outputLabel for="nombre">
+									Nombre de la materia
+									<h:inputText value="#{materiaBean.nombre}" class="form-control" id="nombre"></h:inputText>
+								</h:outputLabel>
+								<br />
+							</div>				
+							<h:commandLink action="#{materiaBean.guardarMateria}" styleClass="btn btn-success" value="Crear Materia" />
+					</h:form>
+	  			</div>
+			</div>
+		</div>
+	</div>
+</h:body>
+</html>
