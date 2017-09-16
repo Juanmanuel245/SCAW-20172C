@@ -18,6 +18,7 @@ public class HsqlDataSource {
 			envCtx = (Context) initCtx.lookup("java:comp/env");
 			ds = (DataSource) envCtx.lookup("jdbc/EvaluacionesUnlam");
 		} catch (NamingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 				

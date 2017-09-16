@@ -31,8 +31,8 @@ public class MateriaServiceImpl implements MateriaService{
 
 	@Override
 	public void guardarMateria(Materia materia) {
+		servicioDao.salvarMateria(materia);
 		
-		servicioDao.salvarMateria(materia);		
 	}
 
 }

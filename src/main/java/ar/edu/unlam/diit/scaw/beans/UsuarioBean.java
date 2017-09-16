@@ -88,13 +88,14 @@ public class UsuarioBean implements Serializable {
 		if(logueado!=null) 
 		{
 			if(logueado.getIdRol().size() > 1){
-				// Juan: gonza, te lo modifique para que apunte a admin por que sino no lo podia hacer andar. Antes decia "multiRol"
-				return "admin";
+			
+				return "multiRol";
 				
 			}else if(logueado.getIdRol().contains(1)){
 				return "admin";
 				
 			}
+			
 			return "welcome";			
 		}
 		else

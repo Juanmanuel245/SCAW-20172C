@@ -7,15 +7,14 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	>
-
 <h:head>
-        <title>Panel de Administracion</title>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+        <title>Panel de Adminsitracion</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
 </h:head>
-<h:body>
-	<div class="container">
+<body>
+        <div class="container">
             <div class="row">
-            	<!-- ALTAS PENDIENTES -->
                 <div class="panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">Altas Pendientes</h3></div>
                     <div class="panel-body">
@@ -60,8 +59,7 @@
 					</table>
                     </div>
                 </div>
-                
-                <!--  GESTION DE MATERIAS -->
+				<!--  GESTION DE MATERIAS -->
                 <div class="panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">Gestion de Materias</h3></div>
                     <div class="panel-body">
@@ -87,8 +85,8 @@
                         	<h:link value="Agregar nueva Materia" outcome="#{materiaBean.nuevaMateria()}" styleClass="btn btn-success btn-block" />
                     </div>
                 </div>
-                 
-                <!--  USUARIOS REGISTRADOS ACTIVOS -->            
+                
+                
                 <div class="panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">Usuarios registrados Activos</h3></div>
                     <div class="panel-body">
@@ -118,11 +116,12 @@
                         </h:dataTable>
                     </div>
                 </div>
-                               	
-           
-				
-			</div>
-	</div>
+                
+                	
+            </div>
+        </div>
+       
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</h:body>
+    </body>
 </html>

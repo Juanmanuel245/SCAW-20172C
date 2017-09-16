@@ -43,10 +43,9 @@ public class MateriaBean implements Serializable {
 	}
 	
 	public String nuevaMateria(){
-		
-		return "nuevaMateria";
+			return "nuevaMateria";
 	}
-	
+		 	
 	public String guardarMateria(){
 		Materia materia = new Materia();
 		materia.setNombre(getNombre());
