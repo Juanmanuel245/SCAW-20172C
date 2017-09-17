@@ -43,9 +43,10 @@ public ExamenBean(Integer id, String nombre, Integer idDocenteTitular, Integer i
 	}
 	
 	public String nuevoExamen(){
-		return "nuevoExamen";
+		return "formularioExamenes";
     }
 	
+
 	
 	public String guardarExamen(){
 		Examenes examenes = new Examenes();

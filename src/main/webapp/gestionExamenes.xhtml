@@ -6,10 +6,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
 	>
 <h:head>
-        <title>Panel de Adminsitracion</title>
+        <title>Panel de Examenes</title>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
 </h:head>
@@ -23,54 +22,43 @@
 					<h1>PANEL GESTION EXAMENES
 						</h1>
 				</div>
-				<div class="panel-body">
-					<div class="col-md-1"></div>
-
-					<div class="col-md-10">
-						<table class="table table-hover text-center">
-							<h:dataTable value="#{gestionExamenBean.getAllExamen()}" var="gestionexamen" class="table table-hover" headerClass="order-table-header"
+				<div class="panel panel-default">
+                    <div class="panel-body">
+						
+							<h:dataTable value="#{gestionExamenBean.getAllExamen()}" var="gestionExamen" class="table table-hover" headerClass="order-table-header"
 							 rowClasses="order-table-odd-row,order-table-even-row">
 								
 								<h:column>
 									<f:facet name="header">Nombre</f:facet>
-									#{gestionexamen.nombre}
+									#{gestionExamen.nombre}
 								</h:column>
 
 								<h:column>
 									<f:facet name="header">Materia</f:facet>
-									#{gestionexamen.Materia}
+									#{gestionExamen.Materia}
 								</h:column>
 
 								<h:column>
 									<f:facet name="header">Estado del examen</f:facet>
-									#{gestionexamen.Estado}
-								</h:column>
-
-								<h:column>
-									<f:facet name="header">Accion</f:facet>
-								     #{gestionexamen.Accion}
-									 <button type="button" class="btn btn-success">Crear Examen</button>
-									     
+									#{gestionExamen.Estado}
 								</h:column>
                                  
-								 <h:column>
+								<h:column>
 									<f:facet name="header">Accion</f:facet>
-					    	  		<button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button>
-                                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
-						   		</h:column>
+					    	  		<button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> Modificar</button>
+                                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Deshabiltiar</button>
+						   		</h:column> 
 
-								
 							</h:dataTable>
-						</table>
-
-
+							
+                           <h:link value="Agregar nueva Materia" outcome="#{examenBean.nuevoExamen()}" styleClass="btn btn-success btn-block" />
 					</div>
-					<div class="col-md-1"></div>
+					
 				</div>
 			</div>
 		</div>
 	</div>
-
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 
 </html>
