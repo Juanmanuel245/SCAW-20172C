@@ -12,5 +12,5 @@ public interface MateriaService {
 	public void guardarMateria(Materia materia);
 	public void deshabilitarMateria(String id);
 	public void habilitarMateria(String id);
-	public void actualizarMateria(String materia, Integer docente, String nombre);
+	public void actualizarMateria(Integer idMateria, Integer docente, String nombre);
 }

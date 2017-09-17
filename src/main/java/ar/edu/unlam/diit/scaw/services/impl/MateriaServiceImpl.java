@@ -53,8 +53,8 @@ public class MateriaServiceImpl implements MateriaService{
 	}
 
 	@Override
-	public void actualizarMateria(String materia, Integer docente, String nombre) {
-		servicioDao.actualizarDatos(materia, docente, nombre);
+	public void actualizarMateria(Integer idMateria, Integer docente, String nombre) {
+		servicioDao.actualizarDatos(idMateria, docente, nombre);
 	}
 
 }

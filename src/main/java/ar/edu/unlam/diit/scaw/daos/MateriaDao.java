@@ -12,5 +12,5 @@ public interface MateriaDao {
 	public void deshabilitar(String id);
 	public void habilitar(String id);
 	public DatosMaterias getMateria(String id);
-	public void actualizarDatos (String materia, Integer docente, String nombre);
+	public void actualizarDatos (Integer idMateria, Integer docente, String nombre);
 }

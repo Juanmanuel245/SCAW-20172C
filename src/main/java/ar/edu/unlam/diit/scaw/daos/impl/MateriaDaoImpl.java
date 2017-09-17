@@ -142,7 +142,7 @@ public class MateriaDaoImpl implements MateriaDao{
 	}
 
 	@Override
-	public void actualizarDatos(String materia, Integer docente, String nombre) {
+	public void actualizarDatos(Integer idMateria, Integer docente, String nombre) {
 		try {
 			conn = (dataSource.dataSource()).getConnection();
 		
@@ -150,9 +150,7 @@ public class MateriaDaoImpl implements MateriaDao{
 			
 			query = conn.createStatement();
 						
-			String query2 = "UPDATE materias SET nombre = '" + nombre + "', idDocenteTitular ='" + docente + "' WHERE id ='" + materia + "'";
-			
-			query.executeUpdate("UPDATE materias SET nombre = '" + nombre + "' AND idDocenteTitular =" + docente + " WHERE id ='" + materia + "'");  
+			query.executeUpdate("UPDATE materias SET nombre = '" + nombre + "' , idDocenteTitular =" + docente + " WHERE id =" + idMateria + ";");  
 			
 			
 			conn.close();

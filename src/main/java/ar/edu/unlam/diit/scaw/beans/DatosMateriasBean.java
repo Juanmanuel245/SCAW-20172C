@@ -41,8 +41,6 @@ public class DatosMateriasBean implements Serializable {
 		docente = materia.getDocente();
 		idDocente = materia.getIdDocente();
 		
-		
-		
 		return "editarMateria";
 	}	
 	
@@ -52,9 +50,10 @@ public class DatosMateriasBean implements Serializable {
 		String docenteForm = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idDocente");
 		String materiaNombreForm = nombreMateria;
 		
-		Integer idDocente = Integer.parseInt(docenteForm);
+		Integer idDocente = this.idDocente;
+		Integer idMateria = Integer.parseInt(materiaForm);
 		
-		servicioMateria.actualizarMateria(materiaForm, idDocente, materiaNombreForm);
+		servicioMateria.actualizarMateria(idMateria, idDocente, materiaNombreForm);
 		
 		return "admin";
 	}
