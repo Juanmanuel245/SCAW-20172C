@@ -20,6 +20,7 @@ public class DatosMateriasBean implements Serializable {
 	private String nombreMateria = null;
 	private String descripcion = null;
 	private String docente = null;
+	private Integer idDocente = null;
 	private Integer idEstadoMateria = null;
 	private String idMateriaString = null;
 	
@@ -33,19 +34,30 @@ public class DatosMateriasBean implements Serializable {
 	public String editar(){
 		String valor = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idMateria");
 	
-		DatosMaterias materia = servicioMateria.traerMateria("1");
-		/*
+		DatosMaterias materia = servicioMateria.traerMateria(valor);
+		
 		idMateria = materia.getIdMateria();
 		nombreMateria = materia.getNombreMateria();
 		docente = materia.getDocente();
+		idDocente = materia.getIdDocente();
 		
-			*/
+		
 		
 		return "editarMateria";
+	}	
+	
+	public String actualizarMateria(){
+		
+		String materiaForm = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idMateria");
+		String docenteForm = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idDocente");
+		String materiaNombreForm = nombreMateria;
+		
+		Integer idDocente = Integer.parseInt(docenteForm);
+		
+		servicioMateria.actualizarMateria(materiaForm, idDocente, materiaNombreForm);
+		
+		return "admin";
 	}
-	
-	
-	
 	
 	public Integer getIdMateria() {
 		return idMateria;
@@ -93,6 +105,14 @@ public class DatosMateriasBean implements Serializable {
 
 	public void setIdMateriaString(String idMateriaString) {
 		this.idMateriaString = idMateriaString;
+	}
+
+	public Integer getIdDocente() {
+		return idDocente;
+	}
+
+	public void setIdDocente(Integer idDocente) {
+		this.idDocente = idDocente;
 	}
 	
 	

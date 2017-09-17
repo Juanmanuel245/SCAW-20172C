@@ -23,11 +23,13 @@
 							<div class="form-group">
 								<h:outputLabel for="nombre">
 									Nombre de la materia
-									<h:inputText value="#{materiaBean.nombre}" class="form-control" id="nombre"></h:inputText>
+									<h:inputText value="#{datosMateriasBean.nombreMateria}" class="form-control" id="nombre"></h:inputText>
 								</h:outputLabel>
 								<br />
-							</div>				
-							<h:commandLink action="#{materiaBean.guardarMateria}" styleClass="btn btn-success" value="Crear Materia" />
+							</div>
+							<input type="hidden" name="idMateria" value="#{datosMateriasBean.idMateria}" />
+							<input type="hidden" name="idDocente" value="#{datosMateriasBean.idDocente}" />				
+							<h:commandLink action="#{datosMateriasBean.actualizarMateria()}" styleClass="btn btn-success" value="Actualizar Materia" />
 					</h:form>
                     </div>
                 </div>

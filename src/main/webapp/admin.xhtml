@@ -82,6 +82,7 @@
 							      	<ui:fragment rendered="#{dato.idEstadoMateria == 1}">
 							      		<h:form id="deshabilitar">
 							      			<input type="hidden" name="idMateria" value="#{dato.idMateria}" />
+							      			
 							      			<h:commandButton styleClass="btn btn-success" action="#{materiaBean.deshabilitar()}" value="#{dato.descripcion}" ></h:commandButton>
 							      		</h:form>
 							      	</ui:fragment>
@@ -99,6 +100,7 @@
 									<f:facet name="header">Accion</f:facet>
 									<h:form id="editar">
 										<input type="hidden" name="idMateria" value="#{dato.idMateria}" />
+										<input type="hidden" name="idDocente" value="#{dato.idDocente}" />
 							      		<h:commandButton styleClass="btn btn-warning" action="#{datosMateriasBean.editar()}" value="Modificar Materia" ></h:commandButton>
 						   			</h:form>
 						   		</h:column> 
