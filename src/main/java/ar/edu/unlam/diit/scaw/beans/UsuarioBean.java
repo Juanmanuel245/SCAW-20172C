@@ -24,6 +24,7 @@ public class UsuarioBean implements Serializable {
 	private String apellido = null;
 	private String nombre = null;
 	private Integer idRol = null;
+	@SuppressWarnings("unused")
 	private List<Rol> roles  = null;
 	
 	@ManagedProperty("#{param.opc}")
