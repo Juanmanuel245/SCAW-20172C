@@ -11,4 +11,5 @@ public interface MateriaDao {
 	public void salvarMateria(Materia materia);
 	void deshabilitar(String id);
 	void habilitar(String id);
+	public DatosMaterias getMateria(String id);
 }

@@ -22,6 +22,7 @@ public class MateriaBean implements Serializable {
 	private String nombre = null;
 	private Integer idDocenteTitular = null;
 	private Integer idEstadoMateria = null;
+	private String idMateriaString =  null;
 	
 	MateriaService servicioMateria;
 	
@@ -44,6 +45,7 @@ public class MateriaBean implements Serializable {
 		return lista;	
 	}
 	
+
 	public String nuevaMateria(){
 			return "nuevaMateria";
 	}
@@ -68,6 +70,7 @@ public class MateriaBean implements Serializable {
 		servicioMateria.habilitarMateria(valor);
 		return "admin";
 	}
+	
 		
 	public Integer getId() {
 		return id;
@@ -104,6 +107,14 @@ public class MateriaBean implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public String getIdMateriaString() {
+		return idMateriaString;
+	}
+
+	public void setIdMateriaString(String idMateriaString) {
+		this.idMateriaString = idMateriaString;
 	}
 	
 	
