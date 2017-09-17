@@ -129,7 +129,7 @@ public class MateriaDaoImpl implements MateriaDao{
 			
 			query = conn.createStatement();
 			
-			ResultSet rs = query.executeQuery("SELECT * FROM materias WHERE id = " + id);
+			ResultSet rs = query.executeQuery("SELECT m.id as idMateria, m.nombre as nombreMateria, m.idEstadoMateria as idEstadoMateria , est.descripcion as descripcion, u.nombre as nombreDocente, u.apellido as apellidoDocente FROM materias as m INNER JOIN estadosmaterias as est ON m.idEstadoMateria = est.id INNER JOIN usuarios as u ON m.idDocenteTitular = u.id WHERE m.id = '" + id + "'");
 			
 			while (rs.next()) {					
 				datos.setIdMateria(rs.getInt("idMateria"));

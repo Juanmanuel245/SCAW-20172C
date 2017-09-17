@@ -33,13 +33,13 @@ public class DatosMateriasBean implements Serializable {
 	public String editar(){
 		String valor = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idMateria");
 	
-		DatosMaterias materia = servicioMateria.traerMateria("1");
-		/*
+		DatosMaterias materia = servicioMateria.traerMateria(valor);
+		
 		idMateria = materia.getIdMateria();
 		nombreMateria = materia.getNombreMateria();
 		docente = materia.getDocente();
 		
-			*/
+		
 		
 		return "editarMateria";
 	}
