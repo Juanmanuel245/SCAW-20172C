@@ -63,7 +63,9 @@ public class MateriaDaoImpl implements MateriaDao{
 			query = conn.createStatement();
 			
 			String nombre = " '" + materia.getNombre() + "' ";
-			Integer idDocente = materia.getIdDocenteTitular();
+			// Este es el que va, pero hasta que no este armada la parte de asignacion de docente no se puede usar
+			// Integer idDocente = materia.getIdDocenteTitular();
+			Integer idDocente = 1;
 			
 			query.executeUpdate(
 								"INSERT INTO Materias (nombre, idDocenteTitular, idEstadoMateria) VALUES(" + nombre + "," + idDocente + ", 1)");  
