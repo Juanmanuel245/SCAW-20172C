@@ -28,7 +28,7 @@ public class ExamenDaoImpl implements ExamenDao {
 			
 			query = conn.createStatement();
 			
-			ResultSet rs = query.executeQuery("SELECT * FROM Examenes");
+			ResultSet rs = query.executeQuery("SELECT m.id as idMateria, m.nombre as nombreMateria, est.descripcion as descripcion, u.nombre as nombreDocente, u.apellido as apellidoDocente FROM materias as m INNER JOIN estadosmaterias as est ON m.idEstadoMateria = est.id INNER JOIN usuarios as u ON m.idDocenteTitular = u.id");
 	
 			while (rs.next()) {
 			  
