@@ -4,6 +4,7 @@ import java.util.List;
 
 import ar.edu.unlam.diit.scaw.daos.MateriaDao;
 import ar.edu.unlam.diit.scaw.daos.impl.MateriaDaoImpl;
+import ar.edu.unlam.diit.scaw.entities.DatosMaterias;
 import ar.edu.unlam.diit.scaw.entities.Materia;
 import ar.edu.unlam.diit.scaw.services.MateriaService;
 
@@ -16,7 +17,7 @@ public class MateriaServiceImpl implements MateriaService{
 	}
 	
 	@Override
-	public List<Materia> traerMaterias(){
+	public List<DatosMaterias> traerMaterias(){
 		
 		return servicioDao.getAllMaterias();
 	}

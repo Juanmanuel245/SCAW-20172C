@@ -63,22 +63,28 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">Gestion de Materias</h3></div>
                     <div class="panel-body">
-                            <h:dataTable value="#{materiaBean.getAllMaterias()}" var="materia" styleClass="table table-hover">
+                            <h:dataTable value="#{materiaBean.getAllMaterias()}" var="dato" styleClass="table table-hover">
                             	
                             	<h:column>
 									<f:facet name="header">Materia</f:facet>    				
-					      			#{materia.nombre}
+					      			#{dato.nombreMateria}
 					  		 	</h:column>
 
                             	<h:column>
 									<f:facet name="header" >Docente Asignado</f:facet>
-					    	  		#{materia.idDocenteTitular}
+					    	  		#{dato.docente}
+						   		</h:column>
+						   		
+						   		<h:column>
+									<f:facet name="header" >Estado Materia</f:facet>
+									#{dato.descripcion} 
+					    	  		
 						   		</h:column>
 						   		
 						   		<h:column>
 									<f:facet name="header">Accion</f:facet>
-					    	  		<button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button>
-                                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
+					    	  		<button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> Modificar</button>
+                                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Deshabiltiar</button>
 						   		</h:column> 
 						   		                                             
                         	</h:dataTable>

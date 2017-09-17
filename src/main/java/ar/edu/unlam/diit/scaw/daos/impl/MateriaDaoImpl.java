@@ -9,6 +9,7 @@ import java.util.List;
 
 import ar.edu.unlam.diit.scaw.configs.HsqlDataSource;
 import ar.edu.unlam.diit.scaw.daos.MateriaDao;
+import ar.edu.unlam.diit.scaw.entities.DatosMaterias;
 import ar.edu.unlam.diit.scaw.entities.Materia;
 
 public class MateriaDaoImpl implements MateriaDao{
@@ -17,9 +18,9 @@ public class MateriaDaoImpl implements MateriaDao{
 	Connection conn;
 	
 	@Override
-	public List<Materia> getAllMaterias() {
+	public List<DatosMaterias> getAllMaterias() {
 		
-		List<Materia> ll = new LinkedList<Materia>();
+		List<DatosMaterias> ll = new LinkedList<DatosMaterias>();
 		
 		try {
 			conn = (dataSource.dataSource()).getConnection();
@@ -28,22 +29,23 @@ public class MateriaDaoImpl implements MateriaDao{
 			
 			query = conn.createStatement();
 			
-			ResultSet rs = query.executeQuery("SELECT * FROM Materias");
+			ResultSet rs = query.executeQuery("SELECT m.id as idMateria, m.nombre as nombreMateria, est.descripcion as descripcion, u.nombre as nombreDocente, u.apellido as apellidoDocente FROM materias as m INNER JOIN estadosmaterias as est ON m.id = est.id INNER JOIN usuarios as u ON m.idDocenteTitular = u.id;");
 	
 			while (rs.next()) {
-			  
-				Integer id = rs.getInt("id");
-				String nombre = rs.getString("nombre");
-				Integer idDocenteTitular = rs.getInt("idDocenteTitular");
-				Integer idEstadoMateria = rs.getInt("idEstadoMateria");
+				
+				Integer idMateria = rs.getInt("idMateria");
+				String nombreMateria = rs.getString("nombreMateria");
+				String descripcion = rs.getString("descripcion");
+				String nombreDocente = rs.getString("nombreDocente");
+				String apellidoDocente = rs.getString("apellidoDocente");
 								
-				Materia materia = new Materia();
-				materia.setId(id);
-				materia.setNombre(nombre);
-				materia.setIdDocenteTitular(idDocenteTitular);
-				materia.setIdEstadoMateria(idEstadoMateria);
+				DatosMaterias datos = new DatosMaterias();
+				datos.setIdMateria(idMateria);
+				datos.setNombreMateria(nombreMateria);
+				datos.setDescripcion(descripcion);
+				datos.setDocente(nombreDocente + " " + apellidoDocente);
 	
-				ll.add(materia);
+				ll.add(datos);
 			}
 			
 			conn.close();

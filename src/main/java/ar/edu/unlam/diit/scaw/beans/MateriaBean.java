@@ -6,6 +6,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 
+import ar.edu.unlam.diit.scaw.entities.DatosMaterias;
 import ar.edu.unlam.diit.scaw.entities.Materia;
 import ar.edu.unlam.diit.scaw.services.MateriaService;
 import ar.edu.unlam.diit.scaw.services.impl.MateriaServiceImpl;
@@ -37,8 +38,8 @@ public class MateriaBean implements Serializable {
 		this.idEstadoMateria = idEstadoMateria;
 	}
 	
-	public List<Materia> getAllMaterias(){
-		List<Materia> lista = servicioMateria.traerMaterias();
+	public List<DatosMaterias> getAllMaterias(){
+		List<DatosMaterias> lista = servicioMateria.traerMaterias();
 		return lista;	
 	}
 	
