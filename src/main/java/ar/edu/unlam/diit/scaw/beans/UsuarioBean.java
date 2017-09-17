@@ -2,12 +2,11 @@ package ar.edu.unlam.diit.scaw.beans;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
-
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 
+import ar.edu.unlam.diit.scaw.entities.Rol;
 import ar.edu.unlam.diit.scaw.entities.Usuario;
 import ar.edu.unlam.diit.scaw.services.MateriaService;
 import ar.edu.unlam.diit.scaw.services.UsuarioService;
@@ -25,7 +24,7 @@ public class UsuarioBean implements Serializable {
 	private String apellido = null;
 	private String nombre = null;
 	private Integer idRol = null;
-	private Map<Integer,String> roles  = null;
+	private List<Rol> roles  = null;
 	
 	@ManagedProperty("#{param.opc}")
 	private String opc = null;
@@ -54,7 +53,7 @@ public class UsuarioBean implements Serializable {
 		
 		Usuario person = buildUsuario();
 		
-		service.save(person);
+		service.save(person, this.idRol);
 		
 		return "welcome";
 	}
@@ -73,10 +72,6 @@ public class UsuarioBean implements Serializable {
 		return service.findById(idUsuario);
 	}
 	
-	public Map<Integer,String>getFindAllRoles(){
-		
-		return service.findAllRoles();
-	}
 	
 	public String login(){
 		
@@ -106,8 +101,7 @@ public class UsuarioBean implements Serializable {
 	
 	public String registro(){
 		
-		String mensaje = "Hola";
-		return mensaje;
+		return "registro";
 	}
 	
 	public String admin(){
@@ -211,11 +205,11 @@ public class UsuarioBean implements Serializable {
 		this.matService = matService;
 	}
 
-	public Map<Integer, String> getRoles() {
-		return roles;
+	public List<Rol> getRoles() {
+		return service.getRoles();
 	}
 
-	public void setRoles(Map<Integer, String> roles) {
+	public void setRoles(List<Rol> roles) {
 		this.roles = roles;
 	}
 

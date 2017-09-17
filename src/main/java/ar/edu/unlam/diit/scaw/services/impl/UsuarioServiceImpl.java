@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import ar.edu.unlam.diit.scaw.daos.impl.UsuarioDaoImpl;
+import ar.edu.unlam.diit.scaw.entities.Rol;
 import ar.edu.unlam.diit.scaw.entities.Usuario;
 import ar.edu.unlam.diit.scaw.services.UsuarioService;
 
@@ -39,16 +40,17 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public void save(Usuario usuario) {
+	public void save(Usuario usuario,Integer idRol) {
 
-		this.usuarioHsql.save(usuario);
+		this.usuarioHsql.save(usuario,idRol);
 		
 	}
 	
 	@Override
-	public Map<Integer,String>findAllRoles(){
+	public List<Rol> getRoles(){
 		
 		return usuarioHsql.getRoles();
+		
 	}
 	
 	@Override
@@ -61,5 +63,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 		
 		return usuarioHsql.findById(idUsuario);
 	}
+
 }
 
