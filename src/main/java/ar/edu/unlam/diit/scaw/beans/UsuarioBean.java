@@ -26,6 +26,7 @@ public class UsuarioBean implements Serializable {
 	private Integer idRol = null;
 	@SuppressWarnings("unused")
 	private List<Rol> roles  = null;
+	private List<Usuario> profesores = null;
 	
 	@ManagedProperty("#{param.opc}")
 	private String opc = null;
@@ -238,6 +239,14 @@ public class UsuarioBean implements Serializable {
 		this.idUsuario = idUsuario;
 	}
 
+
+	public List<Usuario> getProfesores() {
+		return service.getAllProfesores();
+	}
+
+	public void setProfesores(List<Usuario> profesores) {
+		this.profesores = profesores;
+	}
 	
 
 }

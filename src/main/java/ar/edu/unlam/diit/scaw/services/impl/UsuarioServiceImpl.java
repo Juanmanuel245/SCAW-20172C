@@ -64,5 +64,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return usuarioHsql.findById(idUsuario);
 	}
 
+	@Override
+	public List<Usuario> getAllProfesores() {
+		
+		return usuarioHsql.getAllProfesores();
+	}
+
+
 }
 

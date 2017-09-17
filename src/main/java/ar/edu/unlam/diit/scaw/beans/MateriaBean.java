@@ -53,6 +53,7 @@ public class MateriaBean implements Serializable {
 	public String guardarMateria(){
 		Materia materia = new Materia();
 		materia.setNombre(getNombre());
+		materia.setIdDocenteTitular(this.idDocenteTitular);
 		servicioMateria.guardarMateria(materia);
 		return "admin";
 	}

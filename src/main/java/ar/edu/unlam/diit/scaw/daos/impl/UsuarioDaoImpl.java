@@ -49,9 +49,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 				logueado.setNombre(nombre);
 				roles.add(idRol);
 				logueado.setIdRol(roles);
-				
 			}
-			logueado.setIdRol(roles);
 			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -263,6 +261,39 @@ public class UsuarioDaoImpl implements UsuarioDao {
 			e.printStackTrace();
 		}
 		return usuario;
+	}
+
+	public List<Usuario> getAllProfesores() {
+	
+		List<Usuario> profs = new ArrayList<Usuario>();
+		
+		try{
+			conn = (dataSource.dataSource()).getConnection();
+			Statement stmt = conn.createStatement();
+		
+			String query = "select u.id as id, u.nombre as nombre, u.apellido as apellido from usuarios as u join rolesusuarios as ru on u.id = ru.idusuario where ru.idrol = 2;";
+			ResultSet rs = stmt.executeQuery(query);
+			
+			
+			while(rs.next()){
+				
+				Usuario usuario = new Usuario();
+				
+				usuario.setId(rs.getInt("id"));
+				usuario.setNombre(rs.getString("nombre"));
+				usuario.setApellido(rs.getString("apellido"));
+			
+				System.out.println("id:" + usuario.getId() + "//Nombre: " + usuario.getNombre() + " /AP: " + usuario.getApellido());
+				profs.add(usuario);
+			
+			}
+			return profs;
+			
+		}catch(Exception e){
+
+			e.printStackTrace();			
+		}
+		return profs;
 	}
 	
 }

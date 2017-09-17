@@ -13,6 +13,7 @@ public interface UsuarioService {
 	public void save(Usuario usuario, Integer idRol);
 	public List<Rol> getRoles();
 	public void actualizarEstado(Integer id,Integer cdEstado);
+	public List<Usuario> getAllProfesores();
 
 
 }
