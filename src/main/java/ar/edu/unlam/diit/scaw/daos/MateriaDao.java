@@ -9,4 +9,6 @@ public interface MateriaDao {
 	
 	public List<DatosMaterias> getAllMaterias();
 	public void salvarMateria(Materia materia);
+	void deshabilitar(String id);
+	void habilitar(String id);
 }

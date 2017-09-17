@@ -29,7 +29,7 @@ public class MateriaDaoImpl implements MateriaDao{
 			
 			query = conn.createStatement();
 			
-			ResultSet rs = query.executeQuery("SELECT m.id as idMateria, m.nombre as nombreMateria, est.descripcion as descripcion, u.nombre as nombreDocente, u.apellido as apellidoDocente FROM materias as m INNER JOIN estadosmaterias as est ON m.idEstadoMateria = est.id INNER JOIN usuarios as u ON m.idDocenteTitular = u.id");
+			ResultSet rs = query.executeQuery("SELECT m.id as idMateria, m.nombre as nombreMateria, m.idEstadoMateria as idEstadoMateria , est.descripcion as descripcion, u.nombre as nombreDocente, u.apellido as apellidoDocente FROM materias as m INNER JOIN estadosmaterias as est ON m.idEstadoMateria = est.id INNER JOIN usuarios as u ON m.idDocenteTitular = u.id");
 	
 			while (rs.next()) {
 			  
@@ -38,12 +38,15 @@ public class MateriaDaoImpl implements MateriaDao{
 				String descripcion = rs.getString("descripcion");
 				String nombreDocente = rs.getString("nombreDocente");
 				String apellidoDocente = rs.getString("apellidoDocente");
+				Integer idEstadoMateria = rs.getInt("idEstadoMateria");
 								
 				DatosMaterias datos = new DatosMaterias();
 				datos.setIdMateria(idMateria);
 				datos.setNombreMateria(nombreMateria);
 				datos.setDescripcion(descripcion);
 				datos.setDocente(nombreDocente + " " + apellidoDocente);
+				datos.setIdEstadoMateria(idEstadoMateria);
+				
 	
 				ll.add(datos);
 			}
@@ -71,6 +74,42 @@ public class MateriaDaoImpl implements MateriaDao{
 			
 			query.executeUpdate(
 								"INSERT INTO Materias (nombre, idDocenteTitular, idEstadoMateria) VALUES(" + nombre + "," + idDocente + ", 1)");  
+			
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	@Override
+	public void deshabilitar(String id) {
+		try {
+			conn = (dataSource.dataSource()).getConnection();
+		
+			Statement query;
+			
+			query = conn.createStatement();
+			
+			
+			query.executeUpdate("UPDATE materias SET idEstadoMateria = 2 WHERE id ='" + id + "'");  
+			
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	@Override
+	public void habilitar(String id) {
+		try {
+			conn = (dataSource.dataSource()).getConnection();
+		
+			Statement query;
+			
+			query = conn.createStatement();
+			
+			
+			query.executeUpdate("UPDATE materias SET idEstadoMateria = 1 WHERE id ='" + id + "'");  
 			
 			conn.close();
 		} catch (SQLException e) {

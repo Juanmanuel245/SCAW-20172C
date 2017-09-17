@@ -9,4 +9,6 @@ public interface MateriaService {
 	
 	public List<DatosMaterias> traerMaterias();
 	public void guardarMateria(Materia materia);
+	void deshabilitarMateria(String id);
+	void habilitarMateria(String id);
 }

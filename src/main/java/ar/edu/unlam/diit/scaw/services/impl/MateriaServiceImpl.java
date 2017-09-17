@@ -35,5 +35,15 @@ public class MateriaServiceImpl implements MateriaService{
 		servicioDao.salvarMateria(materia);
 		
 	}
+	
+	@Override
+	public void deshabilitarMateria(String id){
+		servicioDao.deshabilitar(id);
+	}
+	
+	@Override
+	public void habilitarMateria(String id){
+		servicioDao.habilitar(id);
+	}
 
 }

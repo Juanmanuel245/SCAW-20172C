@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 
 import ar.edu.unlam.diit.scaw.entities.DatosMaterias;
 import ar.edu.unlam.diit.scaw.entities.Materia;
@@ -54,6 +55,20 @@ public class MateriaBean implements Serializable {
 		return "admin";
 	}
 	
+	public String deshabilitar(){
+		String valor = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idMateria");
+
+		servicioMateria.deshabilitarMateria(valor);
+		return "admin";
+	}
+	
+	public String habilitar(){
+		String valor = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idMateria");
+
+		servicioMateria.habilitarMateria(valor);
+		return "admin";
+	}
+		
 	public Integer getId() {
 		return id;
 	}

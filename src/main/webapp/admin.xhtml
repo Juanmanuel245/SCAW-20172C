@@ -6,6 +6,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	>
 <h:head>
         <title>Panel de Adminsitracion</title>
@@ -77,14 +78,30 @@
 						   		
 						   		<h:column>
 									<f:facet name="header" >Estado Materia</f:facet>
-									#{dato.descripcion} 
+									
+							      	<ui:fragment rendered="#{dato.idEstadoMateria == 1}">
+							      		<h:form id="deshabilitar">
+							      			<input type="hidden" name="idMateria" value="#{dato.idMateria}" />
+							      			<h:commandButton styleClass="btn btn-success" action="#{materiaBean.deshabilitar()}" value="#{dato.descripcion}" ></h:commandButton>
+							      		</h:form>
+							      	</ui:fragment>
+							      							      	
+							      	<ui:fragment rendered="#{dato.idEstadoMateria == 2}">
+							      		<h:form id="habilitar">
+							      			<input type="hidden" name="idMateria" value="#{dato.idMateria}" />
+							      			<h:commandButton styleClass="btn btn-danger" action="#{materiaBean.habilitar()}" value="#{dato.descripcion}" ></h:commandButton>
+							      		</h:form>
+							      	</ui:fragment>
+
+									
+									
+									 
 					    	  		
 						   		</h:column>
 						   		
 						   		<h:column>
 									<f:facet name="header">Accion</f:facet>
 					    	  		<button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> Modificar</button>
-                                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Deshabiltiar</button>
 						   		</h:column> 
 						   		                                             
                         	</h:dataTable>
