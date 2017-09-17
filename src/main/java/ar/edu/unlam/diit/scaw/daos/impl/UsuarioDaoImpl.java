@@ -12,6 +12,7 @@ import java.sql.Statement;
 
 import ar.edu.unlam.diit.scaw.configs.HsqlDataSource;
 import ar.edu.unlam.diit.scaw.daos.UsuarioDao;
+import ar.edu.unlam.diit.scaw.entities.Rol;
 import ar.edu.unlam.diit.scaw.entities.Usuario;
 
 public class UsuarioDaoImpl implements UsuarioDao {
@@ -99,34 +100,54 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	}
 	
 	@Override
-	public void save(Usuario usuario) {
+	public void save(Usuario usuario, Integer idRol) {
 
 		try {
-			conn = (dataSource.dataSource()).getConnection();
-		
-			Statement query;
+			Integer lastid = null;
 			
-			query = conn.createStatement();
+			conn = (dataSource.dataSource()).getConnection();
+	        Statement stmt = conn.createStatement();
+			
 			//OBTENGO EL ID DEL ULTIMO USUARIO
-			ResultSet rs = query.executeQuery("select id from usuarios order by id desc limit 1"); 
+			ResultSet rs = stmt.executeQuery("select id from usuarios order by id desc limit 1"); 
 			
 			while(rs.next()){
 				//AL OBTENER EL ID LE SUMO 1 YA QUE DEBE SER EL PROXIMO USUARIO
-				usuario.setId(rs.getInt("id") + 1);
+				lastid = rs.getInt("id") + 1;
+				usuario.setId(lastid);
+				
 			}
-			//SE GUARDA EL USUARIO
-			query.executeUpdate("INSERT INTO Usuarios VALUES(" + usuario.getId() + ", '" + usuario.getEmail() + "', '" + usuario.getContraseña() + "', '" + usuario.getApellido()+ "', '" + usuario.getNombre() + "', 1);");
-						
-			conn.close();
+			
+			if(lastid != 0){
+				
+				//SE GUARDA EL USUARIO (NULL PORQUE ES IDENTITY)
+		        String query = "INSERT INTO Usuarios VALUES(" + usuario.getId() + ",'" + usuario.getEmail() + "', '" + usuario.getContraseña() + "', '" + usuario.getApellido()+ "', '" + usuario.getNombre() + "',1);";
+				System.out.println(query);
+		        
+		        //SE EJECUTA DICHA QUERY
+		        stmt.executeUpdate(query);
+				//SE GUARDA LA RELACION ENTRE EL USUARIO Y EL ROL
+				String queryrol = "Insert into rolesusuarios values(" + lastid + "," + idRol + ");"; 
+				System.out.println(queryrol);
+	
+				//SE EJECUTA DICHA QUERY
+				stmt.executeUpdate(queryrol);
+				//CIERRO LA CONEXION
+				conn.close();
+			} else {
+				
+				throw new SQLException("Fallo al crear usuario");
+			
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}		
 	}
 	
 	@Override
-	public Map<Integer,String> getRoles(){
+	public List<Rol> getRoles(){
 		
-		Map<Integer,String> roles = new HashMap<Integer, String>();;
+		List<Rol> roles = new ArrayList<Rol>();
 		
 		try{
 			conn =(dataSource.dataSource().getConnection());
@@ -136,8 +157,10 @@ public class UsuarioDaoImpl implements UsuarioDao {
 			ResultSet rs = query.executeQuery("SELECT * FROM Roles");
 			
 			while(rs.next()){
-				
-				roles.put(rs.getInt("id"),rs.getString("descripcion"));
+				Rol rol = new Rol();
+				rol.setId(rs.getInt("id"));
+				rol.setDescripcion(rs.getString("descripcion"));
+				roles.add(rol);
 			}
 			conn.close();
 			

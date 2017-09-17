@@ -6,44 +6,69 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-	
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>UNLAM - Registro de usuario</title>
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>UNLAM - Registro de usuario</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="css/styles.css" />
 </h:head>
 
 <h:body>
-
-	<div class="panel-body center-block">
-		<h:form class="form">
-			<h3>UNLAM - Registro de usuarios</h3>
-
-			<h:panelGrid columns="3">
-				<div class="form-group">
-					<h:outputLabel for="nombre">Nombre:</h:outputLabel>
-					<h:inputText value="#{usuarioBean.nombre}" class="form-control" id="nombre"></h:inputText>
+<div class="container">
+		<h3 class="text-center">UNLAM - Registro de usuarios</h3>
+		<div id="loginbox" class="login mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+			<div class="panel panel-info" >
+				 <div class="panel-heading">
+            		 <div class="panel-title">Registrarse</div>
+             	</div>
+             <div class="loggin-body panel-body" >
+             <h:form id="login" class="clearfix">
+     
+     
+             <div class=" login-input input-group">
+				<h:selectOneMenu value="#{usuarioBean.idRol}" name="idrol" target="#{usuarioBean.idRol}" class="form-control">
+        			<f:selectItem itemValue="#{null}" itemLabel="Elegir rol de usuario" />
+            		<f:selectItems value="#{usuarioBean.roles}" var="rol" itemLabel="#{rol.descripcion}" itemValue="#{rol.id}"/>
+				</h:selectOneMenu>
+			</div>
+             <div class=" login-input input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-education"></i></span>
+					<h:inputText styleClass ="form-control" value="#{usuarioBean.nombre}" id="nombre" h:placeholder="Ingrese nombre"></h:inputText>
 				</div>
-				<div class="form-group">
-					<h:outputLabel for="apellido">Apellido:</h:outputLabel>
-					<h:inputText value="#{usuarioBean.apellido}" class="form-control" id="apellido"></h:inputText>
+				<div class=" login-input input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+					<h:inputText styleClass ="form-control" value="#{usuarioBean.apellido}" id="apellido" h:placeholder="Ingrese apellido"></h:inputText>
 				</div>
-				<div class="form-group">
-					<h:outputLabel for="eMail">E-Mail:</h:outputLabel>
-					<h:inputText value="#{usuarioBean.email}" class="form-control" id="eMail"></h:inputText>
+				<div class=" login-input input-group">
+					<span class="input-group-addon">@</span>
+					<h:inputText styleClass ="form-control" value="#{usuarioBean.eMail}" id="eMail" h:placeholder="Ingrese email"></h:inputText>
 				</div>
-				<div class="form-group">
-					<h:outputLabel for="contraseña">Contraseña:</h:outputLabel>
-					<h:inputSecret value="#{usuarioBean.contraseña}" class="form-control" id="contraseña"></h:inputSecret>
+				<div  class=" login-input input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+					<h:inputSecret styleClass ="form-control" value="#{usuarioBean.contraseña}" id="contraseña" h:placeholder="Ingrese Contraseña"></h:inputSecret>
 				</div>
-				<h:commandButton action="#{usuarioBean.save}" class="btn btn-success" value="Ingresar">
-				</h:commandButton>
-			</h:panelGrid>
-		</h:form>
+				<div  class="login-btn form-group">
+					<div class="col-sm-12 controls">
+		 				<h:commandButton action="#{usuarioBean.save}" class="btn btn-success" value="Registrar"> </h:commandButton>
+					</div>
+				</div>
+				
+				<div class="form-group">
+                 	<div class="col-md-12 control">
+                    	 <div  class="login-registrar" >
+                               Ya tienes cuenta?
+                        	       <h:commandLink action="#{usuarioBean.login}">
+                        	       		<h:outputText value ="Inicia sesi&oacute;n!"></h:outputText>
+                        	       </h:commandLink>
+                         </div>
+                     </div>
+                </div>
+                  
+			</h:form>
+		</div>
 	</div>
+</div>
+</div>
 </h:body>
 
 </html>
