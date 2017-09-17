@@ -8,18 +8,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ar.edu.unlam.diit.scaw.configs.HsqlDataSource;
-import ar.edu.unlam.diit.scaw.daos.MateriaDao;
-import ar.edu.unlam.diit.scaw.entities.Materia;
+import ar.edu.unlam.diit.scaw.daos.ExamenDao;
+import ar.edu.unlam.diit.scaw.entities.Examenes;
 
-public class MateriaDaoImpl implements MateriaDao{
+public class ExamenDaoImpl implements ExamenDao {
 	
 	HsqlDataSource dataSource = new HsqlDataSource();
 	Connection conn;
 	
 	@Override
-	public List<Materia> getAllMaterias() {
+	public List<Examenes> getAllExamenes() {
 		
-		List<Materia> ll = new LinkedList<Materia>();
+		List<Examenes> ll = new LinkedList<Examenes>();
 		
 		try {
 			conn = (dataSource.dataSource()).getConnection();
@@ -28,22 +28,22 @@ public class MateriaDaoImpl implements MateriaDao{
 			
 			query = conn.createStatement();
 			
-			ResultSet rs = query.executeQuery("SELECT * FROM Materias");
+			ResultSet rs = query.executeQuery("SELECT * FROM Examenes");
 	
 			while (rs.next()) {
 			  
 				Integer id = rs.getInt("id");
 				String nombre = rs.getString("nombre");
-				Integer idDocenteTitular = rs.getInt("idDocenteTitular");
-				Integer idEstadoMateria = rs.getInt("idEstadoMateria");
+				Integer idMateria = rs.getInt("idMateria");
+				Integer idEstadoExamen = rs.getInt("idEstadoExamen");
 								
-				Materia materia = new Materia();
-				materia.setId(id);
-				materia.setNombre(nombre);
-				materia.setIdDocenteTitular(idDocenteTitular);
-				materia.setIdEstadoMateria(idEstadoMateria);
+				Examenes examen = new Examenes();
+				examen.setId(id);
+				examen.setNombre(nombre);
+				examen.setIdMateria(idMateria);
+				examen.setIdEstadoExamen(idEstadoExamen);
 	
-				ll.add(materia);
+				ll.add(examen);
 			}
 			
 			conn.close();
@@ -54,7 +54,7 @@ public class MateriaDaoImpl implements MateriaDao{
 	}
 	
 	@Override
-	public void salvarMateria(Materia materia) {
+	public void salvarExamen(Examenes examen) {
 		try {
 			conn = (dataSource.dataSource()).getConnection();
 		
@@ -62,16 +62,16 @@ public class MateriaDaoImpl implements MateriaDao{
 			
 			query = conn.createStatement();
 			
-			String nombre = " '" + materia.getNombre() + "' ";
-			Integer idDocente = materia.getIdDocenteTitular();
+			String nombre = " '" + examen.getNombre() + "' ";
+			Integer idmateria = examen.getIdMateria();
 			
 			query.executeUpdate(
-								"INSERT INTO Materias (nombre, idDocenteTitular, idEstadoMateria) VALUES(" + nombre + "," + idDocente + ", 1)");  
+								"INSERT INTO Examenes (nombre, idMateria, idEstadoExamen) VALUES(" + nombre + "," + idmateria + ", 1)");  
 			
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}	
 	}
-	
+
 }
