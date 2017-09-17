@@ -101,7 +101,10 @@
 						   		
 						   		<h:column>
 									<f:facet name="header">Accion</f:facet>
-					    	  		<button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> Modificar</button>
+									<h:form id="editar">
+										<input type="hidden" name="idMateria" value="#{dato.idMateria}" />
+							      		<h:commandButton styleClass="btn btn-warning" action="#{datosMateriasBean.editar()}" value="Modificar Materia" ></h:commandButton>
+						   			</h:form>
 						   		</h:column> 
 						   		                                             
                         	</h:dataTable>

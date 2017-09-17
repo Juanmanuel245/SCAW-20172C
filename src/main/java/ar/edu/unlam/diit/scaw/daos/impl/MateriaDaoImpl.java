@@ -116,5 +116,32 @@ public class MateriaDaoImpl implements MateriaDao{
 			e.printStackTrace();
 		}	
 	}
+
+	@Override
+	public DatosMaterias getMateria(String id) {
+		
+		DatosMaterias datos = null;
+		
+		try {
+			conn = (dataSource.dataSource()).getConnection();
+		
+			Statement query;
+			
+			query = conn.createStatement();
+			
+			ResultSet rs = query.executeQuery("SELECT m.id as idMateria, m.nombre as nombreMateria, m.idEstadoMateria as idEstadoMateria , est.descripcion as descripcion, u.nombre as nombreDocente, u.apellido as apellidoDocente FROM materias as m INNER JOIN estadosmaterias as est ON m.idEstadoMateria = est.id INNER JOIN usuarios as u ON m.idDocenteTitular = u.id");
+	
+			if(rs != null){					
+				datos.setIdMateria(rs.getInt("idMateria"));
+				datos.setNombreMateria(rs.getString("nombreMateria"));
+				datos.setDocente(rs.getString("nombreDocente") + " " + rs.getString("apellidoDocente"));
+			}
+			
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return datos;
+	}
 	
 }
