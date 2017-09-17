@@ -1,36 +1,45 @@
 package ar.edu.unlam.diit.scaw.beans;
 
+import java.io.Serializable;
+
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
 import ar.edu.unlam.diit.scaw.entities.DatosMaterias;
 import ar.edu.unlam.diit.scaw.services.MateriaService;
+import ar.edu.unlam.diit.scaw.services.impl.MateriaServiceImpl;
 
 @ManagedBean(name = "datosMateriasBean", eager = true)
 @RequestScoped
-public class DatosMateriasBean {
+public class DatosMateriasBean implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer idMateria;
-	private String nombreMateria;
-	private String descripcion;
-	private String docente;
-	private Integer idEstadoMateria;
-	private String idMateriaString;
+	
+	private Integer idMateria = null;
+	private String nombreMateria = null;
+	private String descripcion = null;
+	private String docente = null;
+	private Integer idEstadoMateria = null;
+	private String idMateriaString = null;
 	
 	MateriaService servicioMateria;
+	
+	public DatosMateriasBean(){
+		super();
+		servicioMateria = (MateriaService) new MateriaServiceImpl();
+	}
 	
 	public String editar(){
 		String valor = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idMateria");
 	
-		DatosMaterias materia = servicioMateria.traerMateria(valor);
-		
+		DatosMaterias materia = servicioMateria.traerMateria("1");
+		/*
 		idMateria = materia.getIdMateria();
 		nombreMateria = materia.getNombreMateria();
 		docente = materia.getDocente();
 		
-			
+			*/
 		
 		return "editarMateria";
 	}
