@@ -4,6 +4,7 @@ import java.util.List;
 
 import ar.edu.unlam.diit.scaw.daos.MateriaDao;
 import ar.edu.unlam.diit.scaw.daos.impl.MateriaDaoImpl;
+import ar.edu.unlam.diit.scaw.entities.DatosMaterias;
 import ar.edu.unlam.diit.scaw.entities.Materia;
 import ar.edu.unlam.diit.scaw.services.MateriaService;
 
@@ -16,7 +17,7 @@ public class MateriaServiceImpl implements MateriaService{
 	}
 	
 	@Override
-	public List<Materia> traerMaterias(){
+	public List<DatosMaterias> traerMaterias(){
 		
 		return servicioDao.getAllMaterias();
 	}
@@ -33,6 +34,16 @@ public class MateriaServiceImpl implements MateriaService{
 	public void guardarMateria(Materia materia) {
 		servicioDao.salvarMateria(materia);
 		
+	}
+	
+	@Override
+	public void deshabilitarMateria(String id){
+		servicioDao.deshabilitar(id);
+	}
+	
+	@Override
+	public void habilitarMateria(String id){
+		servicioDao.habilitar(id);
 	}
 
 }

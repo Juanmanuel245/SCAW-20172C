@@ -6,6 +6,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	>
 <h:head>
         <title>Panel de Adminsitracion</title>
@@ -63,22 +64,44 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">Gestion de Materias</h3></div>
                     <div class="panel-body">
-                            <h:dataTable value="#{materiaBean.getAllMaterias()}" var="materia" styleClass="table table-hover">
+                            <h:dataTable value="#{materiaBean.getAllMaterias()}" var="dato" styleClass="table table-hover">
                             	
                             	<h:column>
 									<f:facet name="header">Materia</f:facet>    				
-					      			#{materia.nombre}
+					      			#{dato.nombreMateria}
 					  		 	</h:column>
 
                             	<h:column>
 									<f:facet name="header" >Docente Asignado</f:facet>
-					    	  		#{materia.idDocenteTitular}
+					    	  		#{dato.docente}
+						   		</h:column>
+						   		
+						   		<h:column>
+									<f:facet name="header" >Estado Materia</f:facet>
+									
+							      	<ui:fragment rendered="#{dato.idEstadoMateria == 1}">
+							      		<h:form id="deshabilitar">
+							      			<input type="hidden" name="idMateria" value="#{dato.idMateria}" />
+							      			<h:commandButton styleClass="btn btn-success" action="#{materiaBean.deshabilitar()}" value="#{dato.descripcion}" ></h:commandButton>
+							      		</h:form>
+							      	</ui:fragment>
+							      							      	
+							      	<ui:fragment rendered="#{dato.idEstadoMateria == 2}">
+							      		<h:form id="habilitar">
+							      			<input type="hidden" name="idMateria" value="#{dato.idMateria}" />
+							      			<h:commandButton styleClass="btn btn-danger" action="#{materiaBean.habilitar()}" value="#{dato.descripcion}" ></h:commandButton>
+							      		</h:form>
+							      	</ui:fragment>
+
+									
+									
+									 
+					    	  		
 						   		</h:column>
 						   		
 						   		<h:column>
 									<f:facet name="header">Accion</f:facet>
-					    	  		<button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button>
-                                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
+					    	  		<button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> Modificar</button>
 						   		</h:column> 
 						   		                                             
                         	</h:dataTable>
