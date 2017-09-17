@@ -26,8 +26,10 @@
 									<h:inputText value="#{datosMateriasBean.nombreMateria}" class="form-control" id="nombre"></h:inputText>
 								</h:outputLabel>
 								<br />
-							</div>				
-							<h:commandLink action="#{datosMateriasBean.guardarMateria}" styleClass="btn btn-success" value="Crear Materia" />
+							</div>
+							<input type="hidden" name="idMateria" value="#{datosMateriasBean.idMateria}" />
+							<input type="hidden" name="idDocente" value="#{datosMateriasBean.idDocente}" />				
+							<h:commandLink action="#{datosMateriasBean.actualizarMateria()}" styleClass="btn btn-success" value="Actualizar Materia" />
 					</h:form>
                     </div>
                 </div>

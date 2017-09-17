@@ -129,12 +129,13 @@ public class MateriaDaoImpl implements MateriaDao{
 			
 			query = conn.createStatement();
 			
-			ResultSet rs = query.executeQuery("SELECT m.id as idMateria, m.nombre as nombreMateria, m.idEstadoMateria as idEstadoMateria , est.descripcion as descripcion, u.nombre as nombreDocente, u.apellido as apellidoDocente FROM materias as m INNER JOIN estadosmaterias as est ON m.idEstadoMateria = est.id INNER JOIN usuarios as u ON m.idDocenteTitular = u.id WHERE m.id = '" + id + "'");
+			ResultSet rs = query.executeQuery("SELECT m.id as idMateria, m.nombre as nombreMateria, m.idEstadoMateria as idEstadoMateria , est.descripcion as descripcion, u.nombre as nombreDocente,u.id as idDocente, u.apellido as apellidoDocente FROM materias as m INNER JOIN estadosmaterias as est ON m.idEstadoMateria = est.id INNER JOIN usuarios as u ON m.idDocenteTitular = u.id WHERE m.id = '" + id + "'");
 			
 			while (rs.next()) {					
 				datos.setIdMateria(rs.getInt("idMateria"));
 				datos.setNombreMateria(rs.getString("nombreMateria"));
 				datos.setDocente(rs.getString("nombreDocente") + " " + rs.getString("apellidoDocente"));
+				datos.setIdDocente(rs.getInt("idDocente"));
 			}
 			
 			conn.close();
@@ -142,6 +143,27 @@ public class MateriaDaoImpl implements MateriaDao{
 			e.printStackTrace();
 		}
 		return datos;
+	}
+
+	@Override
+	public void actualizarDatos(String materia, Integer docente, String nombre) {
+		try {
+			conn = (dataSource.dataSource()).getConnection();
+		
+			Statement query;
+			
+			query = conn.createStatement();
+						
+			String query2 = "UPDATE materias SET nombre = '" + nombre + "', idDocenteTitular ='" + docente + "' WHERE id ='" + materia + "'";
+			
+			query.executeUpdate("UPDATE materias SET nombre = '" + nombre + "' AND idDocenteTitular =" + docente + " WHERE id ='" + materia + "'");  
+			
+			
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 }

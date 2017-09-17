@@ -52,4 +52,9 @@ public class MateriaServiceImpl implements MateriaService{
 		return servicioDao.getMateria(id);
 	}
 
+	@Override
+	public void actualizarMateria(String materia, Integer docente, String nombre) {
+		servicioDao.actualizarDatos(materia, docente, nombre);
+	}
+
 }
