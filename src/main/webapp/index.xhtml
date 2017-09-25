@@ -53,6 +53,8 @@
                                Todavia no tienes cuenta?
                         	       <h:commandLink action="#{usuarioBean.registro}">
                         	       		<h:outputText value ="Registrate aqui!"></h:outputText>
+                        	       		<f:param name="opc" value = "3"></f:param>
+                        	       		<f:param name ="idUsuario" value ="#{usuarioBean.id}"></f:param>
                         	       </h:commandLink>
                          </div>
                      </div>

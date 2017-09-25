@@ -296,4 +296,28 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		return profs;
 	}
 	
+	@Override
+	public void updateUsuario(Integer id,String mail, String contraseña,String apellido,String nombre){
+		try {
+			conn = (dataSource.dataSource()).getConnection();
+		
+			Statement query;
+			
+			String sql = "UPDATE Usuarios SET "
+					+ " eMail = '" 		+ mail + "', " 
+					+ " contraseña = '"  +  contraseña + "', " 
+					+ " apellido = '" 	+ 	apellido + "', "
+            		+ "	nombre = '"   	+	nombre + "'" 
+					+ " WHERE id = " 	+ id;
+			 	 	
+
+			query = conn.createStatement();		
+			query.executeUpdate(sql);
+						
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

@@ -9,11 +9,28 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	>
 <h:head>
-        <title>Panel de Adminsitracion</title>
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+<title>Panel de Adminsitracion</title>
+   <!-- Latest compiled and minified CSS -->
+   <link rel="stylesheet" type="text/css" href="css/table-style.css" />
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="css/styles.css" />
+	<link rel="stylesheet" type="text/css" href="css/index.css" />
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
+	
+	
+	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/welcome.js"></script>
+	
+
 </h:head>
 <body>
+<div class ="left-menu">
+<ui:include src="welcome.xhtml"/>
+</div>
+<div class ="body-menu">
 				<!--  GESTION DE MATERIAS -->
                 <div class="panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">Modificar Materia</h3></div>
@@ -33,10 +50,13 @@
 								</div>		
 							</div>
 							<input type="hidden" name="idMateria" value="#{datosMateriasBean.idMateria}" />			
-							<h:commandLink action="#{datosMateriasBean.actualizarMateria()}" styleClass="btn btn-success" value="Actualizar Materia" />
+							<h:commandLink action="#{datosMateriasBean.actualizarMateria()}" styleClass="btn btn-success" value="Actualizar Materia" >
+							</h:commandLink>
 					</h:form>
                     </div>
                 </div>
+
+</div>
                 
                
        

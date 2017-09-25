@@ -10,67 +10,62 @@
 <h:head>
 	<title>Panel de Adminsitracion</title>
 	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet"
-		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+	<link rel="stylesheet" type="text/css" href="css/table-style.css" />
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="css/styles.css" />
+	<link rel="stylesheet" type="text/css" href="css/index.css" />
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
+	
+	
+	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/welcome.js"></script>
+	
+
 </h:head>
 <body>
-	<div class="container">
-
-		<div class="row">
-
-			<div class="col-md-2"></div>
-
-			<div class="col-md-8">
-
-				<div class="panel panel-success">
-					<div class="panel-heading text-center">
-						<h1>ABM EXAMENES</h1>
-					</div>
-					<div class="panel-body">
-						<div class="col-md-2"></div>
-						<div class="col-md-10">
-
-							<h:form>
-								<h2>Nombre del Examen</h2>
-								<h:inputText styleClass="form-control" size="60"
-									value="#{Examen.nombre}" id="nombreExamen">
-								</h:inputText>
-
-								<h2>Materia</h2>
-								<div class="form-group">
-									<h:selectOneMenu value="#{materiaBean.id}" name="id"
+<div class ="left-menu">
+<ui:include src="welcome.xhtml"/>
+</div>
+<div class ="body-menu">
+	<div class="panel panel-success">
+		<div class="panel-heading text-center">
+				<h1>ABM EXAMENES</h1>
+		</div>
+			<div class="panel-body">
+				<h:form>
+					<h2>Nombre del Examen</h2>
+						<h:inputText styleClass="form-control" size="60"
+							value="#{Examen.nombre}" id="nombreExamen">
+						</h:inputText>
+						<h2>Materia</h2>
+						<div class="form-group">
+							<h:selectOneMenu value="#{materiaBean.id}" name="id"
 										target="#{materiaBean.id}" class="form-control">
-										<f:selectItem itemValue="#{null}"
+								<f:selectItem itemValue="#{null}"
 											itemLabel="Elegir la materia" />
-										<f:selectItems value="#{materiaBean.nombre}" var="mat"
+								<f:selectItems value="#{materiaBean.nombre}" var="mat"
 											itemLabel="#{mat.nombre}" itemValue="#{mat.id}" />
-									</h:selectOneMenu>
-								</div>
-
-								<h2>Estado</h2>
-								<h:selectOneRadio value="#{examenBean.id}">
-									<f:selectItem itemValue="estado" itemLabel="Habilitado" />
-									<f:selectItem itemValue="estado" itemLabel="Deshabilitado" />
-								</h:selectOneRadio>
-
-
-								<h2>Pregunta 1</h2>
-
-								<h:inputText styleClass="form-control"
+							</h:selectOneMenu>
+						</div>
+						<h2>Estado</h2>
+							<h:selectOneRadio value="#{examenBean.id}">
+								<f:selectItem itemValue="estado" itemLabel="Habilitado" />
+								<f:selectItem itemValue="estado" itemLabel="Deshabilitado" />
+							</h:selectOneRadio>
+						<h2>Pregunta 1</h2>
+							<h:inputText styleClass="form-control"
 									value="#{Examen.pregunta1}" id="nombre"
 									h:placeholder="Ingrese nombre"></h:inputText>
-
-								<h4>Respuesta 1</h4>
-								<h:inputText styleClass="form-control" size="60"
+						<h4>Respuesta 1</h4>
+							<h:inputText styleClass="form-control" size="60"
 									value="#{Examen.pregunta1}" id="pregunta1"></h:inputText>
-
 								<h:selectBooleanCheckbox id="check"
-									value="#{repuestaController.repuestaController.check}" />
-
+										value="#{repuestaController.repuestaController.check}" />
 								<h:selectBooleanCheckbox id="checki"
 									value="#{repuestaController.repuestaController.check}" />
-
-
 								<h4>Respuesta 2</h4>
 								<h:inputText styleClass="form-control" size="60"
 									value="#{Examen.pregunta1}" id="pregunta">
@@ -81,7 +76,6 @@
 
 								<h:selectBooleanCheckbox id="checki3"
 									value="#{repuestaController.repuestaController1.check}" />
-
 
 								<h4>Respuesta 3</h4>
 								<h:inputText styleClass="form-control" size="60"
@@ -137,20 +131,19 @@
 								<h:selectBooleanCheckbox id="checkewq"
 									value="#{repuestaController.repuestaController.check}" />
 								<h:outputLabel value="#{messages.rememberMeLabel}" for="check" />
+								<div class="form-group">
+								<h:commandLink action="#{examenBean.nuevoExamen}" styleClass="btn btn-success">
+                        	       			<h:outputText value ="Nuevo Examen"></h:outputText>
+                        	       			<f:param name ="idUsuario" value ="#{usuarioBean.idUser}"></f:param>
+                        		</h:commandLink>
+								</div>
+								
 
 							</h:form>
 
 						</div>
 
 					</div>
-				</div>
-			</div>
-
-
-
-		</div>
-
 	</div>
-
 </body>
 </html>

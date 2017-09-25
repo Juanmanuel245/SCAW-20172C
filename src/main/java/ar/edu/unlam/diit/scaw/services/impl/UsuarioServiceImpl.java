@@ -69,7 +69,59 @@ public class UsuarioServiceImpl implements UsuarioService {
 		
 		return usuarioHsql.getAllProfesores();
 	}
+	
+	@Override
+	public void actualizarUsuario(Integer id,String mail, String contraseña,String apellido,String nombre){
+		
+		usuarioHsql.updateUsuario(id, mail, contraseña, apellido, nombre);
+	}
 
-
+	@Override
+	public boolean isGrantAll(Integer id){
+		
+		Usuario user = usuarioHsql.findById(id);
+		
+		if(user.getIdRol().size() == 3){
+			return true;
+		}
+		
+		return false;
+		
+	}
+	@Override
+	public boolean isGrantDoc(Integer id){
+		Usuario user = usuarioHsql.findById(id);
+		
+		if(user.getIdRol().contains(2)){
+			return true;
+		}
+		
+		return false;		
+	}
+	
+	@Override
+	public boolean isGrantAlu(Integer id){
+		Usuario user = usuarioHsql.findById(id);
+			
+		if(user.getIdRol().contains(3)){
+			return true;
+		}
+		
+		return false;		
+		
+		
+	}
+	@Override
+	public boolean isGrantAdm(Integer id){
+		Usuario user = usuarioHsql.findById(id);
+		
+		if(user.getIdRol().contains(3)){
+			return true;
+		}
+		
+		return false;		
+		
+		
+	}
 }
 
