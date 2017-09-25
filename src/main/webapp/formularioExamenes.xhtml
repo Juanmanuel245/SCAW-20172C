@@ -37,6 +37,10 @@
 								</h:inputText>
 
 								<h2>Materia</h2>
+								
+								
+								
+								
 								<div class="form-group">
 									<h:selectOneMenu value="#{materiaBean.id}" name="id"
 										target="#{materiaBean.id}" class="form-control">
@@ -50,6 +54,7 @@
 								<h2>Estado</h2>
 								<h:selectOneRadio value="#{examenBean.id}">
 									<f:selectItem itemValue="estado" itemLabel="Habilitado" />
+									
 									<f:selectItem itemValue="estado" itemLabel="Deshabilitado" />
 								</h:selectOneRadio>
 
@@ -63,10 +68,10 @@
 								<h4>Respuesta 1</h4>
 								<h:inputText styleClass="form-control" size="60"
 									value="#{Examen.pregunta1}" id="pregunta1"></h:inputText>
-
+								<label>V</label>
 								<h:selectBooleanCheckbox id="check"
 									value="#{repuestaController.repuestaController.check}" />
-
+								<label>F</label>
 								<h:selectBooleanCheckbox id="checki"
 									value="#{repuestaController.repuestaController.check}" />
 
@@ -75,10 +80,10 @@
 								<h:inputText styleClass="form-control" size="60"
 									value="#{Examen.pregunta1}" id="pregunta">
 								</h:inputText>
-
+								<label>V</label>
 								<h:selectBooleanCheckbox id="check1"
 									value="#{repuestaController.repuestaController.check}" />
-
+								<label>F</label>
 								<h:selectBooleanCheckbox id="checki3"
 									value="#{repuestaController.repuestaController1.check}" />
 
@@ -87,10 +92,10 @@
 								<h:inputText styleClass="form-control" size="60"
 									value="#{Examen.pregunta112}" id="pregunta32">
 								</h:inputText>
-
+								<label>V</label>
 								<h:selectBooleanCheckbox id="checki42i"
 									value="#{repuestaController.repuestaController.check22}" />
-
+								<label>F</label>
 								<h:selectBooleanCheckbox id="checkiii3"
 									value="#{repuestaController.repuestaController.check22}" />
 
@@ -103,11 +108,11 @@
 
 								<h:inputText styleClass="form-control" size="60"
 									value="#{Examen.pregunta2}" id="pregunta2da"></h:inputText>
-
+								<label>V</label>
 								<h:selectBooleanCheckbox id="checkyr"
 									value="#{repuestaController.repuestaController.check}" />
 								<h:outputLabel value="#{messages.rememberMeLabel}" for="check" />
-
+								<label>F</label>
 								<h:selectBooleanCheckbox id="checkrt"
 									value="#{repuestaController.repuestaController.check}" />
 								<h:outputLabel value="#{messages.rememberMeLabel}" for="check" />
@@ -116,11 +121,11 @@
 
 								<h:inputText styleClass="form-control" size="60"
 									value="#{Examen.pregunta2}" id="pregunta2dea"></h:inputText>
-
+								<label>V</label>
 								<h:selectBooleanCheckbox id="checkysar"
 									value="#{repuestaController.repuestaController.check}" />
 								<h:outputLabel value="#{messages.rememberMeLabel}" for="check" />
-
+								<label>F</label>
 								<h:selectBooleanCheckbox id="checksart"
 									value="#{repuestaController.repuestaController.check}" />
 								<h:outputLabel value="#{messages.rememberMeLabel}" for="check" />
@@ -129,11 +134,11 @@
 
 								<h:inputText styleClass="form-control" size="60"
 									value="#{Examen.pregunta2}" id="preguntaas2"></h:inputText>
-
+                               <label>V</label>
 								<h:selectBooleanCheckbox id="checkree"
 									value="#{repuestaController.repuestaController.check}" />
 								<h:outputLabel value="#{messages.rememberMeLabel}" for="check" />
-
+                                <label>F</label>
 								<h:selectBooleanCheckbox id="checkewq"
 									value="#{repuestaController.repuestaController.check}" />
 								<h:outputLabel value="#{messages.rememberMeLabel}" for="check" />
