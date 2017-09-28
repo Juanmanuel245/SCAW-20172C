@@ -6,8 +6,10 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.view.facelets.FaceletContext;
+import javax.servlet.http.HttpSession;
 
 import ar.edu.unlam.diit.scaw.entities.Rol;
 import ar.edu.unlam.diit.scaw.entities.Usuario;
@@ -17,6 +19,7 @@ import ar.edu.unlam.diit.scaw.services.impl.UsuarioServiceImpl;
 
 @ManagedBean(name = "usuarioBean", eager = true)
 @RequestScoped
+@SessionScoped
 public class UsuarioBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -34,22 +37,13 @@ public class UsuarioBean implements Serializable {
 	private String grantAll = "N";
 	private Integer idUser = null;
 	
+	private FacesContext context = FacesContext.getCurrentInstance();
+	HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+	
 	@SuppressWarnings("unused")
 	private List<Rol> roles  = null;
 	private List<Usuario> profesores = null;
-	
-	@ManagedProperty("#{param.opc}")
-	private String opc = null;
-	
-	@ManagedProperty("#{param.idUsuario}")
-	private Integer idUsuario = null;
-	
-	@ManagedProperty("#{param.idUsu}")
-	private Integer idUsu = null;
-	
-	@ManagedProperty("#{param.idUsuarioEdit}")
-	private Integer idUsuarioEdit = null;
-	
+
 	MateriaService matService;
 	UsuarioService service;
 	
@@ -81,14 +75,34 @@ public class UsuarioBean implements Serializable {
 		return list;
 	}
 	
+	public void checkGrandUser( Integer idUsuario){
+		
+		if(service.isGrantAdm(idUsuario)){
+			session.setAttribute("adm","S");
+		}
+		
+		if(service.isGrantAll(idUsuario)){
+			session.setAttribute("all","S");
+		}
+		
+		if(service.isGrantAlu(idUsuario)){
+			session.setAttribute("alu","S");
+		}
+		
+		if(service.isGrantAll(idUsuario)){
+			session.setAttribute("doc","S");
+		}
+		
+	}
+	
 	public List<Usuario> getFindPend() {
 		List<Usuario> list = service.findPend();
 		return list;
 	}
 	
-	public Usuario getFindById(){
+	/*public Usuario getFindById(){
 		return service.findById(idUsuario);
-	}
+	}*/
 	
 	
 	public String login(){
@@ -98,26 +112,11 @@ public class UsuarioBean implements Serializable {
 		usuario.setContraseña(this.contraseña);
 		Usuario logueado = service.login(usuario);		
 		if(logueado!=null) {
-			idUsuario = logueado.getId();
 
-			//Si el size es igual a 3 quiere decir que tiene todos los roles
-			if(logueado.getIdRol().size() == 3){
-				grantAll = "S";
-			}
-
-			if(logueado.getIdRol().contains(1)){
-				grantAdmin = "S";	
-			}
-			if(logueado.getIdRol().contains(2)){
-				grantDoc = "S";
-			}
-			if(logueado.getIdRol().contains(3)){
-				grantAlumn = "S";
-			}		
-			
-			
+			checkGrandUser(logueado.getId());
+			return "welcome";
 	}
-		return "welcome";
+		return "index";
 }
 
 	
@@ -128,127 +127,61 @@ public class UsuarioBean implements Serializable {
 	
 	public String admin(){
 		
-		Usuario user = service.findById(idUsuario);
-		if(user.getIdRol().contains(1)){
 			return "admin";	
-		}
-		
-		error = "No posee los permisos/privelgios para ingresar al sitio solicitado";
-		return "welcome";
+
 		
 	}
 	
 	public String solicitudesUsuarios(){
 	
-	Usuario user = service.findById(idUsuario);
-	idUser = idUsuario;
-	if(user.getIdRol().contains(1)){
 		return "solicitudesUsuarios";	
-	}
-	
-	error = "No posee los permisos/privelgios para ingresar al sitio solicitado";
-	return "welcome";
 	
 	}
 	
 	public String gestionMaterias(){
 		
-		Usuario user = service.findById(idUsuario);
-		idUser = idUsuario;
-		if(user.getIdRol().contains(1)){
 			return "gestionMaterias";	
-		}
-		
-		error = "No posee los permisos/privelgios para ingresar al sitio solicitado";
-		return "welcome";
 		
 	}
 	
 public String gestionExamenes(){
 		
-		Usuario user = service.findById(idUsuario);
-		idUser = idUsuario;
-		if(user.getIdRol().contains(2)){
 			return "gestionExamenes";	
-		}
-		
-		error = "No posee los permisos/privelgios para ingresar al sitio solicitado";
-		return "welcome";
 		
 	}
 
 public String nuevaMateria(){
-	if(service.isGrantAdm(idUsuario) || service.isGrantAll(idUsuario)){
-		
-		idUser = idUsuario;
-		if(service.isGrantAdm(idUsuario)){
-			grantAdmin = "S";
-		}
-		
-		if(service.isGrantAll(idUsuario)){
-			grantAll = "S";
-		}
+	
 		 
 		
 		return "nuevaMateria";
-	}
 	
-	return "welcome";
+	
 	
 		
 }
 
 public String usuariosActivos(){
-	if(service.isGrantAdm(idUsuario) || service.isGrantAll(idUsuario)){
-		
-		idUser = idUsuario;
-		if(service.isGrantAdm(idUsuario)){
-			grantAdmin = "S";
-		}
-		
-		if(service.isGrantAll(idUsuario)){
-			grantAll = "S";
-		}
-		 
-		
+			
 		return "usuariosActivos";
-	}
-	
-	return "welcome";
+
 	
 		
 }
 
 public String nuevoExamen(){
-	idUser = idUsuario;
-	if(service.isGrantAdm(idUsuario) || service.isGrantAll(idUsuario)){
-		if(service.isGrantAdm(idUsuario)){
-			grantAdmin = "S";
-		}
-		
-		if(service.isGrantAll(idUsuario)){
-			grantAll = "S";
-		}
+	
 		
 		return "formularioExamenes";
-	}
-	return "welcome";
+	
 }
 
 	
 	public String solicitudes(){
-		idUser = idUsu;
-		if(service.isGrantAdm(idUser) || service.isGrantAll(idUser)){
-		if(service.isGrantAdm(idUser)){
-			grantAdmin = "S";
-		}
-		if(service.isGrantAll(idUser)){
-			grantAll = "S";
-		}	
-		service.actualizarEstado((idUsuario), Integer.parseInt(opc));
+		
+		//service.actualizarEstado((idUsuario), Integer.parseInt(opc));
 		return "welcome";
-	}
-		return "No tienen los permisos";
+	
 }
 	
 	public String consultarUsuario(){
@@ -257,15 +190,7 @@ public String nuevoExamen(){
 	}
 	
 	public String editarUsuario(){
-		idUser = idUsuario;
-		if(service.isGrantAdm(idUsuario) || service.isGrantAll(idUsuario)){
-			if(service.isGrantAdm(idUsuario)){
-				grantAdmin = "S";
-			}
-			
-			if(service.isGrantAll(idUsuario)){
-				grantAll = "S";
-			}
+		
 			Integer idUsuarioEdit = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idUsuarioEdit"));
 			Usuario user = service.findById(idUsuarioEdit);
 			eMail = user.getEmail();
@@ -274,22 +199,11 @@ public String nuevoExamen(){
 			apellido = user.getApellido();
 			nombre = user.getNombre();
 			return "editarUsuario";
-		}
-		return "welcome";
+
 	}
 	
 	public String actualizarUsuario(){
-		idUser = idUsuario;
 		try{
-			if(service.isGrantAdm(idUsuario) || service.isGrantAll(idUsuario)){
-				if(service.isGrantAdm(idUsuario)){
-					grantAdmin = "S";
-				}
-				
-				if(service.isGrantAll(idUsuario)){
-					grantAll = "S";
-				}
-			}
 			service.actualizarUsuario(this.id, this.eMail,this.contraseña, this.apellido, this.nombre);
 		}catch(Exception e){
 			System.out.print("Ha ocurrido un error: "+ e.getMessage());
@@ -297,6 +211,7 @@ public String nuevoExamen(){
 		return "welcome";
 		
 	}
+	
 	
 
 	private Usuario buildUsuario() {
@@ -396,21 +311,7 @@ public String nuevoExamen(){
 		this.idRol = idRol;
 	}
 
-	public String getOpc() {
-		return opc;
-	}
 
-	public void setOpc(String opc) {
-		this.opc = opc;
-	}
-
-	public Integer getIdUsuario() {
-		return idUsuario;
-	}
-
-	public void setIdUsuario(Integer idUsuario) {
-		this.idUsuario = idUsuario;
-	}
 
 
 	public List<Usuario> getProfesores() {
@@ -461,13 +362,6 @@ public String nuevoExamen(){
 		this.grantAll = grantAll;
 	}
 
-	public Integer getIdUsuarioEdit() {
-		return idUsuarioEdit;
-	}
-
-	public void setIdUsuarioEdit(Integer idUsuarioEdit) {
-		this.idUsuarioEdit = idUsuarioEdit;
-	}
 
 	public Integer getIdUser() {
 		return idUser;
@@ -477,13 +371,6 @@ public String nuevoExamen(){
 		this.idUser = idUser;
 	}
 
-	public Integer getIdUsu() {
-		return idUsu;
-	}
-
-	public void setIdUsu(Integer idUsu) {
-		this.idUsu = idUsu;
-	}
 
 	
 	

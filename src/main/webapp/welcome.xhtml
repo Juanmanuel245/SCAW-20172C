@@ -28,11 +28,12 @@
 <div class="nav-side-menu">
 	<div class="brand">Panel de Usuario</div>
 		<h:form id="myForm">
- 			<h:inputHidden value="#{usuarioBean.idUsuario}" id="id" /> 
-			<h:inputHidden value="#{usuarioBean.grantAll}"   id="grantAll" />
-			<h:inputHidden value="#{usuarioBean.grantAdmin}" id="grantAdmin" />
-			<h:inputHidden value="#{usuarioBean.grantDoc}"   id="grantDoc" />
-			<h:inputHidden value="#{usuarioBean.grantAlumn}" id="grantAlumn" />
+ 			 
+			<h:inputHidden value="#{sessionScope.all}"   id="grantAll" />
+			<h:inputHidden value="#{sessionScope.adm}"   id="grantAdm" />
+			<h:inputHidden value="#{sessionScope.alu}"   id="grantAlu" />
+			<h:inputHidden value="#{sessionScope.doc}"   id="grantDoc" />
+			
 			<div class = "menu-list">	
 				<ul class ="menu-content collapse out">
 					<li>
