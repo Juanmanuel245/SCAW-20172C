@@ -89,7 +89,7 @@ public class UsuarioBean implements Serializable {
 			session.setAttribute("alu","S");
 		}
 		
-		if(service.isGrantAll(idUsuario)){
+		if(service.isGrantDoc(idUsuario)){
 			session.setAttribute("doc","S");
 		}
 		

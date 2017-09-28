@@ -18,8 +18,8 @@ function verificarPermisos(){
 	
 var idUsuario = $('#myForm\\:id').val();
 var grantAll =$('#myForm\\:grantAll').val();
-var grantAdm =$('#myForm\\:grantAdmin').val();
-var grantAlu =$('#myForm\\:grantAlumn').val();
+var grantAdm =$('#myForm\\:grantAdm').val();
+var grantAlu =$('#myForm\\:grantAlu').val();
 var grantDoc =$('#myForm\\:grantDoc').val();
 
 	if( grantAll === 'S'){

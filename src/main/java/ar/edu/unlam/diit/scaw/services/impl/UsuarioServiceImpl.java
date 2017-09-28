@@ -115,7 +115,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public boolean isGrantAdm(Integer id){
 		Usuario user = usuarioHsql.findById(id);
 		
-		if(user.getIdRol().contains(3)){
+		if(user.getIdRol().contains(1)){
 			return true;
 		}
 		
