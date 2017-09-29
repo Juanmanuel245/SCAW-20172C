@@ -5,7 +5,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>UNLAM - Registro de usuario</title>
@@ -32,20 +33,20 @@
 				</h:selectOneMenu>
 			</div>
              <div class=" login-input input-group">
-					<span class="input-group-addon"><i class="glyphicon glyphicon-education"></i></span>
-					<h:inputText styleClass ="form-control" value="#{usuarioBean.nombre}" id="nombre" h:placeholder="Ingrese nombre"></h:inputText>
+					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+					<h:inputText styleClass ="form-control" value="#{usuarioBean.nombre}" id="nombre" p:placeholder="Ingrese nombre"></h:inputText>
 				</div>
 				<div class=" login-input input-group">
 					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-					<h:inputText styleClass ="form-control" value="#{usuarioBean.apellido}" id="apellido" h:placeholder="Ingrese apellido"></h:inputText>
+					<h:inputText styleClass ="form-control" value="#{usuarioBean.apellido}" id="apellido" p:placeholder="Ingrese apellido"></h:inputText>
 				</div>
 				<div class=" login-input input-group">
 					<span class="input-group-addon">@</span>
-					<h:inputText styleClass ="form-control" value="#{usuarioBean.eMail}" id="eMail" h:placeholder="Ingrese email"></h:inputText>
+					<h:inputText styleClass ="form-control" value="#{usuarioBean.eMail}" id="eMail" p:placeholder="Ingrese email"></h:inputText>
 				</div>
 				<div  class=" login-input input-group">
 					<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-					<h:inputSecret styleClass ="form-control" value="#{usuarioBean.contraseña}" id="contraseña" h:placeholder="Ingrese Contraseña"></h:inputSecret>
+					<h:inputSecret styleClass ="form-control" value="#{usuarioBean.contraseña}" id="contraseña" p:placeholder="Ingrese Contraseña"></h:inputSecret>
 				</div>
 				<div  class="login-btn form-group">
 					<div class="col-sm-12 controls">
