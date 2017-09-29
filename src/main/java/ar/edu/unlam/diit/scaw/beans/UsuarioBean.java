@@ -67,7 +67,7 @@ public class UsuarioBean implements Serializable {
 		
 		service.save(person, this.idRol);
 		
-		return "welcome";
+		return "index";
 	}
 	
 	public List<Usuario> getFindAll() {
