@@ -55,7 +55,7 @@ public class DatosMateriasBean implements Serializable {
 		
 		servicioMateria.actualizarMateria(idMateria, idDocente, materiaNombreForm);
 		
-		return "admin";
+		return "welcome";
 	}
 	
 	public Integer getIdMateria() {
