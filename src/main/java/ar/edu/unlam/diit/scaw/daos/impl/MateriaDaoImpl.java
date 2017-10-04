@@ -65,6 +65,16 @@ public class MateriaDaoImpl implements MateriaDao{
 		try {
 			conn = (dataSource.dataSource()).getConnection();
 		
+			// Creo la consulta SQL
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO Materias (nombre, idDocenteTitular, idEstadoMateria) VALUES(?,?,1)");
+			ps.setString(1, materia.getNombre());
+			ps.setInt(2, materia.getIdDocenteTitular());
+			
+			// Ejecuto la sentencia
+			ps.executeUpdate();
+			ps.close();
+			
+			/*
 			Statement query;
 			
 			query = conn.createStatement();
@@ -72,7 +82,7 @@ public class MateriaDaoImpl implements MateriaDao{
 			String nombre = " '" + materia.getNombre() + "' ";
 			
 			query.executeUpdate("INSERT INTO Materias (nombre, idDocenteTitular, idEstadoMateria) VALUES(" + nombre + "," + materia.getIdDocenteTitular() + ", 1)");  
-			
+			*/
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
