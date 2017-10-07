@@ -114,7 +114,6 @@ public class UsuarioBean implements Serializable {
 		
 		Usuario usuario = new Usuario();
 		usuario.setEmail(this.eMail);
-		//usuario.setContraseña(service.guardarPass(this.contraseña));
 		Usuario logueado = service.login(usuario);
 		if(service.isValidPass(this.contraseña,service.recuperarPass(logueado.getContraseña())) ) {
 
@@ -219,11 +218,17 @@ public String nuevoExamen(){
 	public String solicitudes(){
 		
 		String  opc = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("opc");
-		Integer idUsuario = Integer.parseInt(
-				FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idUsuario"));
 		
-		service.actualizarEstado((idUsuario), Integer.parseInt(opc));
-		return "solicitudesUsuarios";
+		String id = session.getAttribute("id").toString();
+		String logeado = session.getAttribute("logeado").toString();
+		Integer idUsuario = Integer.parseInt(id);
+		if(service.isGrantAdm(idUsuario) || service.isGrantAll(idUsuario) && logeado.equals("Y")){
+			service.actualizarEstado((idUsuario), Integer.parseInt(opc));
+			return "solicitudesUsuarios";
+		}
+		
+		error = "No tienes permisos/privilegios para realizar la accion deseada";
+		return "welcome";
 	
 }
 	
@@ -231,7 +236,13 @@ public String nuevoExamen(){
 		
 		Integer idUsuarioConsul = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idUsuarioConsul"));
 		Usuario user = service.findById(idUsuarioConsul);
+		
+		String idS = session.getAttribute("id").toString();
+		String logeado = session.getAttribute("logeado").toString();
+		Integer idUsuario = Integer.parseInt(idS);
+		
 		try{
+			if(service.isGrantAdm(idUsuario) || service.isGrantAll(idUsuario) && logeado.equals("Y")){
 			tipoAccion = "CO";
 			eMail = user.getEmail();
 			contraseña = user.getContraseña();
@@ -239,32 +250,39 @@ public String nuevoExamen(){
 			apellido = user.getApellido();
 			nombre = user.getNombre();
 			return "consultarUsuario";
+			}
 		}catch(Exception e){
 			System.out.println("Se ha producido un error: " + e.getMessage());
 			return "consultarUsuario";
 		}
-		
+		return "welcome";
 	}
 	
 	public String editarUsuario(){
 		
 			Integer idUsuarioEdit = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idUsuarioEdit"));
 			Usuario user = service.findById(idUsuarioEdit);
+			
+			String idS = session.getAttribute("id").toString();
+			String logeado = session.getAttribute("logeado").toString();
+			Integer idUsuario = Integer.parseInt(idS);
+			
 			tipoAccion = "ED";
 			try{
-				
-				eMail = user.getEmail();
-				contraseña = user.getContraseña();
-				id = user.getId();
-				apellido = user.getApellido();
-				nombre = user.getNombre();
-				return "editarUsuario";
+				if(service.isGrantAdm(idUsuario) || service.isGrantAll(idUsuario) && logeado.equals("Y")){
+					eMail = user.getEmail();
+					contraseña = user.getContraseña();
+					id = user.getId();
+					apellido = user.getApellido();
+					nombre = user.getNombre();
+					return "editarUsuario";
+				}
 			}catch(Exception e){
 				System.out.println("Se ha producido un error: " + e.getLocalizedMessage());
 				return "editarUsuario";
 			}
 			
-
+			return "welcome";
 	}
 	
 	public String actualizarUsuario(){
