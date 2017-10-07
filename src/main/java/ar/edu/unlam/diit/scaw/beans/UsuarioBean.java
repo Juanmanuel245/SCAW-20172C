@@ -2,12 +2,15 @@ package ar.edu.unlam.diit.scaw.beans;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.facelets.FaceletContext;
 import javax.servlet.http.HttpSession;
 
@@ -36,6 +39,7 @@ public class UsuarioBean implements Serializable {
 	private String grantAlumn = "N";
 	private String grantAll = "N";
 	private Integer idUser = null;
+	private String tipoAccion = null;
 	
 	private FacesContext context = FacesContext.getCurrentInstance();
 	HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
@@ -64,6 +68,8 @@ public class UsuarioBean implements Serializable {
 	public String save() {
 		
 		Usuario person = buildUsuario();
+			
+		person.setContraseña(service.guardarPass(this.contraseña));
 		
 		service.save(person, this.idRol);
 		
@@ -93,6 +99,10 @@ public class UsuarioBean implements Serializable {
 			session.setAttribute("doc","S");
 		}
 		
+		session.setAttribute("nomUsu", service.findById(idUsuario).getNombre());
+		
+		session.setAttribute("id",idUsuario);
+		
 	}
 	
 	public List<Usuario> getFindPend() {
@@ -100,20 +110,18 @@ public class UsuarioBean implements Serializable {
 		return list;
 	}
 	
-	/*public Usuario getFindById(){
-		return service.findById(idUsuario);
-	}*/
-	
-	
 	public String login(){
 		
 		Usuario usuario = new Usuario();
 		usuario.setEmail(this.eMail);
-		usuario.setContraseña(this.contraseña);
-		Usuario logueado = service.login(usuario);		
-		if(logueado!=null) {
+		//usuario.setContraseña(service.guardarPass(this.contraseña));
+		Usuario logueado = service.login(usuario);
+		if(service.isValidPass(this.contraseña,service.recuperarPass(logueado.getContraseña())) ) {
 
 			checkGrandUser(logueado.getId());
+			
+			session.setAttribute("logeado","Y");
+			
 			return "welcome";
 	}
 		return "index";
@@ -121,90 +129,160 @@ public class UsuarioBean implements Serializable {
 
 	
 	public String registro(){
-		
+		tipoAccion = "RE";
 		return "registro";
-	}
-	
-	public String admin(){
-		
-			return "admin";	
-
-		
 	}
 	
 	public String solicitudesUsuarios(){
 	
-		return "solicitudesUsuarios";	
-	
+		String id = session.getAttribute("id").toString();
+		Integer idUsuario = Integer.parseInt(id);
+		
+		if(service.isGrantAdm(idUsuario) || service.isGrantAll(idUsuario)){
+			return "solicitudesUsuarios";	
+		}
+		
+		error = "No tienes permisos/privilegios para realizar la accion deseada";
+		return "welcome";
 	}
 	
 	public String gestionMaterias(){
+		String id = session.getAttribute("id").toString();
+		String logeado = session.getAttribute("logeado").toString();
+		Integer idUsuario = Integer.parseInt(id);
+		
+		if(service.isGrantAdm(idUsuario) || service.isGrantAll(idUsuario) && logeado.equals("Y")){
 		
 			return "gestionMaterias";	
+		}
+		
+		error = "No tienes permisos/privilegios para realizar la accion deseada";
+		return "welcome";
 		
 	}
 	
 public String gestionExamenes(){
-		
+	String id = session.getAttribute("id").toString();
+	String logeado = session.getAttribute("logeado").toString();
+	Integer idUsuario = Integer.parseInt(id);
+	
+	if(service.isGrantAdm(idUsuario) || service.isGrantAll(idUsuario) && logeado.equals("Y")){
 			return "gestionExamenes";	
+	}
+	error = "No tienes permisos/privilegios para realizar la accion deseada";
+	return "welcome";
 		
 	}
 
 public String nuevaMateria(){
 	
-		 
-		
+	String id = session.getAttribute("id").toString();
+	String logeado = session.getAttribute("logeado").toString();
+	Integer idUsuario = Integer.parseInt(id);	 
+	
+	if(service.isGrantAdm(idUsuario) || service.isGrantAll(idUsuario) && logeado.equals("Y")){
 		return "nuevaMateria";
+	}
 	
-	
-	
-		
+	error = "No tienes permisos/privilegios para realizar la accion deseada";
+	return "welcome";
+			
 }
 
 public String usuariosActivos(){
-			
-		return "usuariosActivos";
-
+	String id = session.getAttribute("id").toString();
+	String logeado = session.getAttribute("logeado").toString();
+	Integer idUsuario = Integer.parseInt(id);	 
 	
-		
+	if(service.isGrantAdm(idUsuario) || service.isGrantAll(idUsuario) && logeado.equals("Y")){		
+		return "usuariosActivos";
+	}
+		error = "No tienes permisos/privilegios para realizar la accion deseada";
+		return "welcome";	
 }
 
 public String nuevoExamen(){
 	
-		
+	String id = session.getAttribute("id").toString();
+	String logeado = session.getAttribute("logeado").toString();
+	Integer idUsuario = Integer.parseInt(id);	 
+	
+	if(service.isGrantAdm(idUsuario) || service.isGrantAll(idUsuario) && logeado.equals("Y")){	
 		return "formularioExamenes";
+	}
+	error = "No tienes permisos/privilegios para realizar la accion deseada";
+	return "welcome";	
 	
 }
 
 	
 	public String solicitudes(){
 		
-		//service.actualizarEstado((idUsuario), Integer.parseInt(opc));
-		return "welcome";
+		String  opc = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("opc");
+		Integer idUsuario = Integer.parseInt(
+				FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idUsuario"));
+		
+		service.actualizarEstado((idUsuario), Integer.parseInt(opc));
+		return "solicitudesUsuarios";
 	
 }
 	
 	public String consultarUsuario(){
-			
-		return "consultarUsuario";
+		
+		Integer idUsuarioConsul = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idUsuarioConsul"));
+		Usuario user = service.findById(idUsuarioConsul);
+		try{
+			tipoAccion = "CO";
+			eMail = user.getEmail();
+			contraseña = user.getContraseña();
+			id = user.getId();
+			apellido = user.getApellido();
+			nombre = user.getNombre();
+			return "consultarUsuario";
+		}catch(Exception e){
+			System.out.println("Se ha producido un error: " + e.getMessage());
+			return "consultarUsuario";
+		}
+		
 	}
 	
 	public String editarUsuario(){
 		
 			Integer idUsuarioEdit = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idUsuarioEdit"));
 			Usuario user = service.findById(idUsuarioEdit);
-			eMail = user.getEmail();
-			contraseña = user.getContraseña();
-			id = user.getId();
-			apellido = user.getApellido();
-			nombre = user.getNombre();
-			return "editarUsuario";
+			tipoAccion = "ED";
+			try{
+				
+				eMail = user.getEmail();
+				contraseña = user.getContraseña();
+				id = user.getId();
+				apellido = user.getApellido();
+				nombre = user.getNombre();
+				return "editarUsuario";
+			}catch(Exception e){
+				System.out.println("Se ha producido un error: " + e.getLocalizedMessage());
+				return "editarUsuario";
+			}
+			
 
 	}
 	
 	public String actualizarUsuario(){
 		try{
-			service.actualizarUsuario(this.id, this.eMail,this.contraseña, this.apellido, this.nombre);
+			if(!validarNombre(this.nombre)){
+				error = "EL nombre ingresado es invalido, debe contener solo letras";
+				return "editarUsuario";
+			}else if(!validarApellido(this.apellido)){
+				error = "EL apellido ingresado es invalido, debe contener solo letras";
+				return "editarUsuario";
+			}else if(!validarEmail(this.eMail)){
+				error = "EL mail ingresado es invalido, introduce un mail valido";
+				return "editarUsuario";
+			}else{
+				String passEncript = service.guardarPass(this.contraseña);
+				service.actualizarUsuario(this.id, this.eMail,passEncript, this.apellido, this.nombre);
+			}
+			
 		}catch(Exception e){
 			System.out.print("Ha ocurrido un error: "+ e.getMessage());
 		}
@@ -212,6 +290,41 @@ public String nuevoExamen(){
 		
 	}
 	
+
+	public  boolean validarNombre(String nombre){
+		
+		Pattern patNom = Pattern.compile("[a-zA-Z]");
+		Matcher mather = patNom.matcher(nombre);
+		if(!mather.find()){
+			return false;
+		}
+		
+		return true;
+	}
+	
+	
+	public  boolean validarApellido(String Apellido){
+		Pattern patApe = Pattern.compile("[a-zA-Z]");
+		Matcher mather = patApe.matcher(apellido);
+		if(!mather.find()){
+			return false;
+		}
+		return true;
+		
+	}
+	
+	public boolean validarEmail(String eMail){
+		Pattern patMail = Pattern.
+				compile("[A-Za-z]+@[a-z]+\\.[a-z]+");
+		
+		Matcher mather = patMail.matcher(eMail);
+		
+		if(!mather.find()){
+			return false;
+		}
+		
+		return true;
+	}
 	
 
 	private Usuario buildUsuario() {
@@ -371,8 +484,14 @@ public String nuevoExamen(){
 		this.idUser = idUser;
 	}
 
+	public String getTipoAccion() {
+		return tipoAccion;
+	}
 
-	
-	
+	public void setTipoAccion(String tipoAccion) {
+		this.tipoAccion = tipoAccion;
+	}
+
+
 
 }

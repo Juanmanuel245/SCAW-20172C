@@ -70,7 +70,7 @@ public class MateriaBean implements Serializable {
 
 		servicioMateria.deshabilitarMateria(valor);
 		
-		return "welcome";
+		return "gestionMaterias";
 	}
 	
 	public String habilitar(){
@@ -78,7 +78,7 @@ public class MateriaBean implements Serializable {
 
 		servicioMateria.habilitarMateria(valor);
 		
-		return "welcome";
+		return "gestionMaterias";
 	}
 	
 	

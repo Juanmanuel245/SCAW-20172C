@@ -52,3 +52,40 @@ idTipoRespuesta int NOT NULL);
 CREATE TABLE TiposRespuestas(
 id int NOT NULL,
 descripcion varchar(50));
+
+
+
+
+	public  boolean validarNombre(String nombre){
+		Pattern patNom = Pattern.compile("[a-zA-Z]");
+		Matcher mather = patNom.matcher(nombre);
+		if(!mather.find()){
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public  boolean validarApellido(String Apellido){
+		Pattern patApe = Pattern.compile("[a-zA-Z]");
+		Matcher mather = patApe.matcher(apellido);
+		if(!mather.find()){
+			return false;
+		}
+		return true;
+		
+	}
+	
+	public boolean validarEmail(String eMail){
+		Pattern patMail = Pattern.
+				compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+		
+		Matcher mather = patMail.matcher(eMail);
+		
+		if(!mather.find()){
+			return false;
+		}
+		
+		return true;
+	}
