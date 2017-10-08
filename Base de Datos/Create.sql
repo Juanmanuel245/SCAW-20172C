@@ -1,4 +1,4 @@
-CREATE TABLE Usuarios(
+﻿CREATE TABLE Usuarios(
 id int NOT NULL PRIMARY KEY,
 eMail varchar(255) NOT NULL,
 contraseña varchar(255) NOT NULL,
