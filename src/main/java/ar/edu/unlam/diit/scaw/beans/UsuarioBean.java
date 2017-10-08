@@ -229,6 +229,11 @@ public String nuevoExamen(){
 		List<Usuario> userspend = service.findPend();
 		Usuario useramodif = service.findById(idUsuario);
 		
+				System.out.println("**************************************USER: " + useramodif.toString());
+
+				System.out.println("**************************************LISTAUSERS: " + userspend.toString());
+
+				
 		if(service.isGrantAdm(idLogueado) || service.isGrantAll(idLogueado) && logeado.equals("Y")){
 			
 			//SE VERIFICA QUE EL USUARIO TENGA SOLICITUDES PENDIENTES

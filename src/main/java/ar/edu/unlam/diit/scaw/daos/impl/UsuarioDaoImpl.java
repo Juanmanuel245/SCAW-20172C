@@ -177,7 +177,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	@Override
 	public List<Usuario> findPend() {
 		List<Usuario> ll = new LinkedList<Usuario>();
-		
+		List<Integer> roles = new ArrayList<Integer>();
 		try {
 			conn = (dataSource.dataSource()).getConnection();
 		
@@ -185,7 +185,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
 			
 			query = conn.createStatement();
 			
-			ResultSet rs = query.executeQuery("SELECT * FROM Usuarios WHERE idEstadoUsuario = 1");
+			ResultSet rs = query.executeQuery("SELECT * FROM Usuarios as u"
+					+ " join rolesusuarios as ru on u.id = ru.idusuario"
+					+ " WHERE idEstadoUsuario = 1");
 	
 			while (rs.next()) {
 			  
@@ -194,13 +196,17 @@ public class UsuarioDaoImpl implements UsuarioDao {
 				Integer id = rs.getInt("id");
 				String apellido = rs.getString("apellido");
 				String nombre = rs.getString("nombre");
-			  
+				Integer idrol = rs.getInt("idrol");
+				roles.add((idrol));
+				
+				
 				Usuario usuario = new Usuario();
 				usuario.setEmail(eMail);
 				usuario.setContraseña(contraseña);
 				usuario.setId(id);
 				usuario.setApellido(apellido);
 				usuario.setNombre(nombre);
+				usuario.setIdRol(roles);
 	
 				ll.add(usuario);
 			}
