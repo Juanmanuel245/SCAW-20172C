@@ -20,8 +20,6 @@ public interface UsuarioService {
 	public boolean isGrantDoc(Integer id);
 	public boolean isGrantAlu(Integer id);
 	public boolean isGrantAdm(Integer id);
-	public String guardarPass(String pass);
-	public String recuperarPass(String pass);
 	public boolean isValidPass(String pass1,String pass2);
 	public String encriptar(String p) throws Exception;
 

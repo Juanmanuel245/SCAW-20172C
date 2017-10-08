@@ -7,11 +7,8 @@ import java.util.regex.Pattern;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.view.facelets.FaceletContext;
 import javax.servlet.http.HttpSession;
 
 import ar.edu.unlam.diit.scaw.entities.Rol;
@@ -65,11 +62,11 @@ public class UsuarioBean implements Serializable {
 		this.nombre = nombre;
 	}
 	
-	public String save() {
+	public String save() throws Exception {
 		
 		Usuario person = buildUsuario();
 			
-		person.setContraseña(service.guardarPass(this.contraseña));
+		person.setContraseña(service.encriptar(this.contraseña));
 		
 		service.save(person, this.idRol);
 		
@@ -328,7 +325,7 @@ public String nuevoExamen(){
 				error = "EL mail ingresado es invalido, introduce un mail valido";
 				return "editarUsuario";
 			}else{
-				String passEncript = service.guardarPass(this.contraseña);
+				String passEncript = service.encriptar(this.contraseña);
 				service.actualizarUsuario(this.id, this.eMail,passEncript, this.apellido, this.nombre);
 			}
 			
