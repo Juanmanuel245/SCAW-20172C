@@ -23,16 +23,14 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	public Usuario login(Usuario usuario){
 		Usuario logueado = null;
 		List<Integer> roles = new ArrayList<Integer>() ;
+		
 		try{
 			conn = (dataSource.dataSource()).getConnection();
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM Usuarios u "
 					+ " inner join rolesusuarios ru "
 					+ " on u.id = ru.idusuario "
 					+ " where eMail = ? and idEstadoUsuario = 2 ");
-				//+ " where eMail = ? and contraseña = ? and idEstadoUsuario = 2 ");
 			ps.setString(1, usuario.getEmail());
-			//ps.setString(2,usuario.getContraseña());
-			
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
@@ -51,8 +49,13 @@ public class UsuarioDaoImpl implements UsuarioDao {
 				logueado.setNombre(nombre);
 				roles.add(idRol);
 				logueado.setIdRol(roles);
+				
+
 			}
 			conn.close();
+
+			return logueado;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

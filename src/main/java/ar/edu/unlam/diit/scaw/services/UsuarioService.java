@@ -23,6 +23,7 @@ public interface UsuarioService {
 	public String guardarPass(String pass);
 	public String recuperarPass(String pass);
 	public boolean isValidPass(String pass1,String pass2);
+	public String encriptar(String p) throws Exception;
 
 
 }

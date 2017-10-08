@@ -110,12 +110,15 @@ public class UsuarioBean implements Serializable {
 		return list;
 	}
 	
-	public String login(){
+	public String login() throws Exception{
 		
 		Usuario usuario = new Usuario();
 		usuario.setEmail(this.eMail);
 		Usuario logueado = service.login(usuario);
-		if(service.isValidPass(this.contraseña,service.recuperarPass(logueado.getContraseña())) ) {
+		String passlogin = service.encriptar(this.contraseña);
+		String passuser = logueado.getContraseña();
+		
+		if(service.isValidPass(passlogin,passuser))  {
 
 			checkGrandUser(logueado.getId());
 			
