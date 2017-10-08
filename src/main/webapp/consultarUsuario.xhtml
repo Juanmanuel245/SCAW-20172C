@@ -66,13 +66,7 @@
 							</div>
 							<div class=" login-input input-group">
 								<h:outputText id="error-mail" styleClass="alert alert-danger" value ="#{usuarioBean.error}" ></h:outputText>
-							</div>
-							<div class=" login-input input-group">
-								<h:selectOneMenu value="#{usuarioBean.idRol}" id ="idRol" name="idrol" target="#{usuarioBean.idRol}" class="form-control">
-        							<f:selectItem itemValue="#{null}" itemLabel="Elegir rol de usuario" />
-            						<f:selectItems value="#{usuarioBean.roles}" var="rol" itemLabel="#{rol.descripcion}" itemValue="#{rol.id}"/>
-								</h:selectOneMenu>
-							</div>		
+							</div>	
 						</div>		
 			</h:form>
 		</div>

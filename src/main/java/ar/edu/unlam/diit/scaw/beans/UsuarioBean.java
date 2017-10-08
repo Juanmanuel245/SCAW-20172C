@@ -217,15 +217,37 @@ public String nuevoExamen(){
 	
 	public String solicitudes(){
 		
-		String  opc = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("opc");
-		String  idUsuario = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idUsuario");
+		String error;
+		String  opcion = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("opc");
+		String  Usuario = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idUsuario");
 		
 		String id = session.getAttribute("id").toString();
 		String logeado = session.getAttribute("logeado").toString();
 		Integer idLogueado = Integer.parseInt(id);
+		Integer opc = Integer.parseInt(opcion);
+		Integer idUsuario = Integer.parseInt(Usuario);
+		List<Usuario> userspend = service.findPend();
+		Usuario useramodif = service.findById(idUsuario);
+		
 		if(service.isGrantAdm(idLogueado) || service.isGrantAll(idLogueado) && logeado.equals("Y")){
-			service.actualizarEstado(Integer.parseInt(idUsuario), Integer.parseInt(opc));
-			return "solicitudesUsuarios";
+			
+			//SE VERIFICA QUE EL USUARIO TENGA SOLICITUDES PENDIENTES
+			if(userspend.contains(useramodif)){
+			//SE VERIFICA EL NUMERO DE OPCION YA QUE SE PODRIA MODIFICAR Y PONER UNO NO DISPONIBLE COMO OPCION
+				if(opc == 2 || opc == 3){
+					
+					service.actualizarEstado(idUsuario, opc);
+					
+					return "solicitudesUsuarios";
+				
+				} else {
+					
+					error = "Opción elegida no esta disponible";
+				}
+			} else {
+				
+				error = "El usuario no tiene solicitudes pendientes";
+			}
 		}
 		
 		error = "No tienes permisos/privilegios para realizar la accion deseada";

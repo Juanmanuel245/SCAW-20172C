@@ -106,22 +106,25 @@ public class UsuarioDaoImpl implements UsuarioDao {
 			conn = (dataSource.dataSource()).getConnection();
 	        Statement stmt = conn.createStatement();
 	        
-	        PreparedStatement ps = conn.prepareStatement("INSERT INTO Usuarios(Email,Contraseña,Apellido,Nombre,idEstadoUsuario)"
-	        		+ "  VALUES(?,?,?,?,1)");
-			ps.setString(1,usuario.getEmail());
-			ps.setString(2,usuario.getContraseña());
-			ps.setString(3,usuario.getApellido());
-			ps.setString(4,usuario.getNombre());
-			
-			ps.execute();
-			
-			//OBTENGO EL ID DEL ULTIMO USUARIO
+	      //OBTENGO EL ID DEL ULTIMO USUARIO
 			ResultSet rs = stmt.executeQuery("select id from usuarios order by id desc limit 1"); 
 			
 			while(rs.next()){
 				//AL OBTENER EL ID LE SUMO 1 YA QUE DEBE SER EL PROXIMO USUARIO
-				lastid = rs.getInt("id");
+				lastid = rs.getInt("id") + 1;
+				usuario.setId(lastid);
 			}
+	        
+	        PreparedStatement ps = conn.prepareStatement("INSERT INTO Usuarios(Id,Email,Contraseña,Apellido,Nombre,idEstadoUsuario)"
+	        		+ "  VALUES(?,?,?,?,?,1)");
+	        ps.setInt(1, usuario.getId());
+			ps.setString(2,usuario.getEmail());			
+			ps.setString(3,usuario.getContraseña());
+			ps.setString(4,usuario.getApellido());
+			ps.setString(5,usuario.getNombre());
+			
+			ps.execute();
+			
 			
 			if(lastid != 0){				
 				//SE GUARDA LA RELACION ENTRE EL USUARIO Y EL ROL
