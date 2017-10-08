@@ -218,12 +218,13 @@ public String nuevoExamen(){
 	public String solicitudes(){
 		
 		String  opc = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("opc");
+		String  idUsuario = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idUsuario");
 		
 		String id = session.getAttribute("id").toString();
 		String logeado = session.getAttribute("logeado").toString();
-		Integer idUsuario = Integer.parseInt(id);
-		if(service.isGrantAdm(idUsuario) || service.isGrantAll(idUsuario) && logeado.equals("Y")){
-			service.actualizarEstado((idUsuario), Integer.parseInt(opc));
+		Integer idLogueado = Integer.parseInt(id);
+		if(service.isGrantAdm(idLogueado) || service.isGrantAll(idLogueado) && logeado.equals("Y")){
+			service.actualizarEstado(Integer.parseInt(idUsuario), Integer.parseInt(opc));
 			return "solicitudesUsuarios";
 		}
 		
