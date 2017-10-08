@@ -227,6 +227,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 			ps.executeUpdate();
 						
 			ps.close();
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}		
@@ -266,6 +267,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 			}
 			usuario.setIdRol(roles);
 			ps.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -296,6 +298,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 				profs.add(usuario);
 			
 			}
+			conn.close();
 			return profs;
 			
 		}catch(Exception e){
@@ -336,6 +339,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 			ps.executeUpdate();
 						
 			ps.close();
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
