@@ -1,5 +1,6 @@
 package ar.edu.unlam.diit.scaw.beans;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -8,7 +9,9 @@ import java.util.regex.Pattern;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import ar.edu.unlam.diit.scaw.entities.Rol;
@@ -385,6 +388,27 @@ public String nuevoExamen(){
 		return usuario;
 	}
 
+	public void logout() {
+		ExternalContext ctx =
+		FacesContext.getCurrentInstance().getExternalContext();
+		String ctxPath =
+		((ServletContext) ctx.getContext()).getContextPath();
+
+		try {
+		// Usar el contexto de JSF para invalidar la sesión,
+		// NO EL DE SERVLETS (nada de HttpServletRequest)
+		((HttpSession) ctx.getSession(false)).invalidate();
+
+		// Redirección de nuevo con el contexto de JSF,
+		// si se usa una HttpServletResponse fallará.
+		// Sin embargo, como ya está fuera del ciclo de vida
+		// de JSF se debe usar la ruta completa -_-U
+		ctx.redirect(ctxPath + "/faces/index.xhtml");
+		} catch (IOException ex) {
+		ex.printStackTrace();
+		}
+		}
+	
 	public String getEmail() {
 		return eMail;
 	}
