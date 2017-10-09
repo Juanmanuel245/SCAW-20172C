@@ -1,4 +1,4 @@
-﻿CREATE TABLE Usuarios(
+CREATE TABLE Usuarios(
 id int NOT NULL PRIMARY KEY,
 eMail varchar(255) NOT NULL,
 contraseña varchar(255) NOT NULL,
@@ -51,45 +51,4 @@ idTipoRespuesta int NOT NULL);
 
 CREATE TABLE TiposRespuestas(
 id int NOT NULL,
-<<<<<<< HEAD
 descripcion varchar(50));
-
-
-
-
-	public  boolean validarNombre(String nombre){
-		Pattern patNom = Pattern.compile("[a-zA-Z]");
-		Matcher mather = patNom.matcher(nombre);
-		if(!mather.find()){
-			return false;
-		}
-		
-		return true;
-	}
-	
-	public  boolean validarApellido(String Apellido){
-		Pattern patApe = Pattern.compile("[a-zA-Z]");
-		Matcher mather = patApe.matcher(apellido);
-		if(!mather.find()){
-			return false;
-		}
-		return true;
-		
-	}
-	
-	public boolean validarEmail(String eMail){
-		Pattern patMail = Pattern.
-				compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-		
-		Matcher mather = patMail.matcher(eMail);
-		
-		if(!mather.find()){
-			return false;
-		}
-		
-		return true;
-	}
-=======
-descripcion varchar(50));
->>>>>>> 61a033244bd07a43c127c1f12377e3aa6ecda1b1
