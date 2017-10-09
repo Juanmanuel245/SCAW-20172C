@@ -16,7 +16,11 @@ import ar.edu.unlam.diit.scaw.entities.Examenes;
 import ar.edu.unlam.diit.scaw.entities.Materia;
 import ar.edu.unlam.diit.scaw.entities.Preguntas;
 import ar.edu.unlam.diit.scaw.entities.Respuestas;
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> 61a033244bd07a43c127c1f12377e3aa6ecda1b1
 public class ExamenDaoImpl implements ExamenDao {
 	
 	HsqlDataSource dataSource = new HsqlDataSource();
@@ -32,7 +36,10 @@ public class ExamenDaoImpl implements ExamenDao {
 		
 			Statement query;
 			
+<<<<<<< HEAD
 			
+=======
+>>>>>>> 61a033244bd07a43c127c1f12377e3aa6ecda1b1
 			query = conn.createStatement();
 			String sql = "SELECT e.id,e.nombre as examen,m.nombre as materia,ee.descripcion as estado FROM examenes as e INNER JOIN materias as m ON m.id = e.idmateria INNER JOIN estadosexamenes as ee ON e.idestadoexamen=ee.id";
 			System.out.println(sql);
@@ -153,6 +160,7 @@ public class ExamenDaoImpl implements ExamenDao {
 	public void salvarExamen(Examenes examen) {
 		try {
 			Integer id = this.getIdExamen();
+<<<<<<< HEAD
 			conn = (dataSource.dataSource()).getConnection();
 	
 			
@@ -284,6 +292,141 @@ public class ExamenDaoImpl implements ExamenDao {
 	@Override
 	public void editarExamen(Examenes examen) {
 		try {
+=======
+>>>>>>> 61a033244bd07a43c127c1f12377e3aa6ecda1b1
+			conn = (dataSource.dataSource()).getConnection();
+		
+			Statement query;
+			
+			query = conn.createStatement();
+			
+<<<<<<< HEAD
+			String sql = "UPDATE Examenes set nombre='" + examen.getNombre() + "',idMateria="+examen.getIdMateria()+", idEstadoExamen="+examen.getIdEstadoExamen()+" WHERE id="+examen.getId();
+			System.out.println(sql);
+			query.executeUpdate(sql);  
+			
+			sql = "DELETE FROM respuestas as r WHERE r.idpregunta IN (SELECT p.id FROM Preguntas as p WHERE p.idexamen="+examen.getId()+")";
+			System.out.println(sql);
+			query.executeUpdate(sql);  
+			
+=======
+			String nombre = " '" + examen.getNombre() + "' ";
+			Integer idmateria = examen.getIdMateria();
+			String sql = "INSERT INTO Examenes (id,nombre, idMateria, idEstadoExamen) VALUES("+id+"," + nombre + "," + idmateria + ", "+examen.getIdEstadoExamen()+")";
+			System.out.println(sql);
+			query.executeUpdate(sql);  
+			try {
+				insertPreguntas(id,examen.getPreguntas());
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			/*for (Preguntas item : examen.getPreguntas()) {
+				System.out.println(item.getPregunta());
+			}*/
+			
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	private Integer getIdExamen() {
+		try {
+			conn = (dataSource.dataSource()).getConnection();
+		
+			Statement query;
+			
+			query = conn.createStatement();
+			
+			ResultSet rs = query.executeQuery("SELECT id FROM examenes order by id desc");
+			Integer id =0;
+			while (rs.next()) {
+				id = rs.getInt("id");
+				break;
+			}
+
+			return ++id;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
+	private Integer getIdPregunta() {
+		try {
+			
+		
+			Statement query;
+			
+			query = conn.createStatement();
+			
+			ResultSet rs = query.executeQuery("SELECT id FROM preguntas order by id desc");
+			Integer id =0;
+			while (rs.next()) {
+				id = rs.getInt("id");
+				break;
+			}
+
+			return ++id;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
+	private Integer getIdRespuesta() {
+		try {
+			//conn = (dataSource.dataSource()).getConnection();
+		
+			Statement query;
+			
+			query = conn.createStatement();
+			
+			ResultSet rs = query.executeQuery("SELECT id FROM respuestas order by id desc");
+			Integer id =0;
+			while (rs.next()) {
+				id = rs.getInt("id");
+				break;
+			}
+
+			return ++id;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
+	private void insertPreguntas(Integer idexamen,List<Preguntas> preguntas) throws SQLException, InterruptedException {
+		Statement query;
+		query = conn.createStatement();
+		
+		Integer id = this.getIdPregunta();
+		
+		for (Preguntas preg : preguntas) {
+			String sql = "INSERT INTO preguntas (id,idexamen, pregunta) VALUES("+id+"," + idexamen + ",'" + preg.getPregunta() + "')";
+			System.out.println(sql);
+			query.executeUpdate(sql);
+			conn.commit();
+			this.insertRespuestas(id,preg.getRespuestas(),query);
+			id++;
+		}
+	}
+	
+	private void insertRespuestas(Integer idpregunta,List<Respuestas> respuestas,Statement query) throws SQLException, InterruptedException {
+		Integer id = this.getIdRespuesta();
+		
+		for (Respuestas resp : respuestas) {
+			String sql = "INSERT INTO respuestas (id,idpregunta, respuesta,idtiporespuesta) VALUES("+id+"," + idpregunta + ",'" + resp.getRespuesta() + "',"+resp.getIdTipoRespuesta()+")";
+			id++;
+			System.out.println(sql);
+			query.executeUpdate(sql);
+		}
+	}
+
+	@Override
+	public void editarExamen(Examenes examen) {
+		try {
 			conn = (dataSource.dataSource()).getConnection();
 		
 			Statement query;
@@ -298,6 +441,7 @@ public class ExamenDaoImpl implements ExamenDao {
 			System.out.println(sql);
 			query.executeUpdate(sql);  
 			
+>>>>>>> 61a033244bd07a43c127c1f12377e3aa6ecda1b1
 			sql = "DELETE FROM preguntas as p WHERE p.idexamen="+examen.getId();
 			System.out.println(sql);
 			query.executeUpdate(sql);
@@ -319,6 +463,7 @@ public class ExamenDaoImpl implements ExamenDao {
 		try {
 			conn = (dataSource.dataSource()).getConnection();
 		
+<<<<<<< HEAD
 			//Statement query;
 			
 			//query = conn.createStatement();
@@ -331,6 +476,16 @@ public class ExamenDaoImpl implements ExamenDao {
 						PreparedStatement ps = conn.prepareStatement("UPDATE Examenes set idEstadoExamen=3 WHERE id = ? ");
 						ps.setInt(1, id);
 			ps.executeUpdate();
+=======
+			Statement query;
+			
+			query = conn.createStatement();
+			
+			String sql = "UPDATE Examenes set idEstadoExamen=3 WHERE id="+id;
+			System.out.println(sql);
+			query.executeUpdate(sql);  
+			
+>>>>>>> 61a033244bd07a43c127c1f12377e3aa6ecda1b1
 			conn.commit();
 			conn.close();
 		} catch (SQLException e) {

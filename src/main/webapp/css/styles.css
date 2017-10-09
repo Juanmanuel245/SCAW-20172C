@@ -4,7 +4,7 @@
 	padding-top:30px;
 }
 .login-input{
-	margin-bottom: 25px;
+	margin-bottom: 2%;
 }
 
 .login-btn{
@@ -20,6 +20,11 @@ padding-top: 15px;
 
 .error{
 	border-bottom-color: red;
+	border-bottom:2px;
+}
+
+.ok{
+	border-bottom-color: green;
 	border-bottom:2px;
 }
 

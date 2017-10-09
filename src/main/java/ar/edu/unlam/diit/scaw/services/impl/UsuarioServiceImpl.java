@@ -1,7 +1,16 @@
 package ar.edu.unlam.diit.scaw.services.impl;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.apache.commons.codec.binary.Base64;
 
 import ar.edu.unlam.diit.scaw.daos.impl.UsuarioDaoImpl;
 import ar.edu.unlam.diit.scaw.entities.Rol;
@@ -123,5 +132,46 @@ public class UsuarioServiceImpl implements UsuarioService {
 		
 		
 	}
+	
+	public String encriptar(String p) throws Exception{
+		
+
+		String secretKey = "SCAW";
+		String passBase64 = "";
+		
+        try {
+ 
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] digestOfPassword = md.digest(secretKey.getBytes("utf-8"));
+            byte[] keyBytes = Arrays.copyOf(digestOfPassword, 24);
+ 
+            SecretKey key = new SecretKeySpec(keyBytes, "DESede");
+            Cipher cipher = Cipher.getInstance("DESede");
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+ 
+            byte[] plainTextBytes = p.getBytes("utf-8");
+            byte[] buf = cipher.doFinal(plainTextBytes);
+            byte[] base64Bytes = Base64.encodeBase64(buf);
+            passBase64 = new String(base64Bytes);
+ 
+        } catch (Exception ex) {
+        	
+        	throw ex;
+        	
+        }
+        return passBase64;
+
+		
+	}
+	
+	public boolean isValidPass(String pass1,String pass2){
+		
+		if(pass1.equals(pass2)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
 }
 

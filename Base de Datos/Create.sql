@@ -51,6 +51,7 @@ idTipoRespuesta int NOT NULL);
 
 CREATE TABLE TiposRespuestas(
 id int NOT NULL,
+<<<<<<< HEAD
 descripcion varchar(50));
 
 
@@ -89,3 +90,6 @@ descripcion varchar(50));
 		
 		return true;
 	}
+=======
+descripcion varchar(50));
+>>>>>>> 61a033244bd07a43c127c1f12377e3aa6ecda1b1
