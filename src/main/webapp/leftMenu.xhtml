@@ -49,6 +49,12 @@
 							<f:param name ="idUsuario" value ="#{usuarioBean.id}"></f:param>
 						</h:commandLink>
 					</li>
+					<li>
+							<h:commandLink action="#{usuarioBean.admin}">
+								<h:outputText value ="Examenes"></h:outputText>
+								<f:param name ="idUsuario" value ="#{usuarioBean.id}"></f:param>
+							</h:commandLink>
+						</li>
 					</ul>
 					<li id="docLi" data-toggle="collapse" data-target="#docente" class="collapsed active">
                   		<a href="#"><i class="fa fa-gift fa-lg"></i> Docentes <span class="arrow"></span></a>
@@ -60,12 +66,23 @@
 								<f:param name ="idUsuario" value ="#{usuarioBean.id}"></f:param>
 							</h:commandLink>
 						</li>
-						
+						<li>
+							<h:commandLink action="#{usuarioBean.admin}">
+								<h:outputText value ="Examenes"></h:outputText>
+								<f:param name ="idUsuario" value ="#{usuarioBean.id}"></f:param>
+							</h:commandLink>
+						</li>
 					</ul>
 					<li id="aluLI" data-toggle="collapse" data-target="#alumno" class="collapsed active">
                   		<a href="#"><i class="fa fa-gift fa-lg"></i> Alumno <span class="arrow"></span></a>
                 	</li>
 					<ul id="alumno" class="sub-menu collapse">
+						<li>
+							<h:commandLink action="#{usuarioBean.admin}">
+								<h:outputText value ="Examenes"></h:outputText>
+								<f:param name ="idUsuario" value ="#{usuarioBean.id}"></f:param>
+							</h:commandLink>
+						</li>
 						<li>
 							<h:commandLink action="#{usuarioBean.admin}">
 								<h:outputText value ="Examenes"></h:outputText>
