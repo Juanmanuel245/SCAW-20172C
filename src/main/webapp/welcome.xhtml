@@ -86,10 +86,11 @@
 					<li id="aluLI" data-toggle="collapse" data-target="#alumno" class="collapsed active">
                   		<a href="#"><i class="fa fa-gift fa-lg"></i> Alumno <span class="arrow"></span></a>
                 	</li>
+                	
 					<ul id="alumno" class="sub-menu collapse">
-						<li>
-							<h:commandLink action="#{usuarioBean.admin}">
-								<h:outputText value ="Examenes"></h:outputText>
+						<li>						
+							<h:commandLink id="examenes" 
+								action="#{examenBean.inicio}" value="Anotarse a Examenes">
 								<f:param name ="idUsuario" value ="#{usuarioBean.id}"></f:param>
 							</h:commandLink>
 						</li>

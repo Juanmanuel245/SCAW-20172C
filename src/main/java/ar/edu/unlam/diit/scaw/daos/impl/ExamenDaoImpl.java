@@ -5,12 +5,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import ar.edu.unlam.diit.scaw.configs.HsqlDataSource;
 import ar.edu.unlam.diit.scaw.daos.ExamenDao;
+import ar.edu.unlam.diit.scaw.entities.DatosExamenes;
 import ar.edu.unlam.diit.scaw.entities.Examenes;
 import ar.edu.unlam.diit.scaw.entities.Materia;
 import ar.edu.unlam.diit.scaw.entities.Preguntas;
@@ -22,9 +21,9 @@ public class ExamenDaoImpl implements ExamenDao {
 	Connection conn;
 	
 	@Override
-	public List<Examenes> getAllExamenes() {
+	public List<DatosExamenes> getAllExamenes() {
 		
-		List<Examenes> ll = new ArrayList<Examenes>();
+		List<DatosExamenes> ll = new ArrayList<DatosExamenes>();
 		
 		try {
 			conn = (dataSource.dataSource()).getConnection();
@@ -32,20 +31,21 @@ public class ExamenDaoImpl implements ExamenDao {
 			Statement query;
 			
 			query = conn.createStatement();
-			String sql = "SELECT e.id,e.nombre as examen,m.nombre as materia,ee.descripcion as estado FROM examenes as e INNER JOIN materias as m ON m.id = e.idmateria INNER JOIN estadosexamenes as ee ON e.idestadoexamen=ee.id";
+			String sql = "SELECT e.id as idExamen, e.nombre NombreExamen, e.IdMateria as idMateria, e.idEstadoExamen as idEstado, m.nombre as nombreMateria, est.descripcion as estadoExamen FROM examenes as e INNER JOIN materias as m ON m.id = e.IdMateria INNER JOIN estadosexamenes as est ON e.idEstadoExamen = est.id WHERE e.idEstadoExamen = 2;";
 			System.out.println(sql);
 			ResultSet rs = query.executeQuery(sql);
 	
 			while (rs.next()) {
 			  
-				Examenes examen = new Examenes();
-				examen.setId(rs.getInt("id"));
-				examen.setNombre(rs.getString("examen"));
-				examen.setMateria(new Materia(rs.getString("materia")));
-				examen.setEstadosExamenes(rs.getString("estado"));
-
-	
-				ll.add(examen);
+				DatosExamenes datos = new DatosExamenes();
+				datos.setIdExamen(rs.getInt("idExamen"));
+				datos.setEstadoExamen(rs.getString("estadoExamen"));
+				datos.setIdEstado(rs.getInt("idEstado"));
+				datos.setIdMateria(rs.getInt("idMateria"));
+				datos.setNombreExamen(rs.getString("nombreExamen"));
+				datos.setNombreMateria(rs.getString("nombreMateria"));
+				
+				ll.add(datos);
 			}
 			
 			conn.close();

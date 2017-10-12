@@ -4,6 +4,7 @@ import java.util.List;
 
 import ar.edu.unlam.diit.scaw.daos.ExamenDao;
 import ar.edu.unlam.diit.scaw.daos.impl.ExamenDaoImpl;
+import ar.edu.unlam.diit.scaw.entities.DatosExamenes;
 import ar.edu.unlam.diit.scaw.entities.Examenes;
 import ar.edu.unlam.diit.scaw.services.ExamenService;
 
@@ -16,7 +17,7 @@ public class ExamenServiceImpl implements ExamenService {
 	}
 	
 	@Override
-	public List<Examenes> traerExamen(){
+	public List<DatosExamenes> traerExamen(){
 		
 		return servicioDao.getAllExamenes();
 	}

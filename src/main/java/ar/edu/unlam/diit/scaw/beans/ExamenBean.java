@@ -9,10 +9,12 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 
+import ar.edu.unlam.diit.scaw.entities.DatosExamenes;
 import ar.edu.unlam.diit.scaw.entities.Examenes;
 import ar.edu.unlam.diit.scaw.entities.Preguntas;
 import ar.edu.unlam.diit.scaw.entities.Respuestas;
@@ -21,6 +23,7 @@ import ar.edu.unlam.diit.scaw.services.impl.ExamenServiceImpl;
 
 @ManagedBean(name = "examenBean", eager = true)
 @RequestScoped
+@SessionScoped
 public class ExamenBean implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -60,16 +63,19 @@ public class ExamenBean implements Serializable {
 	}
 	
 	
-	public DataModel<Examenes> getAllExamenes(){
-		this.lista = new ListDataModel<Examenes>(servicioExamen.traerExamen());
-
-		return this.lista;	
+	public List<DatosExamenes> getAllExamenes(){
+		List<DatosExamenes> lista = servicioExamen.traerExamen();
+		return lista;	
 	}
 	
 	public DataModel<Examenes> getAllExamenesActivos(){
 		this.lista = new ListDataModel<Examenes>(servicioExamen.traerExamenActivos());
 
 		return this.lista;	
+	}
+	
+	public String inicio(){
+		return "examenesAlumno";
 	}
 		
 	public String guardarExamen(){
@@ -175,6 +181,7 @@ public class ExamenBean implements Serializable {
 		
 		double ok = 0;
 		double cant = 0;
+		@SuppressWarnings("unused")
 		int ind = 0;
 		for (int i=0;i<this.examenSelected.getPreguntas().size();i++) {
 			for (int j=0;j<this.examenSelected.getPreguntas().get(i).getRespuestas().size();j++) {

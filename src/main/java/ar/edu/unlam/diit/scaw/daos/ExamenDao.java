@@ -2,11 +2,12 @@ package ar.edu.unlam.diit.scaw.daos;
 
 import java.util.List;
 
+import ar.edu.unlam.diit.scaw.entities.DatosExamenes;
 import ar.edu.unlam.diit.scaw.entities.Examenes;
 
 public interface ExamenDao {
 	
-	public List<Examenes> getAllExamenes();
+	public List<DatosExamenes> getAllExamenes();
 	public void salvarExamen(Examenes examen);
 	public void editarExamen(Examenes examen);
 	public Examenes getExamenById(Integer id);
