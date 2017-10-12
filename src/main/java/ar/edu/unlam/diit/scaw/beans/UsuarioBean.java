@@ -114,9 +114,17 @@ public class UsuarioBean implements Serializable {
 		
 		Usuario usuario = new Usuario();
 		usuario.setEmail(this.eMail);
+		
+		if(this.contraseña == null){
+			return "index";
+		}
+		
+		
 		Usuario logueado = service.login(usuario);
 		String passlogin = service.encriptar(this.contraseña);
 		String passuser = logueado.getContraseña();
+		
+		
 		
 		if(service.isValidPass(passlogin,passuser))  {
 
