@@ -52,3 +52,9 @@ idTipoRespuesta int NOT NULL);
 CREATE TABLE TiposRespuestas(
 id int NOT NULL,
 descripcion varchar(50));
+
+CREATE TABLE AlumnoExamen(
+idExamen int NOT NULL,
+idAlumno int NOT NULL,
+idEstadoExamen int NOT NULL,
+nota varchar(3));
