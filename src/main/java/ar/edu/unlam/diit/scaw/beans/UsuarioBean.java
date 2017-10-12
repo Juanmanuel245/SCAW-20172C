@@ -115,12 +115,20 @@ public class UsuarioBean implements Serializable {
 		Usuario usuario = new Usuario();
 		usuario.setEmail(this.eMail);
 		
+		// Con este if controlo si la contraseña esta en null para 
+		// poder manejar el error del NullPointer que nos empezo a dar
 		if(this.contraseña == null){
 			return "index";
 		}
 		
-		
 		Usuario logueado = service.login(usuario);
+		
+		// Compruebo si el servicio de login me trajo algun usuario, en caso de ser negativo
+		// retorno otra vez al login para evitar un NullPointer
+		if(logueado == null){
+			return "index";
+		}
+		
 		String passlogin = service.encriptar(this.contraseña);
 		String passuser = logueado.getContraseña();
 		
