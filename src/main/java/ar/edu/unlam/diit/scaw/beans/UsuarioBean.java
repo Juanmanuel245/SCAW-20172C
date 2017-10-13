@@ -46,6 +46,8 @@ public class UsuarioBean implements Serializable {
 	
 	@SuppressWarnings("unused")
 	private List<Rol> roles  = null;
+	
+	@SuppressWarnings("unused")
 	private List<Usuario> profesores = null;
 
 	MateriaService matService;
@@ -139,6 +141,7 @@ public class UsuarioBean implements Serializable {
 			checkGrandUser(logueado.getId());
 			
 			session.setAttribute("logeado","Y");
+			session.setAttribute("idUsuario", logueado.getId());
 			
 			return "welcome";
 	}
@@ -236,6 +239,7 @@ public String nuevoExamen(){
 	
 	public String solicitudes(){
 		
+		@SuppressWarnings("unused")
 		String error;
 		String  opcion = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("opc");
 		String  Usuario = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idUsuario");

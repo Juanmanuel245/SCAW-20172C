@@ -2,17 +2,19 @@ package ar.edu.unlam.diit.scaw.entities;
 
 public class DatosExamenes {
 	
-	private Integer idExamen;
+	private String idExamen;
 	private String nombreExamen;
-	private Integer idMateria;
+	private String idMateria;
 	private Integer idEstado;
 	private String estadoExamen;
 	private String nombreMateria;
+	private Integer idUsuario;
+	private String nota;
 	
-	public Integer getIdExamen() {
+	public String getIdExamen() {
 		return idExamen;
 	}
-	public void setIdExamen(Integer idExamen) {
+	public void setIdExamen(String idExamen) {
 		this.idExamen = idExamen;
 	}
 	public String getNombreExamen() {
@@ -21,10 +23,10 @@ public class DatosExamenes {
 	public void setNombreExamen(String nombreExamen) {
 		this.nombreExamen = nombreExamen;
 	}
-	public Integer getIdMateria() {
+	public String getIdMateria() {
 		return idMateria;
 	}
-	public void setIdMateria(Integer idMateria) {
+	public void setIdMateria(String idMateria) {
 		this.idMateria = idMateria;
 	}
 	public Integer getIdEstado() {
@@ -44,6 +46,18 @@ public class DatosExamenes {
 	}
 	public void setNombreMateria(String nombreMateria) {
 		this.nombreMateria = nombreMateria;
+	}
+	public Integer getIdUsuario() {
+		return idUsuario;
+	}
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+	public String getNota() {
+		return nota;
+	}
+	public void setNota(String nota) {
+		this.nota = nota;
 	}
 	
 	

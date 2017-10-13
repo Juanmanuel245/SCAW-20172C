@@ -13,4 +13,5 @@ public interface ExamenService {
 	public Examenes getExamenById(Integer id);
 	public void deshabilitarExamen(Integer id);
 	public List<Examenes> traerExamenActivos();
+	public void anotarExamen(DatosExamenes dato);
 }

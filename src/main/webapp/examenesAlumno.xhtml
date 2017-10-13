@@ -51,12 +51,11 @@
 						   	<h:column>
 								<f:facet name="header">Accion</f:facet>
 									<h:form id="editar">
-										<input type="hidden" name="idMateria" value="#{dato.idMateria}" />
-										<input type="hidden" name="idEstado" value="#{dato.idEstado}" />
 										<input type="hidden" name="idExamen" value="#{dato.idExamen}" />
+										<input type="hidden" name="idUsuario" value="#{usuarioBean.id}" />
 										
 										<h:commandButton styleClass="btn btn-warning" action="#{datosExamenesBean.anotarse()}" value="Anotarse a Examen" >
-							      			<f:param name ="idUsuario" value ="#{usuarioBean.idUser}"></f:param>
+	
 							      		</h:commandButton>
 						   			</h:form>
 							</h:column> 

@@ -16,6 +16,8 @@ public class ExamenServiceImpl implements ExamenService {
 		servicioDao = new ExamenDaoImpl();
 	}
 	
+
+	
 	@Override
 	public List<DatosExamenes> traerExamen(){
 		
@@ -55,6 +57,14 @@ public class ExamenServiceImpl implements ExamenService {
 	@Override
 	public List<Examenes> traerExamenActivos() {
 		return servicioDao.traerExamenActivos();
+	}
+
+
+
+	@Override
+	public void anotarExamen(DatosExamenes dato) {
+		servicioDao.anotarseExamen(dato);
+		
 	}
 	
 

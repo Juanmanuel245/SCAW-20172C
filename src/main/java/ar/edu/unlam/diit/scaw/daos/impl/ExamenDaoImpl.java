@@ -1,6 +1,7 @@
 package ar.edu.unlam.diit.scaw.daos.impl;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -21,7 +22,29 @@ public class ExamenDaoImpl implements ExamenDao {
 	Connection conn;
 	
 	@Override
-	public List<DatosExamenes> getAllExamenes() {
+	public void anotarseExamen(DatosExamenes dato){
+		
+		try {
+			conn = (dataSource.dataSource()).getConnection();
+		
+			// Creo la consulta SQL
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO AlumnoExamen (idExamen, idAlumno, idEstadoExamen, nota) VALUES(?,?,2,'A')");
+			ps.setString(1, dato.getIdExamen());
+			ps.setInt(2, dato.getIdUsuario());
+			
+			// Ejecuto la sentencia
+			ps.executeUpdate();
+			ps.close();
+			
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		
+	}
+	
+	@Override
+ 	public List<DatosExamenes> getAllExamenes() {
 		
 		List<DatosExamenes> ll = new ArrayList<DatosExamenes>();
 		
@@ -29,6 +52,7 @@ public class ExamenDaoImpl implements ExamenDao {
 			conn = (dataSource.dataSource()).getConnection();
 		
 			Statement query;
+			
 			
 			query = conn.createStatement();
 			String sql = "SELECT e.id as idExamen, e.nombre NombreExamen, e.IdMateria as idMateria, e.idEstadoExamen as idEstado, m.nombre as nombreMateria, est.descripcion as estadoExamen FROM examenes as e INNER JOIN materias as m ON m.id = e.IdMateria INNER JOIN estadosexamenes as est ON e.idEstadoExamen = est.id WHERE e.idEstadoExamen = 2;";
@@ -38,10 +62,10 @@ public class ExamenDaoImpl implements ExamenDao {
 			while (rs.next()) {
 			  
 				DatosExamenes datos = new DatosExamenes();
-				datos.setIdExamen(rs.getInt("idExamen"));
+				datos.setIdExamen(rs.getString("idExamen"));
 				datos.setEstadoExamen(rs.getString("estadoExamen"));
 				datos.setIdEstado(rs.getInt("idEstado"));
-				datos.setIdMateria(rs.getInt("idMateria"));
+				datos.setIdMateria(rs.getString("idMateria"));
 				datos.setNombreExamen(rs.getString("nombreExamen"));
 				datos.setNombreMateria(rs.getString("nombreMateria"));
 				
