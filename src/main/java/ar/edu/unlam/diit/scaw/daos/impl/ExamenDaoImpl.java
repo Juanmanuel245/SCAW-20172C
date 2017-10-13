@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import ar.edu.unlam.diit.scaw.configs.HsqlDataSource;
@@ -43,6 +44,7 @@ public class ExamenDaoImpl implements ExamenDao {
 		
 	}
 	
+	// Me trae todos los examenes ACTIVOS
 	@Override
  	public List<DatosExamenes> getAllExamenes() {
 		
@@ -55,7 +57,7 @@ public class ExamenDaoImpl implements ExamenDao {
 			
 			
 			query = conn.createStatement();
-			String sql = "SELECT e.id as idExamen, e.nombre NombreExamen, e.IdMateria as idMateria, e.idEstadoExamen as idEstado, m.nombre as nombreMateria, est.descripcion as estadoExamen FROM examenes as e INNER JOIN materias as m ON m.id = e.IdMateria INNER JOIN estadosexamenes as est ON e.idEstadoExamen = est.id WHERE e.idEstadoExamen = 2;";
+			String sql = "SELECT e.id as idExamen, e.nombre NombreExamen, e.IdMateria as idMateria, e.idEstadoExamen as idEstado, m.nombre as nombreMateria, est.descripcion as estadoExamen FROM examenes as e INNER JOIN materias as m ON m.id = e.IdMateria INNER JOIN estadosexamenes as est ON e.idEstadoExamen = est.id WHERE e.idEstadoExamen = 2ND e.id NOT IN (SELECT idexamen FROM alumnoexamen WHERE idalumno = 5);";
 			System.out.println(sql);
 			ResultSet rs = query.executeQuery(sql);
 	
@@ -78,6 +80,43 @@ public class ExamenDaoImpl implements ExamenDao {
 		}
 		return ll;
 	}
+	
+	// Me trae todos los examenes ACTIVOS y en los que el usuario no se haya anotado con anterioridad
+		@Override
+	 	public List<DatosExamenes> getAllExamenesParaUsuario(Integer id) {
+			
+			List<DatosExamenes> ll = new ArrayList<DatosExamenes>();
+			
+			try {
+				conn = (dataSource.dataSource()).getConnection();
+			
+				Statement query;
+				
+				
+				query = conn.createStatement();
+				String sql = "SELECT e.id as idExamen, e.nombre NombreExamen, e.IdMateria as idMateria, e.idEstadoExamen as idEstado, m.nombre as nombreMateria, est.descripcion as estadoExamen FROM examenes as e INNER JOIN materias as m ON m.id = e.IdMateria INNER JOIN estadosexamenes as est ON e.idEstadoExamen = est.id WHERE e.idEstadoExamen = 2 AND e.id NOT IN (SELECT idexamen FROM alumnoexamen WHERE idalumno = " + id +");";
+				System.out.println(sql);
+				ResultSet rs = query.executeQuery(sql);
+		
+				while (rs.next()) {
+				  
+					DatosExamenes datos = new DatosExamenes();
+					datos.setIdExamen(rs.getString("idExamen"));
+					datos.setEstadoExamen(rs.getString("estadoExamen"));
+					datos.setIdEstado(rs.getInt("idEstado"));
+					datos.setIdMateria(rs.getString("idMateria"));
+					datos.setNombreExamen(rs.getString("nombreExamen"));
+					datos.setNombreMateria(rs.getString("nombreMateria"));
+					
+					ll.add(datos);
+				}
+				
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return ll;
+		}
 	
 	@Override
 	public Examenes getExamenById(Integer id) {
@@ -376,6 +415,40 @@ public class ExamenDaoImpl implements ExamenDao {
 
 	
 				ll.add(examen);
+			}
+			
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ll;
+	}
+
+	@Override
+	public List<DatosExamenes> examenesArendir(Integer id) {
+			
+		List<DatosExamenes> ll = new LinkedList<DatosExamenes>();
+		
+		try {
+			conn = (dataSource.dataSource()).getConnection();
+		
+			Statement query;
+			
+			query = conn.createStatement();
+			
+			ResultSet rs = query.executeQuery("SELECT a.idexamen as idExamen, a.idalumno as idAlumno, e.nombre as nombreExamen, m.nombre as nombreMateria FROM alumnoexamen as a INNER JOIN examenes as e ON  e.id = a.idexamen INNER JOIN materias as m ON e.idmateria = m.id WHERE a.idalumno = " + id + "AND a.idestadoexamen = 2");
+	
+			while (rs.next()) {
+			  
+						
+				DatosExamenes datos = new DatosExamenes();
+				datos.setIdExamen(rs.getString("idExamen"));
+				datos.setIdUsuario(rs.getInt("idAlumno"));
+				datos.setNombreExamen(rs.getString("nombreExamen"));
+				datos.setNombreMateria(rs.getString("nombreMateria"));
+						
+				ll.add(datos);
+				
 			}
 			
 			conn.close();

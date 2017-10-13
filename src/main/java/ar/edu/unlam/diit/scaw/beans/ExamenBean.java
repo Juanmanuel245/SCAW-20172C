@@ -13,6 +13,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import javax.servlet.http.HttpSession;
 
 import ar.edu.unlam.diit.scaw.entities.DatosExamenes;
 import ar.edu.unlam.diit.scaw.entities.Examenes;
@@ -41,6 +42,9 @@ public class ExamenBean implements Serializable {
 	
 	ExamenService servicioExamen;
 	
+	private FacesContext context = FacesContext.getCurrentInstance();
+	HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+	
 	public ExamenBean(){
 		super();
 		servicioExamen = (ExamenService) new ExamenServiceImpl(); 
@@ -68,10 +72,26 @@ public class ExamenBean implements Serializable {
 		return lista;	
 	}
 	
+	public List<DatosExamenes> getAllExamenesParaUsuario(){
+		Integer sessionIdUsuario = (Integer) session.getAttribute("idUsuario");
+		List<DatosExamenes> lista = servicioExamen.traerExamenesParaUsuario(sessionIdUsuario);
+		return lista;
+	}
+	
 	public DataModel<Examenes> getAllExamenesActivos(){
 		this.lista = new ListDataModel<Examenes>(servicioExamen.traerExamenActivos());
 
 		return this.lista;	
+	}
+	
+	public List<DatosExamenes> getExamenesRendir(){
+		Integer sessionIdUsuario = (Integer) session.getAttribute("idUsuario");
+		List<DatosExamenes> lista = servicioExamen.examenesParaRendir(sessionIdUsuario);
+		return lista;
+	}
+	
+	public String rendirExamenes(){
+		return "examenesRendir";
 	}
 	
 	public String inicio(){

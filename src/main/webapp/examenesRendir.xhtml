@@ -9,7 +9,7 @@
 	>
 
 <h:head>
-	<title>UNLAM - Sistema de evaluación - Anotarse a Examenes</title>
+	<title>UNLAM - Sistema de evaluación - Rendir Examenes</title>
 	<link rel="stylesheet" type="text/css" href="css/table-style.css" />
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
 	<link rel="stylesheet" type="text/css" href="css/styles.css" />
@@ -30,9 +30,9 @@
 </div>
      <div class="body-menu">
      		<div class="panel panel-default text-center">
-	  			<div class="panel-heading"><h3 class="panel-title">Seleccionar el Examen en el que te quieras anotar</h3></div>
+	  			<div class="panel-heading"><h3 class="panel-title">Seleccionar el Examen que quieres rendir</h3></div>
 	  			<div class="panel-body ">
-					<h:dataTable value="#{examenBean.getAllExamenesParaUsuario()}" var="dato" styleClass="table table-hover">        	
+					<h:dataTable value="#{examenBean.getExamenesRendir()}" var="dato" styleClass="table table-hover">        	
 						<h:column>
 							<f:facet name="header">Materia del Examen</f:facet>    				
 					      		#{dato.nombreMateria}
@@ -42,11 +42,7 @@
 							<f:facet name="header">Nombre del Examen</f:facet>    				
 					      		#{dato.nombreExamen}
 					  	</h:column>
-					  	
-                        <h:column>
-							<f:facet name="header" >Estado del Examen</f:facet>
-					      		#{dato.estadoExamen}
-						</h:column>   		
+					  			
 	
 						   	<h:column>
 								<f:facet name="header">Accion</f:facet>

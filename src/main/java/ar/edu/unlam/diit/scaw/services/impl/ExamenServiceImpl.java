@@ -66,6 +66,23 @@ public class ExamenServiceImpl implements ExamenService {
 		servicioDao.anotarseExamen(dato);
 		
 	}
+
+
+
+	@Override
+	public List<DatosExamenes> examenesParaRendir(Integer id) {
+		List<DatosExamenes> lista = servicioDao.examenesArendir(id);
+		
+		return lista;
+	}
+
+
+
+	@Override
+	public List<DatosExamenes> traerExamenesParaUsuario(Integer id) {
+		List<DatosExamenes> lista = servicioDao.getAllExamenesParaUsuario(id);
+		return lista;
+	}
 	
 
 }

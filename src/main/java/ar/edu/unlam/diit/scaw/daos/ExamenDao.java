@@ -13,5 +13,7 @@ public interface ExamenDao {
 	public Examenes getExamenById(Integer id);
 	public void deshabilitarExamen(Integer id);
 	public List<Examenes> traerExamenActivos();
-	void anotarseExamen(DatosExamenes dato);
+	public void anotarseExamen(DatosExamenes dato);
+	public List<DatosExamenes> examenesArendir(Integer id);
+	List<DatosExamenes> getAllExamenesParaUsuario(Integer id);
 }
