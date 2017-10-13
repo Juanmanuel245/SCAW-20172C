@@ -89,6 +89,12 @@
                 	
 					<ul id="alumno" class="sub-menu collapse">
 						<li>						
+							<h:commandLink id="verNotas" 
+								action="#{examenBean.verNotas}" value="Ver Notas">
+								<f:param name ="idUsuario" value ="#{usuarioBean.id}"></f:param>
+							</h:commandLink>
+						</li>
+						<li>						
 							<h:commandLink id="examenes" 
 								action="#{examenBean.inicio}" value="Anotarse a Examenes">
 								<f:param name ="idUsuario" value ="#{usuarioBean.id}"></f:param>

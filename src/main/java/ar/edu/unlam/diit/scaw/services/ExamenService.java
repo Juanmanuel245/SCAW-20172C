@@ -16,4 +16,5 @@ public interface ExamenService {
 	public void anotarExamen(DatosExamenes dato);
 	public List<DatosExamenes> examenesParaRendir(Integer id);
 	public List<DatosExamenes> traerExamenesParaUsuario(Integer id);
+	public List<DatosExamenes> verNotasExamenes(Integer id);
 }

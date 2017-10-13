@@ -15,5 +15,6 @@ public interface ExamenDao {
 	public List<Examenes> traerExamenActivos();
 	public void anotarseExamen(DatosExamenes dato);
 	public List<DatosExamenes> examenesArendir(Integer id);
-	List<DatosExamenes> getAllExamenesParaUsuario(Integer id);
+	public List<DatosExamenes> getAllExamenesParaUsuario(Integer id);
+	public List<DatosExamenes> traerNotasExamenes(Integer id);
 }

@@ -70,18 +70,23 @@ public class ExamenServiceImpl implements ExamenService {
 
 
 	@Override
-	public List<DatosExamenes> examenesParaRendir(Integer id) {
-		List<DatosExamenes> lista = servicioDao.examenesArendir(id);
-		
-		return lista;
+	public List<DatosExamenes> examenesParaRendir(Integer id) {	
+		return servicioDao.examenesArendir(id);
 	}
 
 
 
 	@Override
 	public List<DatosExamenes> traerExamenesParaUsuario(Integer id) {
-		List<DatosExamenes> lista = servicioDao.getAllExamenesParaUsuario(id);
-		return lista;
+		return servicioDao.getAllExamenesParaUsuario(id);
+	}
+
+
+
+	@Override
+	public List<DatosExamenes> verNotasExamenes(Integer id) {
+		
+		return servicioDao.traerNotasExamenes(id);
 	}
 	
 

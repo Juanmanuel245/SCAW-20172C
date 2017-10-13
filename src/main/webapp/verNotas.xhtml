@@ -9,7 +9,7 @@
 	>
 
 <h:head>
-	<title>UNLAM - Sistema de evaluación - Rendir Examenes</title>
+	<title>UNLAM - Sistema de evaluación - Ver Notas</title>
 	<link rel="stylesheet" type="text/css" href="css/table-style.css" />
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
 	<link rel="stylesheet" type="text/css" href="css/styles.css" />
@@ -30,31 +30,25 @@
 </div>
      <div class="body-menu">
      		<div class="panel panel-success text-center">
-	  			<div class="panel-heading"><h3 class="panel-title">Seleccionar el Examen que quieres rendir</h3></div>
+	  			<div class="panel-heading"><h3 class="panel-title">Notas de los Examenes</h3></div>
 	  			<div class="panel-body ">
-					<h:dataTable value="#{examenBean.getExamenesRendir()}" var="dato" styleClass="table table-hover">        	
+	  				<h6 class="text-center">A continuacion se listan las notas de tus examenes. Si no aparece es por que aun esta en vigencia, una vez finalizado el examen figurara en el sistema.</h6>
+					<h:dataTable value="#{examenBean.verNotasExamen()}" var="dato" styleClass="table table-hover">        	
 						<h:column>
-							<f:facet name="header">Materia del Examen</f:facet>    				
+							<f:facet name="header">Materia</f:facet>    				
 					      		#{dato.nombreMateria}
 					  	</h:column>
 					  	
 					  	<h:column>
-							<f:facet name="header">Nombre del Examen</f:facet>    				
+							<f:facet name="header">Examen</f:facet>    				
 					      		#{dato.nombreExamen}
 					  	</h:column>
-					  			
+					  	
+                        <h:column>
+							<f:facet name="header" >Nota</f:facet>
+					      		#{dato.nota}
+						</h:column>   		
 	
-						   	<h:column>
-								<f:facet name="header">Accion</f:facet>
-									<h:form id="editar">
-										<input type="hidden" name="idExamen" value="#{dato.idExamen}" />
-										<input type="hidden" name="idUsuario" value="#{usuarioBean.id}" />
-										
-										<h:commandButton styleClass="btn btn-success" action="#{datosExamenesBean.anotarse()}" value="Rendir Examen" >
-	
-							      		</h:commandButton>
-						   			</h:form>
-							</h:column> 
 						   		                                             
                     </h:dataTable>
 	  			</div>

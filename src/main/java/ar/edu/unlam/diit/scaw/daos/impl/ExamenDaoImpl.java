@@ -458,4 +458,36 @@ public class ExamenDaoImpl implements ExamenDao {
 		return ll;
 	}
 
+	@Override
+	public List<DatosExamenes> traerNotasExamenes(Integer id) {
+		List<DatosExamenes> ll = new LinkedList<DatosExamenes>();
+		
+		try {
+			conn = (dataSource.dataSource()).getConnection();
+		
+			Statement query;
+			
+			query = conn.createStatement();
+			
+			ResultSet rs = query.executeQuery("select m.nombre as nombreMateria, e.nombre as nombreExamen, a.nota from alumnoexamen as a INNER JOIN examenes as e ON a.idexamen = e.id INNER JOIN materias as m ON m.id = e.idmateria WHERE a.idalumno = " + id);
+	
+			while (rs.next()) {
+			  
+						
+				DatosExamenes datos = new DatosExamenes();
+				datos.setNombreMateria(rs.getString("nombreMateria"));
+				datos.setNombreExamen(rs.getString("nombreExamen"));
+				datos.setNota(rs.getString("nota"));
+						
+				ll.add(datos);
+				
+			}
+			
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ll;
+	}
+
 }

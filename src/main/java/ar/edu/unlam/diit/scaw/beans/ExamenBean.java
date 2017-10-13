@@ -66,6 +66,15 @@ public class ExamenBean implements Serializable {
 		return "formularioExamenes";
 	}
 	
+	public String verNotas(){
+		
+		return "verNotas";
+	}
+	
+	public List<DatosExamenes> verNotasExamen(){
+		Integer sessionIdUsuario = (Integer) session.getAttribute("idUsuario");
+	    return servicioExamen.verNotasExamenes(sessionIdUsuario);
+	}
 	
 	public List<DatosExamenes> getAllExamenes(){
 		List<DatosExamenes> lista = servicioExamen.traerExamen();
