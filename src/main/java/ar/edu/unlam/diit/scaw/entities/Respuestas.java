@@ -9,6 +9,7 @@ public class Respuestas implements Serializable{
 	private Integer idPregunta;
 	private String 	respuesta;
 	private Integer idTipoRespuesta = 0;
+	//SEPUEDEBORRAR
 	private Integer idTipoRespuestaByAlumno = 0;
 	
 	public Respuestas(Integer id,Integer idPregunta,String respuesta,Integer idTipoRespuesta) {
@@ -58,5 +59,12 @@ public class Respuestas implements Serializable{
 		this.idTipoRespuestaByAlumno = idTipoRespuestaByAlumno;
 	}
 
+	@Override
+	public String toString() {
+		return "Respuestas [id=" + id + ", idPregunta=" + idPregunta + ", respuesta=" + respuesta + ", idTipoRespuesta="
+				+ idTipoRespuesta + ", idTipoRespuestaByAlumno=" + idTipoRespuestaByAlumno + "]";
+	}
 
+
+	
 }

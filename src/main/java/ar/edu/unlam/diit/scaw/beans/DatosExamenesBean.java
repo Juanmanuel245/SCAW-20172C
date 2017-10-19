@@ -1,17 +1,20 @@
 package ar.edu.unlam.diit.scaw.beans;
 
+import java.io.Serializable;
+
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-
 import ar.edu.unlam.diit.scaw.entities.DatosExamenes;
 import ar.edu.unlam.diit.scaw.services.ExamenService;
 import ar.edu.unlam.diit.scaw.services.impl.ExamenServiceImpl;
 
 @ManagedBean(name = "datosExamenesBean", eager = true)
 @RequestScoped
-public class DatosExamenesBean {
+@SessionScoped
+public class DatosExamenesBean implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -46,6 +49,7 @@ public class DatosExamenesBean {
 		servicioExamen.anotarExamen(dato);
 		return "welcome";
 	}
+	
 	
 	public String getIdExamen() {
 		return idExamen;
@@ -102,8 +106,5 @@ public class DatosExamenesBean {
 	public void setNota(String nota) {
 		this.nota = nota;
 	}
-	
-	
-	
 	
 }

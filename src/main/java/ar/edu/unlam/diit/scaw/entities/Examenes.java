@@ -8,6 +8,7 @@ public class Examenes implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String nombre;
+	//SE PUEDE BORRAR
 	private Integer idMateria;
 	private Integer idEstadoExamen;
 	private Materia materia;
@@ -60,8 +61,12 @@ public class Examenes implements Serializable{
 	public void setEstadosExamenes(String estadosExamenes) {
 		this.estadosExamenes = estadosExamenes;
 	}
-	
-	
+	@Override
+	public String toString() {
+		return "Examenes [id=" + id + ", nombre=" + nombre + ", idMateria=" + idMateria + ", idEstadoExamen="
+				+ idEstadoExamen + ", materia=" + materia + ", estadosExamenes=" + estadosExamenes + ", preguntas="
+				+ preguntas + "]";
+	}
 	
 	
 }

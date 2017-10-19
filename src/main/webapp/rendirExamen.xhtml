@@ -5,82 +5,109 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>Panel de Adminsitracion</title>
+	<title>Rendir examen</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet"
 		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
 </h:head>
 <body>
 	<div class="container">
-
 		<div class="row">
-
 			<div class="col-md-2"></div>
-
 			<div class="col-md-8">
 
-				<div class="panel panel-success">
-					<div class="panel-heading text-center">
-						<h1>Rendir Examen</h1>
-					</div>
-					<div class="panel-body">
-						<div class="col-md-2"></div>
-						<div class="col-md-10">
+				<div class="panel panel-primary">
+				<div class="panel-heading text-center">
+						<h2><h:outputLabel value="#{examenBean.examen.materia.nombre}"></h:outputLabel></h2>
+						<h3>"<h:outputLabel value="#{examenBean.examen.nombre}" id="nombreExamen" ></h:outputLabel>"</h3>
+				</div>
+					<div class="panel-body ">
+						<div class="col-md-12 text-center">
 
-							<h:form rendered="true" id="form">
-								<h:inputHidden value="#{examenBean.examenSelected.id}" id="examenId"/>
-								<h2>Nombre del Examen</h2>
-								<h:outputLabel value="#{examenBean.nombre}" id="nombreExamen" >
-								</h:outputLabel>
-
-								<h2>Materia</h2>
-								<div class="form-group">
-									<h:outputLabel value="#{examenBean.examenSelected.materia.nombre}"  >
-								</h:outputLabel>
-								</div>
-
-								<ui:repeat value="#{examenBean.preguntas}" varStatus="loop">
-								<h2>Pregunta #{loop.index+1}</h2>
-								    <h:outputLabel value="#{examenBean.preguntas[loop.index].pregunta}" /><br></br>
-
-								    <table>
-
-								    <ui:repeat value="#{examenBean.preguntas[loop.index].respuestas}" varStatus="loop2">
-								    	<tr>
-									    <td><h:outputLabel value="#{examenBean.preguntas[loop.index].respuestas[loop2.index].respuesta}" /></td>
-									    <td>
-									    	<h:selectOneRadio value="#{examenBean.preguntas[loop.index].respuestas[loop2.index].idTipoRespuestaByAlumno}">
-												<f:selectItem itemValue="1" itemLabel="Correcto" />
-												<f:selectItem itemValue="2" itemLabel="Incorrecto" />
-											</h:selectOneRadio>
-										</td>
-									    </tr>
-									</ui:repeat>
-									</table>
+							<h:form rendered="true" id="form" prependId="false">
+								<ui:repeat value="#{examenBean.examen.preguntas}" var="p" varStatus="loop">
+									<div class="panel panel-primary cadapregunta">
+									  <div class="panel-heading">
+									    <h3><span class="pull-left">#{loop.index +1}</span><h:outputLabel value="#{p.pregunta}" /></h3>
+									  </div>
+									  <div class="panel-body center-block">
+									    <ui:repeat value="#{p.respuestas}" var="r" varStatus="loop2">
+										    <div class="respuesta" data-idresp="#{r.id}">
+										    	<h3><h:outputLabel value="#{r.respuesta}" /></h3>
+										    	<div class="text-center">
+											    	<h:selectOneRadio style="display:inline;">
+														<f:selectItem itemValue="1" itemLabel="Correcto"/>
+														<f:selectItem itemValue="2" itemLabel="Incorrecto" style="margin-left: 1% !important;" />
+													</h:selectOneRadio>
+												</div>
+											</div>
+										</ui:repeat>
+									  </div>
+									</div>
 								</ui:repeat>
 
-				
-							<h:commandLink action="#{examenBean.verResultadoExamen}" styleClass="btn btn-success" value="Rendir">
-                        	</h:commandLink>
                         	<h:commandLink action="#{examenBean.listarRendirExamen}" style="margin-left: 5px" styleClass="btn btn-warning" value="Volver">
                         	</h:commandLink>
 
 							</h:form>
-
+							<h:form prependId="false">
+								<h:inputHidden id="datosj" name="datosj" value="#{examenBean.json}"/>
+								<p:remoteCommand name="guardarExamen" actionListener="#{examenBean.examenRendido}" action="verNotas"/>
+								<h:commandButton id="guardar" styleClass="btn btn-success" value="Rendir" action="verNotas">
+                        		</h:commandButton>
+							</h:form>
 						</div>
-
 					</div>
 				</div>
 			</div>
-
-
-
 		</div>
-
 	</div>
-
+	
+<script type="text/javascript">
+//<![CDATA[ 
+	 $('document').ready(function(){
+		 
+		 $('#guardar').click(function(event){
+		
+		 	event.preventDefault();
+		 	var check = true;
+			var respuestas= [];
+		 	
+			 $('.respuesta').each(function(){
+				
+				 id = $(this).data("idresp");
+				 radio = $(this).find('input[type=radio]:checked').val();
+				 
+				 if(radio == 1 || radio == 2){
+					
+					 respuesta = {id: id, idTipoRespuesta:radio}
+					 
+					 respuestas.push(respuesta);
+					 
+				 } else {
+					 check = false;
+					 alert("Respuesta sin marcar opción válida");
+					 $(this).find('input[type=radio]').focus();
+					 return false;
+				 }	
+		 	});
+	 
+			 
+		 if(check){
+			 
+			 alert(JSON.stringify(respuestas));
+			 $('#datosj').val(JSON.stringify(respuestas)); 
+			 var json = JSON.stringify(respuestas);
+			 guardarExamen([{name:'json', json }]);
+			 }
+		 });
+	 });
+	//]]>
+</script>
+	
 </body>
 </html>

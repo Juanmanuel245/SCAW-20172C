@@ -20,7 +20,6 @@
 		<url-pattern>/faces/usuariosActivos.xhtml</url-pattern>
 		<url-pattern>/faces/solicitudesUsuarios.xhtml</url-pattern>
 		<url-pattern>/faces/rendirExamen.xhtml</url-pattern>
-		<url-pattern>/faces/gestionExamenes.xhtml</url-pattern>
 		<url-pattern>/faces/listadoExamenesRendir.xhtml</url-pattern>
 		<url-pattern>/faces/resultadoExamen.xhtml</url-pattern>
 		<servlet-name>LoginServlet</servlet-name>

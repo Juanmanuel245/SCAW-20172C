@@ -1,22 +1,33 @@
 package ar.edu.unlam.diit.scaw.beans;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
+
 import ar.edu.unlam.diit.scaw.entities.DatosExamenes;
 import ar.edu.unlam.diit.scaw.entities.Examenes;
+import ar.edu.unlam.diit.scaw.entities.Materia;
 import ar.edu.unlam.diit.scaw.entities.Preguntas;
 import ar.edu.unlam.diit.scaw.entities.Respuestas;
 import ar.edu.unlam.diit.scaw.services.ExamenService;
@@ -26,276 +37,233 @@ import ar.edu.unlam.diit.scaw.services.impl.ExamenServiceImpl;
 @RequestScoped
 @SessionScoped
 public class ExamenBean implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private Integer id = null;
 	private String nombre = null;
 	private String pregunta1;
-	private Integer idMateria = null;
+//	//SE PUEDE BORRAR
+//	private Integer idMateria = null;
+//	//SE PUEDE BORRAR
+//	private String materia;
+	private Materia materia;
 	private Integer idEstadoExamen = null;
 	private Integer estadoExamen = 0;
 	private List<Preguntas> preguntas = new ArrayList<>();
-	DataModel<Examenes> lista ;
+	DataModel<Examenes> lista;
 	private Examenes examenSelected = new Examenes();
+	//SEPUEDEBORRAR
 	private Double resultExamen;
-	
+	private String json;
+	private Examenes examen;
+	private List<Examenes> examenes;
+
 	ExamenService servicioExamen;
-	
+
 	private FacesContext context = FacesContext.getCurrentInstance();
 	HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-	
-	public ExamenBean(){
+
+	public ExamenBean() {
 		super();
-		servicioExamen = (ExamenService) new ExamenServiceImpl(); 
-	
-		preguntas.add(new Preguntas(0,0,"",0));
-		preguntas.add(new Preguntas(0,0,"",0));
-		preguntas.add(new Preguntas(0,0,"",0));
-		preguntas.add(new Preguntas(0,0,"",0));
-		preguntas.add(new Preguntas(0,0,"",0));
+		servicioExamen = (ExamenService) new ExamenServiceImpl();
+	}
+
+	public String editarExamen(Integer id) throws Exception {
+
+		this.examen = servicioExamen.getExamenCompletoById(id);
+		
+		return "crearExamen";
+	}
+
+	public String crearExamen(){
+		
+		this.examen = new Examenes();
+		
+		return "crearExamen";
 	}
 	
-	public String editarExamen() {
-		
-		this.examenSelected = servicioExamen.getExamenById(this.lista.getRowData().getId());
-		this.nombre 		= this.examenSelected.getNombre();
-		this.idMateria		= this.examenSelected.getIdMateria();
-		this.idEstadoExamen	= this.examenSelected.getIdEstadoExamen();
-		this.preguntas		= this.examenSelected.getPreguntas();
-		return "formularioExamenes";
-	}
-	
-	public String verNotas(){
-		
+	public String verNotas() {
+
 		return "verNotas";
 	}
-	
-	public List<DatosExamenes> verNotasExamen(){
+
+	public List<DatosExamenes> verNotasExamen() {
 		Integer sessionIdUsuario = (Integer) session.getAttribute("idUsuario");
-	    return servicioExamen.verNotasExamenes(sessionIdUsuario);
+		return servicioExamen.verNotasExamenes(sessionIdUsuario);
 	}
-	
-	public List<DatosExamenes> getAllExamenes(){
+
+	public List<DatosExamenes> getAllExamenes() {
 		List<DatosExamenes> lista = servicioExamen.traerExamen();
-		return lista;	
+		return lista;
 	}
-	
-	public List<DatosExamenes> getAllExamenesParaUsuario(){
+
+	public List<DatosExamenes> getAllExamenesParaUsuario() {
 		Integer sessionIdUsuario = (Integer) session.getAttribute("idUsuario");
 		List<DatosExamenes> lista = servicioExamen.traerExamenesParaUsuario(sessionIdUsuario);
 		return lista;
 	}
-	
-	public DataModel<Examenes> getAllExamenesActivos(){
+
+	public DataModel<Examenes> getAllExamenesActivos() {
 		this.lista = new ListDataModel<Examenes>(servicioExamen.traerExamenActivos());
 
-		return this.lista;	
+		return this.lista;
 	}
-	
-	public List<DatosExamenes> getExamenesRendir(){
+
+	public List<DatosExamenes> getExamenesRendir() {
 		Integer sessionIdUsuario = (Integer) session.getAttribute("idUsuario");
 		List<DatosExamenes> lista = servicioExamen.examenesParaRendir(sessionIdUsuario);
 		return lista;
 	}
-	
-	public String rendirExamenes(){
+
+	public String rendirExamenes() {
 		return "examenesRendir";
 	}
-	
-	public String inicio(){
+
+	public String inicio() {
 		return "examenesAlumno";
 	}
-		
-	public String guardarExamen(){
-		boolean err=false;
-		List<Preguntas> pregDef = new ArrayList<>();
-		for (int i=0;i<preguntas.size();i++) {
-			Preguntas preg = preguntas.get(i);
-			if (preg.getPregunta().equals("") && i==0) {
-				err=true;
-				FacesContext.getCurrentInstance().addMessage("form:j_idt16:"+i+":pregunta", new FacesMessage("Debe completar al menos una pregunta"));
-			} else if (!preg.getPregunta().equals("")) {
-				if (this.validateRespuestas(preg.getRespuestas())) {
-					preg.setRespuestas(this.getRespuestasOk(preg.getRespuestas()));
-					//la pregunta esta OK y tiene respuestas
-					pregDef.add(preg);
-				} else {
-					err=true;
-					FacesContext.getCurrentInstance().addMessage("form:j_idt16:"+i+":pregunta", new FacesMessage("Las preguntas deben tener al menos 1 respuesta correcta y uno incorrecta"));
-				}
-				
-			}
-		}
-		if (pregDef.size()<5) {
-			err=true;
-			FacesContext.getCurrentInstance().addMessage("form:nombreExamen", new FacesMessage("Debe completar al menos 5 preguntas"));
-		}
-		
-		if (err!=true) {
-			Examenes examenes = new Examenes();
-			examenes.setNombre(this.nombre);
-			examenes.setIdMateria(idMateria);
-			examenes.setIdEstadoExamen(idEstadoExamen);
-			examenes.setPreguntas(pregDef);
-			//examenes.setPreguntas(preguntas);
-			
-			if (this.examenSelected.getId()==null) {
-				servicioExamen.guardarExamen(examenes);
-			} else {
-				examenes.setId(this.examenSelected.getId());
-				servicioExamen.editarExamen(examenes);
-			}
 
-			return "gestionExamenes";	
-		}
-		return "formularioExamenes";
+	public String gestionExamenes(){
+			
+		return "gestionExamenes";	
+			
 	}
 	
+	public String guardarExamen() throws Exception {
 
-	public String getTextSalvarExamen() {
-		if (this.examenSelected.getId()==null) {
-			return "Agregar nuevo Examen";
-		} else {
-			return "Modificar Examen";
-		}
-	}
+		try {
+			String json = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("datosj");
 
-	private List<Respuestas> getRespuestasOk (List<Respuestas> resp) {
-		List<Respuestas> def = new ArrayList<>();
-		for (int i=0;i<resp.size();i++) {
-			if (!resp.get(i).getRespuesta().equals("")) {
-				def.add(resp.get(i));
+			System.out.println("+++++++++++++++" + json);
+			Gson gson = new Gson();
+
+			Examenes examen = gson.fromJson(json, Examenes.class);
+
+			// ES UN MAP PORQUE CONTIENE EL FLAG (TRUE OR FALSE EN FORMA DE
+			// STRING) Y EL ERROR QUE ES UN STRING
+			Map<String, String> valid = servicioExamen.validarExamen(examen);
+
+			if (valid.get("flag") == "true") {
+				// OK, GUARDAMOS EL EXAMEN
+				servicioExamen.guardarExamen(examen);
+
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Satisfactorio", "Examén guardado");
+
+				FacesContext.getCurrentInstance().addMessage("info", message);
+				return "OK";
+
+			} else {
+
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", valid.get("error"));
+
+				FacesContext.getCurrentInstance().addMessage("errores", message);
+
+				// DEVOLVEMOS EL ERROR ENCONTRADO
+				System.out.println(valid.get("error"));
+				return valid.get("error");
+
 			}
+
+		} catch (Exception e) {
+
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", e.getCause().toString());
+
+			FacesContext.getCurrentInstance().addMessage("errores", message);
+
+			throw e;
 		}
-		return def;
-	}
-	private boolean validateRespuestas (List<Respuestas> resp) {
-		int ok=0;
-		int fail=0;
-		int fatal=0;
-		for (int i=0;i<resp.size();i++) {
-			if (!resp.get(i).getRespuesta().equals("")) {
-				if (resp.get(i).getIdTipoRespuesta()!=null && resp.get(i).getIdTipoRespuesta().equals(1)) {
-					ok++;
-				} else if (resp.get(i).getIdTipoRespuesta()!=null &&resp.get(i).getIdTipoRespuesta().equals(2)) {
-					fail++;
-				} else if (resp.get(i).getIdTipoRespuesta()==null) {
-					fatal++;
-				}
-			}
-		}
-		if ((ok>=1 && fail>=1) && fatal==0) {
-			return true;
-		}
-		return false;
 	}
 
-	public String rendirExamen() {
-		this.examenSelected = servicioExamen.getExamenById(this.lista.getRowData().getId());
-		this.nombre 		= this.examenSelected.getNombre();
-		this.idMateria		= this.examenSelected.getIdMateria();
-		this.idEstadoExamen	= this.examenSelected.getIdEstadoExamen();
-		this.preguntas		= this.examenSelected.getPreguntas();
 
+	public String rendirExamen(Integer id) throws Exception {
+		
+		this.examen = servicioExamen.getExamenCompletoById(id);
+		
 		return "rendirExamen";
 	}
-	
-	public String verResultadoExamen() {
-		this.examenSelected = servicioExamen.getExamenById(this.examenSelected.getId());
-		this.nombre 		= this.examenSelected.getNombre();
-		this.idMateria		= this.examenSelected.getIdMateria();
-		this.idEstadoExamen	= this.examenSelected.getIdEstadoExamen();
-		//this.preguntas		= this.examenSelected.getPreguntas();
+
+	@SuppressWarnings("unchecked")
+	public String examenRendido() throws Exception{
 		
-		double ok = 0;
-		double cant = 0;
-		@SuppressWarnings("unused")
-		int ind = 0;
-		for (int i=0;i<this.examenSelected.getPreguntas().size();i++) {
-			for (int j=0;j<this.examenSelected.getPreguntas().get(i).getRespuestas().size();j++) {
-				cant++;
-				if (this.examenSelected.getPreguntas().get(i).getRespuestas().get(j).getIdTipoRespuesta().equals(this.preguntas.get(i).getRespuestas().get(j).getIdTipoRespuestaByAlumno())) {
-					ok++;
-				}
-			}
-		}
-		this.resultExamen = ok/cant;
-		return "resultadoExamen";
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		Integer idusuario = (Integer) session.getAttribute("id");
+		List<Respuestas> respuestas = new ArrayList<Respuestas>();
+		ec.getRequestParameterMap().get("datosj");
+		Gson gson = new Gson();
+		
+		//NECESARIO PARA NO TENER QUE CREAR OTRA CLASE PARA PARSEAR GSON,SI NO EXPLOTA
+		Type fooType = new TypeToken<List<Respuestas>>() {}.getType(); 
+		respuestas = gson.fromJson(json, fooType);
+		
+		servicioExamen.guardarExamenRendidoPorAlumno(idusuario, respuestas, this.examen);
+		
+
+	    ec.redirect(ec.getRequestContextPath() + "/faces/verNotas.xhtml");
+		return "verNotas";
 	}
 	
-	public String deshabilitarExamen() {
-		
-		servicioExamen.deshabilitarExamen(this.lista.getRowData().getId());
+	public String deshabilitarExamen(Integer id) {
+
+		servicioExamen.deshabilitarExamen(id);
 		return "";
 	}
+
 	public String listarRendirExamen() {
 		return "listadoExamenesRendir";
 	}
+
 	public Integer getId() {
 		return id;
 	}
-
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-
 	public String getNombre() {
 		return nombre;
 	}
-
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
-
 	public String getPregunta1() {
 		return pregunta1;
 	}
-
 
 	public void setPregunta1(String pregunta1) {
 		this.pregunta1 = pregunta1;
 	}
 
-
-	public Integer getIdMateria() {
-		return idMateria;
-	}
-
-
-	public void setIdMateria(Integer idMateria) {
-		this.idMateria = idMateria;
-	}
-
+//	public Integer getIdMateria() {
+//		return idMateria;
+//	}
+//
+//	public void setIdMateria(Integer idMateria) {
+//		this.idMateria = idMateria;
+//	}
 
 	public Integer getIdEstadoExamen() {
 		return idEstadoExamen;
 	}
 
-
 	public void setIdEstadoExamen(Integer idEstadoExamen) {
 		this.idEstadoExamen = idEstadoExamen;
 	}
-
 
 	public Integer getEstadoExamen() {
 		return estadoExamen;
 	}
 
-
 	public void setEstadoExamen(Integer estadoExamen) {
 		this.estadoExamen = estadoExamen;
 	}
 
-
 	public List<Preguntas> getPreguntas() {
 		return preguntas;
 	}
-
 
 	public void setPreguntas(List<Preguntas> preguntas) {
 		this.preguntas = preguntas;
@@ -318,18 +286,41 @@ public class ExamenBean implements Serializable {
 		System.err.println((int) Math.ceil((resultExamen) * 100));
 		return (int) Math.ceil((resultExamen) * 100);
 	}
-	
+
 	public void setResultExamen(Double resultExamen) {
 		this.resultExamen = resultExamen;
 	}
-	
-	public static double round(double value, int places) {
-	    if (places < 0) throw new IllegalArgumentException();
 
-	    BigDecimal bd = new BigDecimal(value);
-	    bd = bd.setScale(places, RoundingMode.HALF_UP);
-	    return bd.doubleValue();
+	public String getJson() {
+		return json;
 	}
-	
-	
+
+	public void setJson(String json) {
+		this.json = json;
+	}
+
+	public Examenes getExamen() {
+		return examen;
+	}
+
+	public void setExamen(Examenes examen) {
+		this.examen = examen;
+	}
+
+	public Materia getMateria() {
+		return materia;
+	}
+
+	public void setMateria(Materia materia) {
+		this.materia = materia;
+	}
+
+	public void setExamenes(List<Examenes> examenes) {
+		this.examenes = examenes;
+	}
+
+	public List<Examenes> getExamenes() throws Exception{
+
+		return servicioExamen.getExamenes();
+	}
 }

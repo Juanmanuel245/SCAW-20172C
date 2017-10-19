@@ -5,15 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	>
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
         <title>Panel de Examenes</title>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
 </h:head>
-
-<body>
+<h:body>
 <div class ="left-menu">
 <ui:include src="welcome.xhtml"/>
 </div>
@@ -25,37 +23,36 @@
 				<div class="panel panel-default">
                     <div class="panel-body">
 						<h:form>
-							<h:dataTable value="#{examenBean.allExamenes}" var="gestionExamen" class="table table-hover" headerClass="order-table-header"
+							<h:dataTable value="#{examenBean.examenes}" var="ex" class="table table-hover" headerClass="order-table-header"
 							 rowClasses="order-table-odd-row,order-table-even-row">
 								
 								<h:column>
 									<f:facet name="header">Nombre</f:facet>
-									#{gestionExamen.nombre}
+									#{ex.nombre}
 								</h:column>
 
 								<h:column>
 									<f:facet name="header">Materia</f:facet>
-									#{gestionExamen.materia.nombre}
+									#{ex.materia.nombre}
 								</h:column>
 
 								<h:column>
 									<f:facet name="header">Estado del examen</f:facet>
-									#{gestionExamen.estadosExamenes}
+                        	       	<h:outputText value="Pendiente" rendered="#{ex.idEstadoExamen == 1}"></h:outputText>
+                        	       	<h:outputText value="En curso" rendered="#{ex.idEstadoExamen == 2}"></h:outputText>
+                        	       	<h:outputText value="Finalizado" rendered="#{ex.idEstadoExamen == 3}"></h:outputText>
 								</h:column>
-                                 
+                                
 								<h:column>
 									<f:facet name="header">Accion</f:facet>
-					    	  		<h:commandButton action="#{examenBean.editarExamen}" class="btn btn-success" value="Modificar">
-
-	                				</h:commandButton>
-                                    <h:commandButton action="#{examenBean.deshabilitarExamen}" style="margin-left:5px" class="btn btn-danger" value="Deshabilitar">
+					    	  		<h:commandButton action="#{examenBean.editarExamen(ex.id)}" class="btn btn-success" value="Modificar">
 
 	                				</h:commandButton>
 						   		</h:column> 
 
 							</h:dataTable>
                            
-                        	<h:commandLink action="#{usuarioBean.nuevoExamen}" styleClass="btn btn-success btn-block">
+                        	<h:commandLink action="#{examenBean.crearExamen}" styleClass="btn btn-success btn-block">
                         	       			<h:outputText value ="Agregar nuevo Examen"></h:outputText>
                         	       			<f:param name ="idUsuario" value ="#{usuarioBean.idUser}"></f:param>
                         	</h:commandLink>
@@ -68,6 +65,5 @@
 
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</body>
-
+</h:body>
 </html>

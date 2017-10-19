@@ -58,3 +58,10 @@ idExamen int NOT NULL,
 idAlumno int NOT NULL,
 idEstadoExamen int NOT NULL,
 nota varchar(3));
+
+CREATE TABLE alumnorespuestas(
+	idalumno int,
+	idrespuesta int,
+	idtiporesp int,
+	primary key(idalumno,idrespuesta)
+);

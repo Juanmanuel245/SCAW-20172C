@@ -182,18 +182,7 @@ public class UsuarioBean implements Serializable {
 		
 	}
 	
-public String gestionExamenes(){
-	String id = session.getAttribute("id").toString();
-	String logeado = session.getAttribute("logeado").toString();
-	Integer idUsuario = Integer.parseInt(id);
-	
-	if(service.isGrantAdm(idUsuario) || service.isGrantAll(idUsuario) && logeado.equals("Y")){
-			return "gestionExamenes";	
-	}
-	error = "No tienes permisos/privilegios para realizar la accion deseada";
-	return "welcome";
-		
-	}
+
 
 public String nuevaMateria(){
 	

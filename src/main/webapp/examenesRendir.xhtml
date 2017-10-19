@@ -50,7 +50,7 @@
 										<input type="hidden" name="idExamen" value="#{dato.idExamen}" />
 										<input type="hidden" name="idUsuario" value="#{usuarioBean.id}" />
 										
-										<h:commandButton styleClass="btn btn-success" action="#{datosExamenesBean.anotarse()}" value="Rendir Examen" >
+										<h:commandButton styleClass="btn btn-success" action="#{examenBean.rendirExamen(dato.idExamen)}" value="Rendir Examen" >
 	
 							      		</h:commandButton>
 						   			</h:form>

@@ -56,6 +56,17 @@ public class Preguntas implements Serializable{
 	public void setRespuestas(List<Respuestas> respuestas) {
 		this.respuestas = respuestas;
 	}
+
+	public void addRespuestas(Respuestas resp){
+		
+		this.respuestas.add(resp);
+	}
+	
+	@Override
+	public String toString() {
+		return "Preguntas [id=" + id + ", idExamen=" + idExamen + ", pregunta=" + pregunta + ", respuestas="
+				+ respuestas + "]";
+	}
 	
 	
 

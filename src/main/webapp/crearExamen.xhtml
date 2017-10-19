@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Panel de Administracion</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	
+</h:head>
+<h:body>
+	<div class="container">
+			<div class="row">
+
+			<div class="col-md-2"></div>
+
+			<div class="col-md-8">
+
+				<div class="panel panel-success">
+					<div class="panel-heading text-center">
+						<h1>Crear examen</h1>
+					</div>
+					<div class="panel-body">
+						<div class="col-md-12">
+	
+					<h:form rendered="true" id="form" prependId="false" action="#{examenBean.enviarJson}">
+								
+								<h2 id="examen" data-idexamen="#{examenBean.examen.id}">Nombre del Examen</h2>
+								<h:inputText styleClass="form-control nombreExamen" size="60" id="nombreExamen" value="#{examenBean.examen.nombre}">
+								</h:inputText>
+								<h2>Materia</h2>
+
+								<div class="form-group">
+									<h:selectOneMenu class="form-control materia" value="#{examenBean.examen.materia.id}">
+										<f:selectItem itemValue="#{null}"
+											itemLabel="Elegir la materia" />
+										<f:selectItems value="#{materiaBean.allMaterias}" var="mat"
+											itemLabel="#{mat.nombreMateria}" itemValue="#{mat.idMateria}" />
+									</h:selectOneMenu>
+								</div>
+
+								<h2>Estado</h2>
+								<h:selectOneRadio id="estado" class="estado" value="#{examenBean.examen.idEstadoExamen}">
+								   	<f:selectItem itemValue="1" itemLabel="Pendiente" />
+								   	<f:selectItem itemValue="2" itemLabel="En curso" />
+								   	<f:selectItem itemValue="3" itemLabel="Finalizado" />
+								</h:selectOneRadio>
+								
+								<h2>Cantidad de preg. y resp.</h2>
+								<div class="form-inline" style="margin-bottom: 2%;">
+									<div class="form-group">
+										<input type="number" id="cantpreg" placeholder="Cant.Preg" class="form-control" min="5"/>
+									</div>
+									<div class="form-group">
+										<input type="number" id="cantresp" placeholder="Cant.Resp" class="form-control" min="2"/>
+									</div>
+									<button class="btn btn-success" id="subcant">></button>
+								</div>
+								
+								<div id="preguntas">
+								
+   									<ui:repeat var="p" value="#{examenBean.examen.preguntas}" varStatus="status">
+										<div class="cadapregunta" data-idpreg="#{p.id}">
+											<h2>Pregunta #{status.index+1}</h2>
+											<input type="text" class="form-control descpreg" value="#{p.pregunta}" />
+											<br></br>
+											<ui:repeat var="r" value="#{p.respuestas}" varStatus="status">
+													<div class="respuesta" data-idresp="#{r.id}">
+														<strong>Respuesta</strong><input type="text" value="#{r.respuesta}" class="form-control descresp"/>
+														
+														<h:selectOneRadio id="radios" class="radios" value="#{r.idTipoRespuesta}">
+														   	<f:selectItem itemValue="1" itemLabel="Correcto" />
+														   	<f:selectItem itemValue="2" itemLabel="Incorrecto" />
+														</h:selectOneRadio>
+														
+													</div>
+											</ui:repeat>
+										</div>
+									</ui:repeat>
+								</div>
+							
+								<h:messages class="error"></h:messages>
+							</h:form>
+							<h:form prependId="false">
+								<h:inputHidden id="datosj" name="datosj" value="#{examenBean.json}"/>
+								<p:remoteCommand name="guardarExamen" actionListener="#{examenBean.guardarExamen}" />
+								<h:commandButton class="btn btn-success btn-block guardar" id="guardar" value="Guardar"/>
+	
+							</h:form>
+						</div>
+						
+						    <p:growl id="errores" showDetail="true" severity="error" sticky="true" autoUpdate="true"/>  
+						    <p:growl id="info" showDetail="true" severity="info" sticky="true" autoUpdate="true"/>  
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<script type="text/javascript">
+//<![CDATA[ 
+
+	$('#subcant').click(function(event){
+		
+		event.preventDefault();
+		var cantpreg = $('#cantpreg').val();
+		var cantresp = $('#cantresp').val();
+		var string = "";
+	
+		if(cantpreg <2 && cantresp < 2){
+			
+			alert("La cantidad mínima de preguntas es 5 y de respuestas es 2");
+			$('#cantpreg').focus();
+		} else if(cantpreg < 2){
+			
+			alert("La cantidad mínima de preguntas es 5");
+			$('#cantpreg').focus();
+		} else if (cantresp < 2){
+			
+			alert("La cantidad mínima de respuestas es 2");
+			$('#cantresp').focus();
+		} else {
+		
+			 for(var i = 0;  i < cantpreg ; i++){
+					
+					string += '<div class="cadapregunta"><h2>Pregunta ' + (i + 1) + ' </h2><input type="text" class="form-control descpreg" /><br>';
+						
+					for(var j = 0; j < cantresp ; j++){
+								
+							string += '<div class="respuesta"><td><strong>Respuesta</strong><input type="text" value="" class="form-control descresp"/></td> ' +
+										'<input type="radio" value="1" name="radios' + ("" + i + j) + '" class="radios"/> Correcto ' +
+										'<input type="radio" value="2" name="radios' + (""+ i + j) + '" class="radios"/> Incorrecto ' + 
+										'</div><br>';
+						}
+						
+						string += '</div>';
+				}
+				
+				$('#preguntas').html(string); 
+			
+			}
+		});
+//]]>
+</script>
+<script type="text/javascript">
+//<![CDATA[ 
+	 $('document').ready(function(){
+		 
+		 $('#guardar').click(function(event){
+		
+		 event.preventDefault();
+		 var id = $('#examen').data("idexamen");
+		 
+		 var nombre = $('#form > #nombreExamen').val();
+		 var idMateria = $('.materia option:selected').val()
+		 var idEstadoExamen = $('input[name="estado"]:radio:checked', '#form').val();
+		 alert(idEstadoExamen);
+		 var elem;
+		 var examen = {id: id,nombre: nombre ,idMateria: idMateria ,idEstadoExamen: idEstadoExamen,preguntas:[]};
+		 var pregunta;
+		 var descrip;
+		 var respuesta;
+		 var check = true;
+		
+		 
+		 if(!nombre){
+			 check = false;
+			 alert("Nombre de la materia no establecido o no es válido.");
+		 }
+		 
+		 if(!idMateria){
+			 
+			 alert("Materia no seleccionada o no válida");
+			 check = false;
+			}
+		 
+		 $('.cadapregunta').each(function(){
+			 elem = $(this);
+			 descrip = elem.children('.descpreg').val();
+			 pregunta = {idExamen: id, pregunta: descrip, respuestas: []};
+			
+			 if(!descrip) check = false;
+			 
+			 elem.find('.respuesta').each(function(){
+				
+				 descrip = $(this).find('.descresp').val();
+				 radio = $(this).find('input[type=radio]:checked').val();
+				 
+				 if(descrip && radio == 1 || radio == 2){
+					
+					 respuesta = {respuesta:descrip,idTipoRespuesta:radio}
+					 
+					 pregunta.respuestas.push(respuesta);
+				 } else {
+					 check = false
+					 alert("Respuesta sin descripción o sin marcar opción válida");
+					 $(this).find('descresp').focus();
+					 return false;
+				 }
+				 
+			 });
+			 
+			 // PARA CORTAR EL CICLO SI LA RESPUESTA ES INCORRECTA
+			 if(!check) return false;
+			 
+			 examen.preguntas.push(pregunta);
+			 
+		 });
+	 
+		 alert("hola");
+		 if(check){
+			 
+			 alert(JSON.stringify(examen));
+			 $('#datosj').val(JSON.stringify(examen)); 
+				
+			 	var json = JSON.stringify(examen);
+				guardarExamen([{name:'json', json }]);
+			 }
+		 });
+	 });
+	//]]>
+</script>
+	
+</h:body>
+</html>
