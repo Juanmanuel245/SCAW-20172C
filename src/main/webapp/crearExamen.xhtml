@@ -160,7 +160,6 @@
 		 var nombre = $('#form > #nombreExamen').val();
 		 var idMateria = $('.materia option:selected').val()
 		 var idEstadoExamen = $('input[name="estado"]:radio:checked', '#form').val();
-		 alert(idEstadoExamen);
 		 var elem;
 		 var examen = {id: id,nombre: nombre ,idMateria: idMateria ,idEstadoExamen: idEstadoExamen,preguntas:[]};
 		 var pregunta;
@@ -213,10 +212,8 @@
 			 
 		 });
 	 
-		 alert("hola");
 		 if(check){
 			 
-			 alert(JSON.stringify(examen));
 			 $('#datosj').val(JSON.stringify(examen)); 
 				
 			 	var json = JSON.stringify(examen);
@@ -226,6 +223,8 @@
 	 });
 	//]]>
 </script>
+
+
 	
 </h:body>
 </html>

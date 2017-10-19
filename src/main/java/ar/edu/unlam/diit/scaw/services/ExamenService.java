@@ -12,7 +12,6 @@ public interface ExamenService {
 	public List<DatosExamenes> traerExamen();
 	public void guardarExamen(Examenes examen) throws Exception;
 	public void editarExamen(Examenes examen);
-	public Examenes getExamenById(Integer id);
 	public void deshabilitarExamen(Integer id);
 	public List<Examenes> traerExamenActivos();
 	public void anotarExamen(DatosExamenes dato);

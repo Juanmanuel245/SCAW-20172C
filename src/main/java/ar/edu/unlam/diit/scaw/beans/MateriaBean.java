@@ -6,6 +6,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import ar.edu.unlam.diit.scaw.entities.DatosMaterias;
@@ -65,20 +66,33 @@ public class MateriaBean implements Serializable {
 		return "welcome";
 	}
 	
-	public String deshabilitar(){
-		String valor = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idMateria");
+	public void deshabilitar(){
+
+		try{
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		String valor = ec.getRequestParameterMap().get("idMateria");
 
 		servicioMateria.deshabilitarMateria(valor);
-		
-		return "gestionMaterias";
+
+	    ec.redirect(ec.getRequestContextPath() + "/faces/gestionMaterias.xhtml");
+		} catch(Exception e){
+			
+			e.printStackTrace();
+		}
 	}
 	
-	public String habilitar(){
-		String valor = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idMateria");
+	public void habilitar(){
+		try{
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		String valor = ec.getRequestParameterMap().get("idMateria");
 
 		servicioMateria.habilitarMateria(valor);
-		
-		return "gestionMaterias";
+
+	    ec.redirect(ec.getRequestContextPath() + "/faces/gestionMaterias.xhtml");
+		} catch(Exception e){
+			
+			e.printStackTrace();
+		}
 	}
 	
 	

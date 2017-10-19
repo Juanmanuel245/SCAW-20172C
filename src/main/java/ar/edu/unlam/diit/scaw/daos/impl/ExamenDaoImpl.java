@@ -60,7 +60,7 @@ public class ExamenDaoImpl implements ExamenDao {
 			
 			query = conn.createStatement();
 			String sql = "SELECT e.id as idExamen, e.nombre NombreExamen, e.IdMateria as idMateria, e.idEstadoExamen as idEstado, m.nombre as nombreMateria, est.descripcion as estadoExamen FROM examenes as e INNER JOIN materias as m ON m.id = e.IdMateria INNER JOIN estadosexamenes as est ON e.idEstadoExamen = est.id WHERE e.idEstadoExamen = 2 AND e.id NOT IN (SELECT idexamen FROM alumnoexamen);";
-			System.out.println(sql);
+			
 			ResultSet rs = query.executeQuery(sql);
 	
 			while (rs.next()) {
@@ -97,7 +97,7 @@ public class ExamenDaoImpl implements ExamenDao {
 				
 				query = conn.createStatement();
 				String sql = "SELECT e.id as idExamen, e.nombre NombreExamen, e.IdMateria as idMateria, e.idEstadoExamen as idEstado, m.nombre as nombreMateria, est.descripcion as estadoExamen FROM examenes as e INNER JOIN materias as m ON m.id = e.IdMateria INNER JOIN estadosexamenes as est ON e.idEstadoExamen = est.id WHERE e.idEstadoExamen = 2 AND e.id NOT IN (SELECT idexamen FROM alumnoexamen WHERE idalumno = " + id +");";
-				System.out.println(sql);
+			
 				ResultSet rs = query.executeQuery(sql);
 		
 				while (rs.next()) {
@@ -119,99 +119,6 @@ public class ExamenDaoImpl implements ExamenDao {
 			}
 			return ll;
 		}
-	
-	@Override
-	public Examenes getExamenById(Integer id) {
-		Examenes examen = new Examenes();
-		try {
-			conn = (dataSource.dataSource()).getConnection();
-		
-			Statement query;
-			
-			query = conn.createStatement();
-			String sql = "SELECT e.id,e.nombre as examen,e.idmateria,e.idestadoexamen,m.nombre as materia FROM examenes as e inner join materias m ON e.idmateria=m.id where e.id="+id;
-			System.out.println(sql);
-			ResultSet rs = query.executeQuery(sql);
-	
-			while (rs.next()) {
-			  
-				
-				examen.setId(rs.getInt("id"));
-				examen.setNombre(rs.getString("examen"));
-				examen.setIdMateria(Integer.valueOf(rs.getString("idmateria")));
-				examen.setMateria(new Materia(rs.getString("materia")));
-				examen.setIdEstadoExamen(Integer.valueOf(rs.getString("idestadoexamen")));
-				
-
-			}
-			
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		examen.setPreguntas(getPreguntasByIdExamen(examen.getId()));
-		return examen;
-	}
-	
-	
-	private List<Preguntas> getPreguntasByIdExamen(Integer id) {
-		List<Preguntas> pregs = new ArrayList<>();
-		try {
-			conn = (dataSource.dataSource()).getConnection();
-		
-			Statement query;
-			
-			query = conn.createStatement();
-			String sql = "SELECT p.id,p.pregunta FROM preguntas as p where p.idexamen="+id;
-			
-			ResultSet rs = query.executeQuery(sql);
-	
-			while (rs.next()) {
-			  
-				Preguntas preg = new Preguntas();
-				preg.setId(rs.getInt("id"));
-				preg.setPregunta(rs.getString("pregunta"));
-				preg.setIdExamen(id);
-				preg.setRespuestas(getRespuestasByIdPreg(rs.getInt("id")));
-				pregs.add(preg);
-			}
-			
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return pregs;
-	}
-	
-	private List<Respuestas> getRespuestasByIdPreg(Integer id) {
-		List<Respuestas> resps = new ArrayList<>();
-		try {
-		
-			Statement query;
-			
-			query = conn.createStatement();
-			String sql = "SELECT r.id,r.respuesta,r.idtiporespuesta FROM respuestas as r where r.idpregunta="+id;
-			System.out.println(sql);
-			ResultSet rs = query.executeQuery(sql);
-	
-			while (rs.next()) {
-			  
-				Respuestas resp = new Respuestas();
-				resp.setId(rs.getInt("id"));
-				resp.setRespuesta(rs.getString("respuesta"));
-				resp.setIdPregunta(id);
-				resp.setIdTipoRespuesta(Integer.valueOf(rs.getString("idtiporespuesta")));
-				resps.add(resp);
-			}
-			
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return resps;
-	}
 	
 	@Override
 	public void salvarExamen(Examenes examen) throws Exception {
@@ -240,8 +147,6 @@ public class ExamenDaoImpl implements ExamenDao {
 				
 					preg = itpreg.next();	
 				
-					System.out.println(preg.toString());
-			
 					ps = conn.prepareStatement("INSERT INTO preguntas(Id,IdExamen,pregunta)"
 			        		+ "  VALUES(?,?,?)");
 					
@@ -282,103 +187,6 @@ public class ExamenDaoImpl implements ExamenDao {
 		}		
 
 	}
-	
-	private Integer getIdExamen() {
-		try {
-			conn = (dataSource.dataSource()).getConnection();
-		
-			Statement query;
-			
-			query = conn.createStatement();
-			
-			ResultSet rs = query.executeQuery("SELECT id FROM examenes order by id desc");
-			Integer id =0;
-			while (rs.next()) {
-				id = rs.getInt("id");
-				break;
-			}
-
-			return ++id;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return -1;
-	}
-	
-	private Integer getIdPregunta() {
-		try {
-			
-		
-			Statement query;
-			
-			query = conn.createStatement();
-			
-			ResultSet rs = query.executeQuery("SELECT id FROM preguntas order by id desc");
-			Integer id =0;
-			while (rs.next()) {
-				id = rs.getInt("id");
-				break;
-			}
-
-			conn.close();
-			return ++id;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return -1;
-	}
-	
-	private Integer getIdRespuesta() {
-		try {
-			//conn = (dataSource.dataSource()).getConnection();
-		
-			Statement query;
-			
-			query = conn.createStatement();
-			
-			ResultSet rs = query.executeQuery("SELECT id FROM respuestas order by id desc");
-			Integer id =0;
-			while (rs.next()) {
-				id = rs.getInt("id");
-				break;
-			}
-
-			conn.close();
-			return ++id;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return -1;
-	}
-	
-//	private void insertPreguntas(Integer idexamen,List<Preguntas> preguntas) throws SQLException, InterruptedException {
-//		Statement query;
-//		query = conn.createStatement();
-//		
-//		Integer id = this.getIdPregunta();
-//		
-//		for (Preguntas preg : preguntas) {
-//			String sql = "INSERT INTO preguntas (id,idexamen, pregunta) VALUES("+id+"," + idexamen + ",'" + preg.getPregunta() + "')";
-//			System.out.println(sql);
-//			query.executeUpdate(sql);
-//			conn.commit();
-//			this.insertRespuestas(id,preg.getRespuestas(),query);
-//			id++;
-//		}
-//		
-//		conn.close();
-//	}
-//	
-//	private void insertRespuestas(Integer idpregunta,List<Respuestas> respuestas,Statement query) throws SQLException, InterruptedException {
-//		Integer id = this.getIdRespuesta();
-//		
-//		for (Respuestas resp : respuestas) {
-//			String sql = "INSERT INTO respuestas (id,idpregunta, respuesta,idtiporespuesta) VALUES("+id+"," + idpregunta + ",'" + resp.getRespuesta() + "',"+resp.getIdTipoRespuesta()+")";
-//			id++;
-//			System.out.println(sql);
-//			query.executeUpdate(sql);
-//		}
-//	}
 
 	@Override
 	public void editarExamen(Examenes examen) {
@@ -488,7 +296,6 @@ public class ExamenDaoImpl implements ExamenDao {
 					"INNER JOIN materias as m ON m.id = e.idmateria "+
 					"INNER JOIN estadosexamenes as ee ON e.idestadoexamen=ee.id "+
 					"WHERE e.idestadoexamen!=3";
-			System.out.println(sql);
 			ResultSet rs = query.executeQuery(sql);
 	
 			while (rs.next()) {
@@ -739,7 +546,6 @@ public class ExamenDaoImpl implements ExamenDao {
 	       
 	        examen.setPreguntas(preguntas);
 	      
-	        System.out.println(examen.toString());
 	         
 	        return examen;
 			
@@ -829,22 +635,18 @@ public class ExamenDaoImpl implements ExamenDao {
 				
 				ps.executeUpdate();
 				ps.close();
-				System.out.println("INGRESADA: " + resp.toString());
 				
 				//RECORRO LAS RESPUESTAS DEL EXAMEN POR CADA RESPUESTA DEL ALUMNO(PARA EVITAR MALAS COMPARACIONES ENTRE RESPUESTAS)
 				while(itresp.hasNext()){
 					
 					respcor= itresp.next();
 				
-					System.out.println("CORRECTA: " + respcor.toString());
 						
 					if(resp.getId() == respcor.getId()){
 						
-						System.out.println("Ingreso");
 						if(resp.getIdTipoRespuesta() == respcor.getIdTipoRespuesta()){
 							cantcorrectas++;
 
-							System.out.println("Sumo: " + cantcorrectas);
 						}
 						
 					}
@@ -872,10 +674,6 @@ public class ExamenDaoImpl implements ExamenDao {
 
 			//GUARDO LA NOTA
 			ps = conn.prepareStatement("UPDATE alumnoexamen SET idEstadoExamen = ? , nota = ? where idExamen = ? and idAlumno = ?");
-
-			System.out.println("NOTA:" + nota.intValue());
-			System.out.println("EXAMEN: " + examen.getId());
-			System.out.println("USUARIO: " + idusuario);
 			
 			ps.setInt(1, 3);
 			ps.setInt(2, nota.intValue());

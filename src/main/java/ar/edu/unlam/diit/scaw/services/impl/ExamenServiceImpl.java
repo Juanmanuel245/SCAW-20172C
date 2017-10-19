@@ -82,11 +82,6 @@ public class ExamenServiceImpl implements ExamenService {
 		
 	}
 	
-	@Override
-	public Examenes getExamenById(Integer id) {
-		return servicioDao.getExamenById(id);
-		
-	}
 
 	@Override
 	public void editarExamen(Examenes examen) {

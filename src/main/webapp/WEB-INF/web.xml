@@ -16,12 +16,20 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>sessionFilter</filter-name> 
-		<url-pattern>/faces/gestionMaterias.xhtml</url-pattern> 
-		<url-pattern>/faces/usuariosActivos.xhtml</url-pattern>
-		<url-pattern>/faces/solicitudesUsuarios.xhtml</url-pattern>
+		<url-pattern>/faces/consultarUsuario.xhtml</url-pattern> 
+		<url-pattern>/faces/crearExamen.xhtml</url-pattern> 
+		<url-pattern>/faces/editarMateria.xhtml</url-pattern>
+		<url-pattern>/faces/editarUsuario.xhtml</url-pattern>
+		<url-pattern>/faces/examenesAlumno.xhtml</url-pattern>
+		<url-pattern>/faces/examenesRendir.xhtml</url-pattern>
+		<url-pattern>/faces/gestionExamenes.xhtml</url-pattern>
+		<url-pattern>/faces/gestionMaterias.xhtml</url-pattern>
+		<url-pattern>/faces/nuevaMateria.xhtml</url-pattern>
 		<url-pattern>/faces/rendirExamen.xhtml</url-pattern>
-		<url-pattern>/faces/listadoExamenesRendir.xhtml</url-pattern>
-		<url-pattern>/faces/resultadoExamen.xhtml</url-pattern>
+		<url-pattern>/faces/solicitudesUsuarios.xhtml</url-pattern>
+		<url-pattern>/faces/usuariosActivos.xhtml</url-pattern>
+		<url-pattern>/faces/verNotas.xhtml</url-pattern>
+		<url-pattern>/faces/welcome.xhtml</url-pattern>
 		<servlet-name>LoginServlet</servlet-name>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>

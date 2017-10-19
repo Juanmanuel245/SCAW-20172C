@@ -40,21 +40,9 @@ public class ExamenBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer id = null;
-	private String nombre = null;
-	private String pregunta1;
-//	//SE PUEDE BORRAR
-//	private Integer idMateria = null;
-//	//SE PUEDE BORRAR
-//	private String materia;
 	private Materia materia;
-	private Integer idEstadoExamen = null;
 	private Integer estadoExamen = 0;
 	private List<Preguntas> preguntas = new ArrayList<>();
-	DataModel<Examenes> lista;
-	private Examenes examenSelected = new Examenes();
-	//SEPUEDEBORRAR
-	private Double resultExamen;
 	private String json;
 	private Examenes examen;
 	private List<Examenes> examenes;
@@ -104,12 +92,6 @@ public class ExamenBean implements Serializable {
 		return lista;
 	}
 
-	public DataModel<Examenes> getAllExamenesActivos() {
-		this.lista = new ListDataModel<Examenes>(servicioExamen.traerExamenActivos());
-
-		return this.lista;
-	}
-
 	public List<DatosExamenes> getExamenesRendir() {
 		Integer sessionIdUsuario = (Integer) session.getAttribute("idUsuario");
 		List<DatosExamenes> lista = servicioExamen.examenesParaRendir(sessionIdUsuario);
@@ -130,14 +112,15 @@ public class ExamenBean implements Serializable {
 			
 	}
 	
+	//ESTE METODO SE UTILIZA PARA GUARDAR Y PARA MODIFICAR
 	public String guardarExamen() throws Exception {
 
 		try {
 			String json = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("datosj");
 
-			System.out.println("+++++++++++++++" + json);
 			Gson gson = new Gson();
-
+			
+			//SE PARSEA EL JSON A LA ENTIDAD EXAMEN
 			Examenes examen = gson.fromJson(json, Examenes.class);
 
 			// ES UN MAP PORQUE CONTIENE EL FLAG (TRUE OR FALSE EN FORMA DE
@@ -148,6 +131,7 @@ public class ExamenBean implements Serializable {
 				// OK, GUARDAMOS EL EXAMEN
 				servicioExamen.guardarExamen(examen);
 
+				//SE UTILIZA PARA ENVIAR MENSAJOS AL CLIENTE
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Satisfactorio", "Examén guardado");
 
 				FacesContext.getCurrentInstance().addMessage("info", message);
@@ -155,12 +139,13 @@ public class ExamenBean implements Serializable {
 
 			} else {
 
+
+				//SE UTILIZA PARA ENVIAR MENSAJOS AL CLIENTE
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", valid.get("error"));
 
 				FacesContext.getCurrentInstance().addMessage("errores", message);
 
 				// DEVOLVEMOS EL ERROR ENCONTRADO
-				System.out.println(valid.get("error"));
 				return valid.get("error");
 
 			}
@@ -213,46 +198,6 @@ public class ExamenBean implements Serializable {
 		return "listadoExamenesRendir";
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getPregunta1() {
-		return pregunta1;
-	}
-
-	public void setPregunta1(String pregunta1) {
-		this.pregunta1 = pregunta1;
-	}
-
-//	public Integer getIdMateria() {
-//		return idMateria;
-//	}
-//
-//	public void setIdMateria(Integer idMateria) {
-//		this.idMateria = idMateria;
-//	}
-
-	public Integer getIdEstadoExamen() {
-		return idEstadoExamen;
-	}
-
-	public void setIdEstadoExamen(Integer idEstadoExamen) {
-		this.idEstadoExamen = idEstadoExamen;
-	}
-
 	public Integer getEstadoExamen() {
 		return estadoExamen;
 	}
@@ -267,28 +212,6 @@ public class ExamenBean implements Serializable {
 
 	public void setPreguntas(List<Preguntas> preguntas) {
 		this.preguntas = preguntas;
-	}
-
-	public Examenes getExamenSelected() {
-		return examenSelected;
-	}
-
-	public void setExamenSelected(Examenes examenSelected) {
-		this.examenSelected = examenSelected;
-	}
-
-	public Double getResultExamen() {
-		return resultExamen;
-	}
-
-	public int getResultExamen2() {
-		System.out.println(resultExamen);
-		System.err.println((int) Math.ceil((resultExamen) * 100));
-		return (int) Math.ceil((resultExamen) * 100);
-	}
-
-	public void setResultExamen(Double resultExamen) {
-		this.resultExamen = resultExamen;
 	}
 
 	public String getJson() {
