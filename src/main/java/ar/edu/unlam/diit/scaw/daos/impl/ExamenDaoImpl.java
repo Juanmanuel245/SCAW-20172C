@@ -691,6 +691,50 @@ public class ExamenDaoImpl implements ExamenDao {
 		}
 	}
 
-	
+	@Override
+	public List<DatosExamenes> getAlumnoNotas(Integer id) throws Exception{
+		
+		List<DatosExamenes> result = new ArrayList<DatosExamenes>();
+		try{
+			conn = (dataSource.dataSource()).getConnection();
+			
+			// Creo la consulta SQL
+			PreparedStatement ps = conn.prepareStatement("select u.nombre as nombre, u.apellido as ape, m.nombre as nombreMateria, e.nombre as nombreExamen, a.nota from "
+														+ " alumnoexamen as a  INNER JOIN examenes as e ON   a.idexamen = e.id "
+														+ " INNER JOIN materias  as m ON   m.id = e.idmateria "
+														+ " INNER JOIN usuarios as u ON  a.idalumno = u.id where e.id = ? ");
+			ps.setInt(1, id);
+			
+			
+			// Ejecuto la sentencia
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				
+				String nomape = new StringBuilder()
+								.append(rs.getString("nombre"))
+								.append(" ")
+								.append(rs.getString("apellido"))
+								.toString();
+				String nMateria = rs.getString("nombreMateria");
+				String nExamen = rs.getString("nombreMateria");
+				String  nota = rs.getString("nota");
+				
+				DatosExamenes de = new DatosExamenes();
+				
+				de.setNombreExamen(nExamen);
+				de.setNombreMateria(nMateria);
+				de.setNota(nota);
+				de.setNombreUsuario(nomape);
+				result.add(de);
+			}
+			ps.close();
+			
+			conn.close();
+		}catch(SQLException e){
+			System.out.println("Ha ocurrido un error: " + e.getMessage());
+		}
+		
+		return result;
+	}
 }
 

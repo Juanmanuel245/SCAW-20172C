@@ -33,6 +33,7 @@ VALUES(3, 'aborgeat@unlam.edu.ar', 'qTNdVTXqAqY=', 'Borgeat', 'Andres', 2);
 INSERT INTO Usuarios
 VALUES(4, 'jmonteagudo@unlam.edu.ar', 'qTNdVTXqAqY=', 'Monteagudo', 'Juan', 2);
 
+
 /* RolesUsuarios */
 INSERT INTO RolesUsuarios
 VALUES(1, 1);

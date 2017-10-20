@@ -22,4 +22,5 @@ public interface ExamenDao {
 	public Integer ProxIdParaRespuesta() throws Exception;
 	public Examenes getExamenCompletoById(Integer id) throws Exception;
 	public void guardarExamenRendidoPorAlumno(Integer idusuario, List<Respuestas> respuestas, Examenes examen) throws Exception;
+	public List<DatosExamenes> getAlumnoNotas(Integer id) throws Exception;
 }

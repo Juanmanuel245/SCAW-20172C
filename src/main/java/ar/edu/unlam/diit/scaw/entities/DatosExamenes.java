@@ -9,6 +9,8 @@ public class DatosExamenes {
 	private String estadoExamen;
 	private String nombreMateria;
 	private Integer idUsuario;
+	//Atributo para recuperar el nombre del usuario
+	private String nombreUsuario;
 	private String nota;
 	
 	public String getIdExamen() {
@@ -58,6 +60,13 @@ public class DatosExamenes {
 	}
 	public void setNota(String nota) {
 		this.nota = nota;
+	}
+	
+	public String getNombreUsuario() {
+		return nombreUsuario;
+	}
+	public void setNombreUsuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
 	}
 	
 	

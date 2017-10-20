@@ -75,11 +75,25 @@ public class ExamenBean implements Serializable {
 
 		return "verNotas";
 	}
+	
 
 	public List<DatosExamenes> verNotasExamen() {
 		Integer sessionIdUsuario = (Integer) session.getAttribute("idUsuario");
 		return servicioExamen.verNotasExamenes(sessionIdUsuario);
 	}
+	//METODOS AGREGDO PAR VER LISTADO DE ALUMNO CON SUS NOTAS
+	public String verAlumnoNotas(Integer id) {
+
+		session.setAttribute("idExamen", id);
+		return "verAlumnoNota";
+	}
+	//METODOS AGREGDO PAR VER LISTADO DE ALUMNO CON SUS NOTAS	
+	public List<DatosExamenes> verAlumnoNotasExamen() throws Exception {
+		Integer idExamen = (Integer) session.getAttribute("idExamen");
+		
+		return servicioExamen.traerAlumnoNotas(idExamen);
+	}
+	
 
 	public List<DatosExamenes> getAllExamenes() {
 		List<DatosExamenes> lista = servicioExamen.traerExamen();

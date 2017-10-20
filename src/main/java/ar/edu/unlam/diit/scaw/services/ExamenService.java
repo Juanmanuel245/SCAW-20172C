@@ -22,5 +22,6 @@ public interface ExamenService {
 	public Examenes getExamenCompletoById(Integer id) throws Exception;
 	public List<Examenes> getExamenes() throws Exception;
 	public void guardarExamenRendidoPorAlumno(Integer idusuario, List<Respuestas> respuestas, Examenes examen) throws Exception;
+	public List<DatosExamenes> traerAlumnoNotas(Integer id) throws Exception;; 
 	
 }

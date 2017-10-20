@@ -261,5 +261,11 @@ public class ExamenServiceImpl implements ExamenService {
 		
 	}
 	
+	@Override
+	public List<DatosExamenes> traerAlumnoNotas(Integer id) throws Exception{
+		
+		return servicioDao.getAlumnoNotas(id);
+	}
+	
 
 }
