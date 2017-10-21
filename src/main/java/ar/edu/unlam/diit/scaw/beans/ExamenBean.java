@@ -31,7 +31,9 @@ import ar.edu.unlam.diit.scaw.entities.Materia;
 import ar.edu.unlam.diit.scaw.entities.Preguntas;
 import ar.edu.unlam.diit.scaw.entities.Respuestas;
 import ar.edu.unlam.diit.scaw.services.ExamenService;
+import ar.edu.unlam.diit.scaw.services.UsuarioService;
 import ar.edu.unlam.diit.scaw.services.impl.ExamenServiceImpl;
+import ar.edu.unlam.diit.scaw.services.impl.UsuarioServiceImpl;
 
 @ManagedBean(name = "examenBean", eager = true)
 @RequestScoped
@@ -46,8 +48,11 @@ public class ExamenBean implements Serializable {
 	private String json;
 	private Examenes examen;
 	private List<Examenes> examenes;
+	private String error = null;
 
 	ExamenService servicioExamen;
+	UsuarioService servicioUsuario;
+	
 
 	private FacesContext context = FacesContext.getCurrentInstance();
 	HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
@@ -55,25 +60,47 @@ public class ExamenBean implements Serializable {
 	public ExamenBean() {
 		super();
 		servicioExamen = (ExamenService) new ExamenServiceImpl();
+		servicioUsuario = (UsuarioService) new UsuarioServiceImpl();
 	}
-
+	
+	
 	public String editarExamen(Integer id) throws Exception {
-
-		this.examen = servicioExamen.getExamenCompletoById(id);
+		String idUser = session.getAttribute("id").toString();
+		Integer idUsuario = Integer.parseInt(idUser);
 		
-		return "crearExamen";
+		if(servicioUsuario.isGrantDoc(idUsuario) || servicioUsuario.isGrantAll(idUsuario)){
+			this.examen = servicioExamen.getExamenCompletoById(id);
+			
+			return "crearExamen";	
+		}
+		
+		error = "No tienes permisos/privilegios para realizar la accion deseada";
+		return "welcome";
+	
 	}
 
 	public String crearExamen(){
 		
-		this.examen = new Examenes();
+		String idUser = session.getAttribute("id").toString();
+		Integer idUsuario = Integer.parseInt(idUser);
 		
-		return "crearExamen";
+		if(servicioUsuario.isGrantDoc(idUsuario) || servicioUsuario.isGrantAll(idUsuario)){
+			this.examen = new Examenes();
+			
+			return "crearExamen";	
+		}
+		error = "No tienes permisos/privilegios para realizar la accion deseada";
+		return "welcome";
 	}
 	
 	public String verNotas() {
-
-		return "verNotas";
+		String idUser = session.getAttribute("id").toString();
+		Integer idUsuario = Integer.parseInt(idUser);
+		if(servicioUsuario.isGrantAlu(idUsuario) || servicioUsuario.isGrantAll(idUsuario)){
+			return "verNotas";
+		}
+		error = "No tienes permisos/privilegios para realizar la accion deseada";
+		return "welcome";
 	}
 	
 
@@ -81,11 +108,19 @@ public class ExamenBean implements Serializable {
 		Integer sessionIdUsuario = (Integer) session.getAttribute("idUsuario");
 		return servicioExamen.verNotasExamenes(sessionIdUsuario);
 	}
+	
 	//METODOS AGREGDO PAR VER LISTADO DE ALUMNO CON SUS NOTAS
 	public String verAlumnoNotas(Integer id) {
-
-		session.setAttribute("idExamen", id);
-		return "verAlumnoNota";
+		String idUser = session.getAttribute("id").toString();
+		Integer idUsuario = Integer.parseInt(idUser);
+		
+		if(servicioUsuario.isGrantDoc(idUsuario) || servicioUsuario.isGrantAll(idUsuario)){
+			session.setAttribute("idExamen", id);
+			return "verAlumnoNota";	
+		}
+		
+		error = "No tienes permisos/privilegios para realizar la accion deseada";
+		return "welcome";
 	}
 	//METODOS AGREGDO PAR VER LISTADO DE ALUMNO CON SUS NOTAS	
 	public List<DatosExamenes> verAlumnoNotasExamen() throws Exception {
@@ -113,16 +148,38 @@ public class ExamenBean implements Serializable {
 	}
 
 	public String rendirExamenes() {
-		return "examenesRendir";
+		
+		String idUser = session.getAttribute("id").toString();
+		Integer idUsuario = Integer.parseInt(idUser);
+		if(servicioUsuario.isGrantAlu(idUsuario) || servicioUsuario.isGrantAll(idUsuario)){
+			return "examenesRendir";	
+		}
+		
+		error = "No tienes permisos/privilegios para realizar la accion deseada";
+		return "welcome";
+		
 	}
 
 	public String inicio() {
-		return "examenesAlumno";
+		
+		String idUser = session.getAttribute("id").toString();
+		Integer idUsuario = Integer.parseInt(idUser);
+		if(servicioUsuario.isGrantAlu(idUsuario) || servicioUsuario.isGrantAll(idUsuario)){
+			return "examenesAlumno";
+		}
+		error = "No tienes permisos/privilegios para realizar la accion deseada";
+		return "welcome";
 	}
 
 	public String gestionExamenes(){
+		String idUser = session.getAttribute("id").toString();
+		Integer idUsuario = Integer.parseInt(idUser);
+		if(servicioUsuario.isGrantDoc(idUsuario) || servicioUsuario.isGrantAll(idUsuario)){
+			return "gestionExamenes";
+		}
 			
-		return "gestionExamenes";	
+		error = "No tienes permisos/privilegios para realizar la accion deseada";
+		return "welcome";	
 			
 	}
 	
@@ -176,10 +233,20 @@ public class ExamenBean implements Serializable {
 
 
 	public String rendirExamen(Integer id) throws Exception {
+		String idUser = session.getAttribute("id").toString();
+		Integer idUsuario = Integer.parseInt(idUser);
+		if(servicioUsuario.isGrantAlu(idUsuario) || servicioUsuario.isGrantAll(idUsuario)){
+			
+			this.examen = servicioExamen.getExamenCompletoById(id);
+			
+			return "rendirExamen";
+			
+		}
 		
-		this.examen = servicioExamen.getExamenCompletoById(id);
+		error = "No tiene permiso para realizar la Opcion Desada";
+		return "welcome";
 		
-		return "rendirExamen";
+		
 	}
 
 	@SuppressWarnings("unchecked")
@@ -260,4 +327,27 @@ public class ExamenBean implements Serializable {
 
 		return servicioExamen.getExamenes();
 	}
+
+
+	public String getError() {
+		return error;
+	}
+
+
+	public void setError(String error) {
+		this.error = error;
+	}
+
+
+	public UsuarioService getServicioUsuario() {
+		return servicioUsuario;
+	}
+
+
+	public void setServicioUsuario(UsuarioService servicioUsuario) {
+		this.servicioUsuario = servicioUsuario;
+	}
+	
+	
+	
 }

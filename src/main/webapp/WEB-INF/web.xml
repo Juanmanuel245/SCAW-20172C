@@ -29,6 +29,7 @@
 		<url-pattern>/faces/solicitudesUsuarios.xhtml</url-pattern>
 		<url-pattern>/faces/usuariosActivos.xhtml</url-pattern>
 		<url-pattern>/faces/verNotas.xhtml</url-pattern>
+		<url-pattern>/faces/verAlumnoNota.xhtml</url-pattern>
 		<url-pattern>/faces/welcome.xhtml</url-pattern>
 		<servlet-name>LoginServlet</servlet-name>
 		<dispatcher>REQUEST</dispatcher>
